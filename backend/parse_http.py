@@ -1,5 +1,5 @@
 from backend import parser as Parser
-from backend import response_parser as Rparser
+# from backend import response_parser as Rparser
 from enum import Enum
 from datetime import datetime
 from http_header import Request, SUCCESS, HTTP_SIZE, HTTP_VER, CRLF, CONNECTION, HOST, CONNECTION_VAL, SERVER, SERVER_VAL, DATE, CONTENT_TYPE, CONTENT_LENGTH, ZERO, LAST_MODIFIED

@@ -3,7 +3,7 @@ import ply.lex as lex
 
 from http_header import Request, SUCCESS
 # Get the token map from the lexer
-from httplex import tokens
+from backend.httplex import tokens
 
 # global variables
 parsingRequest = None
