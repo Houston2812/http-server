@@ -4,11 +4,9 @@ import time
 import socket
 import select
 import argparse
-# TODO: Import necessary library
 
-from backend.parse_http import serialize_http_response
-from http_header import OK, NOT_FOUND, BAD_REQUEST, SERVICE_UNAVAILABLE
-from http_header import HTML_MIME
+from http_header import *
+from backend.parse_http import serialize_http_response, parse_http_request
 
 BUF_SIZE = 4096
 HTTP_PORT = 20080
@@ -71,7 +69,7 @@ def main():
 
                 # cache the file descriptor of client
                 connections[client_file_descriptor] = connection
-                requests[client_file_descriptor] = ''
+                requests[client_file_descriptor] = []
                 responses[client_file_descriptor] = []
 
                 print(f"[+] Client connected: {client_file_descriptor}")
@@ -94,14 +92,26 @@ def main():
                 # modify the state of client based on whether data was received or not
                 if len(client_data) != 0:
                     print(f"[<] Receiving from: {file_descriptior}")
-                    requests[file_descriptior] = client_data
+                    requests[file_descriptior].append(client_data.decode())
 
-                    msg = ''
-                    with open("www/test_single/index.html") as response_file:
-                        msg = response_file.read()
+                    request = Request()
 
-                    serialize_http_response(msgLst=responses[file_descriptior], prepopulatedHeaders=OK, contentType=HTML_MIME, contentLength=str(len(msg)), lastModified=None, body=msg.encode())
-                    # serialize_http_response(responses[file_descriptior], OK, HTML_MIME, contentLength=len(msg), body=msg)
+                    error = parse_http_request(client_data.decode(), size=len(client_data), request=request)
+                    
+                    print(f"Request: {request}")
+
+                    if error == TestErrorCode.TEST_ERROR_NONE:
+                        if request.HttpMethod == GET:
+                            resource = request.HttpURI
+                            if resource[0] == '/':
+                                resource = resource[1:]
+
+                        print(f"Reading {resource}")
+                        msg = ''
+                        with open(resource, 'rb') as response_file:
+                            msg = response_file.read()
+
+                    serialize_http_response(msgLst=responses[file_descriptior], prepopulatedHeaders=OK, contentType=HTML_MIME, contentLength=str(len(msg)), lastModified=None, body=msg)
 
                     print(f"[!] Response message: {responses[file_descriptior]}")
 
