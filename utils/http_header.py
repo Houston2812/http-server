@@ -1,4 +1,4 @@
-from util import TestErrorCode
+from utils.util import TestErrorCode
 
 SUCCESS = 0
 HTTP_SIZE = 4096

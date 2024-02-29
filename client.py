@@ -3,9 +3,10 @@ import time
 import socket
 import argparse
 import ipaddress
-from util import TestErrorCode
 
-from http_header import *
+from utils.http_header import *
+from utils.logger import logger
+from utils.util import TestErrorCode
 from backend.parse_http import serialize_http_request, parse_http_request
 
 HTTP_PORT = 20080
@@ -25,7 +26,7 @@ def main():
     try:
         ipaddress.ip_address(args.server_ip)
     except ValueError:
-        print("ip address is invalid, ", args.server_ip)
+        logger.error("[!!] IP address is invalid, ", args.server_ip)
 
     try:
         clientSock.connect((args.server_ip, HTTP_PORT))
@@ -41,16 +42,16 @@ def main():
     request.HttpURI = input("Requested resource: ")
     request.Host = str(args.server_ip)
 
-    print(f"Request: {request}")
+    logger.debug(f"[!] Request: {request}")
     error = serialize_http_request(msgLst=requests, request=request)
 
     if error == TestErrorCode.TEST_ERROR_NONE:
-        print(f"[>] Requesting {request.HttpURI} from server")
+        logger.info(f"[<] Requesting {request.HttpURI} from server")
         for msg in requests:
-            print(f"Message: {msg}")  
+            logger.debug(f"[!] Message: {msg}")  
             clientSock.send(msg)
 
-        print(f"Waiting for server to reply")
+        logger.info(f"[+] Waiting for server to reply")
         server_response = b''
         time.sleep(0.05)
 
@@ -64,10 +65,10 @@ def main():
                 if  len(data) == 0 and server_response != 0:
                     break
         except BlockingIOError:
-            print("Blocked")
+            logger.error("[!!] Blocked")
         
-        print("Received information from server")
+        logger.info("[+] Received information from server")
         if len(server_response) != 0:
-            print(f"[<] Received: {server_response.decode()}")
+            logger.debug(f"[>] Received: {server_response.decode()}")
 if __name__ == '__main__':
     main()

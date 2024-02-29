@@ -1,7 +1,7 @@
 import ply.yacc as yacc
 import ply.lex as lex
 
-from http_header import Request, SUCCESS
+from utils.http_header import Request, SUCCESS
 # Get the token map from the lexer
 from backend.httplex import tokens
 
