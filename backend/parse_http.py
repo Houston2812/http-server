@@ -77,8 +77,8 @@ def serialize_http_request(msgLst, request):
     :type: Reqeust
 	'''
     msg = b''
-    if (request.HttpMethod != "GET"):
-        return TestErrorCode.TEST_ERROR_PARSE_FAILED
+    # if (request.HttpMethod != "GET"):
+    #     return TestErrorCode.TEST_ERROR_PARSE_FAILED
 
     msg += request.HttpMethod.encode() + ' '.encode() + request.HttpURI.encode() + ' '.encode() + HTTP_VER.encode() + CRLF.encode()
     msg += HOST.encode() + request.Host.encode() + CRLF.encode()

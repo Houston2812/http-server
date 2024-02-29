@@ -58,7 +58,12 @@ def main():
     if error == TestErrorCode.TEST_ERROR_NONE:
         logger.info(f"[<] Requesting {request.HttpURI} from server")
         for msg in requests:
+            msg = msg.decode()
+            msg = msg.replace(CRLF, "")
+            msg = msg.encode()
+
             logger.debug(f"[!] Message: {msg}")  
+
             clientSock.send(msg)
 
         logger.info(f"[+] Waiting for server to reply")

@@ -5,10 +5,10 @@ import socket
 import select
 import argparse
 
-from utils.logger import logger
 from utils.http_header import *
-from utils.handlers import get_handler, data_handler, resource_handler
+from utils.logger import logger
 from backend.parse_http import serialize_http_response, parse_http_request
+from utils.handlers import get_handler, head_handler, data_handler, error_404_handler, error_400_handler
 
 BUF_SIZE = 4096
 HTTP_PORT = 20080
@@ -86,33 +86,48 @@ def main():
                     request = Request()
                     error = parse_http_request(client_data, size=len(client_data), request=request)
                     
-                    requests[file_descriptor].append(request)
+                    if error == TestErrorCode.TEST_ERROR_PARSE_FAILED:
+                        logger.warning(f"[-] Error 400 Bad Request for {file_descriptor}")
+                        error = error_400_handler(responses=responses, file_descriptor=file_descriptor)
+
+                        if error == TestErrorCode.TEST_ERROR_NONE:
+                            epoll.modify(file_descriptor, select.EPOLLOUT)
                     
-                    logger.debug(f"[!] Request from {file_descriptor}: {requests[file_descriptor]}")
+                    elif error == TestErrorCode.TEST_ERROR_PARSE_PARTIAL:
+                        logger.warning(f"[...] Partial request from {file_descriptor}")
 
-                    if error == TestErrorCode.TEST_ERROR_NONE:
+                    elif error == TestErrorCode.TEST_ERROR_NONE:
+                      
+                        requests[file_descriptor].append(request)
+                        logger.debug(f"[!] Request from {file_descriptor}: {requests[file_descriptor]}")
+
                         if request.HttpMethod == GET:
-                            get_handler(request, responses, file_descriptor)
-                            resource = request.HttpURI
+                            logger.info(f"[+] GET request from {file_descriptor}")
+                            error = get_handler(request=request, responses=responses, file_descriptor=file_descriptor)
 
-                            if resource == "/favicon.ico":
-                                continue
+                            if error == TestErrorCode.TEST_ERROR_FILE_NOT_FOUND:
+                                logger.warning(f"[-] Error 404 Not Found for {file_descriptor}")
+                                error = error_404_handler(responses=responses, file_descriptor=file_descriptor)
+                                
+                            if error == TestErrorCode.TEST_ERROR_NONE:
+                                epoll.modify(file_descriptor, select.EPOLLOUT)
+                        
+                        elif request.HttpMethod == HEAD:
+                            logger.info(f"[+] HEAD request from {file_descriptor}")
 
-                            resource = "." + resource
+                            error = head_handler(request=request, responses=responses, file_descriptor=file_descriptor)
 
-                            logger.debug(f"[!] Reading URI from {file_descriptor}: {resource}")
-                            body = resource_handler(resource)
+                            if error == TestErrorCode.TEST_ERROR_FILE_NOT_FOUND:
+                                logger.warning(f"[-] Error 404 Not Found for {file_descriptor}")
+                                error = error_404_handler(responses=responses, file_descriptor=file_descriptor)
+                                
+                            if error == TestErrorCode.TEST_ERROR_NONE:
+                                epoll.modify(file_descriptor, select.EPOLLOUT)
+                        
+                        elif request.HttpMethod == POST:
+                            logger.info(f"[+] POST request from {file_descriptor}")
 
-                            serialize_http_response(
-                                msgLst=responses[file_descriptor], 
-                                prepopulatedHeaders=OK, 
-                                contentType=HTML_MIME, 
-                                contentLength=str(len(body)), 
-                                lastModified=None, 
-                                body=body
-                                )
-
-                    epoll.modify(file_descriptor, select.EPOLLOUT)
+                            pass
                 else:
                     epoll.modify(file_descriptor, select.EPOLLHUP) 
             
