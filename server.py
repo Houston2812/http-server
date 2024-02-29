@@ -66,14 +66,8 @@ def main():
                 client_file_descriptor = connection.fileno()
                 epoll.register(client_file_descriptor, select.EPOLLIN)
 
-                # cache the file descriptor of client
-
-                connections[client_file_descriptor] = Connection(
-                                                            file_descriptor=file_descriptor,
-                                                            connection=connection,
-                                                            request=[],        
-                                                            response=[]
-                                                        )
+                # create connection handler
+                connections[client_file_descriptor] = Connection(connection=connection)
 
                 logger.info(f"[+] Client connected: {client_file_descriptor}")
 
@@ -93,7 +87,7 @@ def main():
                     
                     if error == TestErrorCode.TEST_ERROR_PARSE_FAILED:
                         logger.warning(f"[-] Error 400 Bad Request for {file_descriptor}")
-                        error = error_400_handler(responses=responses, file_descriptor=file_descriptor)
+                        error = error_400_handler(connection=connections[file_descriptor])
 
                         if error == TestErrorCode.TEST_ERROR_NONE:
                             epoll.modify(file_descriptor, select.EPOLLOUT)
@@ -103,16 +97,16 @@ def main():
 
                     elif error == TestErrorCode.TEST_ERROR_NONE:
                       
-                        connections[file_descriptor].request.append(request)
-                        logger.debug(f"[!] Request from {file_descriptor}: {connections[file_descriptor].request}")
+                        connections[file_descriptor].add_request(request)
+                        logger.debug(f"[!] Request from {file_descriptor}: {request}")
 
                         if request.HttpMethod == GET:
                             logger.info(f"[+] GET request from {file_descriptor}")
-                            error = get_handler(request=request, responses=connections[file_descriptor].response, file_descriptor=file_descriptor)
+                            error = get_handler(request=request, connection=connections[file_descriptor], file_descriptor=file_descriptor)
 
                             if error == TestErrorCode.TEST_ERROR_FILE_NOT_FOUND:
                                 logger.warning(f"[-] Error 404 Not Found for {file_descriptor}")
-                                error = error_404_handler(responses=connections[file_descriptor].response, file_descriptor=file_descriptor)
+                                error = error_404_handler(connection=connections[file_descriptor])
                                 
                             if error == TestErrorCode.TEST_ERROR_NONE:
                                 epoll.modify(file_descriptor, select.EPOLLOUT)
@@ -120,11 +114,11 @@ def main():
                         elif request.HttpMethod == HEAD:
                             logger.info(f"[+] HEAD request from {file_descriptor}")
 
-                            error = head_handler(request=request, responses=connections[file_descriptor].response, file_descriptor=file_descriptor)
+                            error = head_handler(request=request, connection=connections[file_descriptor], file_descriptor=file_descriptor)
 
                             if error == TestErrorCode.TEST_ERROR_FILE_NOT_FOUND:
                                 logger.warning(f"[-] Error 404 Not Found for {file_descriptor}")
-                                error = error_404_handler(responses=connections[file_descriptor].response, file_descriptor=file_descriptor)
+                                error = error_404_handler(connection=connections[file_descriptor])
                                 
                             if error == TestErrorCode.TEST_ERROR_NONE:
                                 epoll.modify(file_descriptor, select.EPOLLOUT)
@@ -139,10 +133,20 @@ def main():
             elif event & select.EPOLLOUT:
                 
                 # reply to the client
-                byteswritten = connections[file_descriptor].connection.send(connections[file_descriptor].response[0])
-                connections[file_descriptor].response[0] = connections[file_descriptor].response[0][byteswritten:]
+                response = connections[file_descriptor].get_first_response()
                 
+                byteswritten = connections[file_descriptor].connection.send(response)
+                response = response[byteswritten:]
+
                 logger.info(f"[>] Replying to: {file_descriptor}")
+
+                logger.debug(f"[!] Requests: {connections[file_descriptor].requests}")
+                logger.debug(f"[!] Responses: {connections[file_descriptor].responses}")
+                if len(response.decode()) == 0:
+                    connections[file_descriptor].remove_response()    
+                    logger.info(f"[+] Removed response")
+                
+
                 
                 # reset the state of client to the EPOLLIN
                 epoll.modify(file_descriptor, select.EPOLLIN) 

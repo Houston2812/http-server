@@ -54,8 +54,9 @@ def resource_handler(uri: str) -> bytes:
 
     return msg
 
-def get_handler(request: Request, responses: dict, file_descriptor):
+def get_handler(request: Request, connection, file_descriptor):
     resource = filename_handler(filename=request.HttpURI)
+    responses = []
 
     if resource == None:
         logger.error(f"[!!] Wrong resource provided for {file_descriptor}: {resource}")
@@ -77,10 +78,13 @@ def get_handler(request: Request, responses: dict, file_descriptor):
         body=body
     )
 
+    connection.add_response(responses)
+
     return TestErrorCode.TEST_ERROR_NONE
 
-def head_handler(request: Request, responses: dict, file_descriptor):
+def head_handler(request: Request, connection, file_descriptor):
     resource = filename_handler(filename=request.HttpURI)
+    responses = []
 
     if resource == None:
         logger.error(f"[!!] Wrong resource provided for {file_descriptor}: {resource}")
@@ -91,18 +95,22 @@ def head_handler(request: Request, responses: dict, file_descriptor):
         return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND    
 
     serialize_http_response(
-        msgLst=responses[file_descriptor], 
+        msgLst=responses, 
         prepopulatedHeaders=OK, 
         contentType=HTML_MIME, 
         contentLength=None, 
         lastModified=None, 
         body=b''
     )
+    
+    connection.add_response(responses)
 
     return TestErrorCode.TEST_ERROR_NONE
 
 
-def error_404_handler(responses: dict, file_descriptor):
+def error_404_handler(connection):
+    responses = []
+
     body = """
             <!DOCTYPE html>
             <html lang="en">
@@ -118,7 +126,7 @@ def error_404_handler(responses: dict, file_descriptor):
         """.encode()
     
     serialize_http_response(
-        msgLst=responses[file_descriptor], 
+        msgLst=responses, 
         prepopulatedHeaders=NOT_FOUND, 
         contentType=HTML_MIME, 
         contentLength=str(len(body)), 
@@ -126,16 +134,22 @@ def error_404_handler(responses: dict, file_descriptor):
         body=body
         )
 
+    connection.add_response(responses)
+
     return TestErrorCode.TEST_ERROR_NONE
 
-def error_400_handler(responses: dict, file_descriptor):
+def error_400_handler(connection):
+    responses = []
+
     serialize_http_response(
-        msgLst=responses[file_descriptor], 
+        msgLst=responses, 
         prepopulatedHeaders=BAD_REQUEST, 
         contentType=HTML_MIME, 
         contentLength=None, 
         lastModified=None, 
         body=b""
         )
+
+    connection.add_response(responses)
 
     return TestErrorCode.TEST_ERROR_NONE
