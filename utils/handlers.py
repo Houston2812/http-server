@@ -31,13 +31,13 @@ def filename_handler(filename: str) -> str:
     return filename
 
 
-def data_handler(connections: dict, file_descriptor) -> str:
+def data_handler(connection) -> str:
     # receive data of the client
     client_data: bytes = b''
 
     try:
         while True:
-            client_data += connections[file_descriptor].recv(BUF_SIZE)
+            client_data += connection.recv(BUF_SIZE)
             
             # if 0 bytes received, it means client stopped sending
             if  len(client_data) == 0:
@@ -69,7 +69,7 @@ def get_handler(request: Request, responses: dict, file_descriptor):
     body = resource_handler(resource)
 
     serialize_http_response(
-        msgLst=responses[file_descriptor], 
+        msgLst=responses, 
         prepopulatedHeaders=OK, 
         contentType=HTML_MIME, 
         contentLength=str(len(body)), 
