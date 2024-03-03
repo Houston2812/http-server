@@ -107,6 +107,17 @@ def head_handler(request: Request, connection, file_descriptor):
 
     return TestErrorCode.TEST_ERROR_NONE
 
+def post_handler(request: Request, connection, file_descriptor):
+    resource = filename_handler(filename=request.HttpURI)
+    responses = []
+
+    if resource == None:
+        logger.error(f"[!!] Wrong resource provided for {file_descriptor}: {resource}")
+        return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND
+
+    if not file_handler(resource=resource):
+        logger.error(f"[!!] File does not exist for {file_descriptor}: {resource}")
+        return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND    
 
 def error_404_handler(connection):
     responses = []

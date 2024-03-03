@@ -125,6 +125,8 @@ def main():
                         
                         elif request.HttpMethod == POST:
                             logger.info(f"[+] POST request from {file_descriptor}")
+                            
+                            error = post_handler(request=request, connection=connections[file_descriptor], file_descriptor=file_descriptor)
 
                             pass
                 else:
@@ -145,9 +147,7 @@ def main():
                 if len(response.decode()) == 0:
                     connections[file_descriptor].remove_response()    
                     logger.info(f"[+] Removed response")
-                
-
-                
+                                
                 # reset the state of client to the EPOLLIN
                 epoll.modify(file_descriptor, select.EPOLLIN) 
 
