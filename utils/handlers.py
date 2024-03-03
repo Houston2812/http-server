@@ -30,7 +30,6 @@ def filename_handler(filename: str) -> str:
     
     return filename
 
-
 def data_handler(connection) -> str:
     # receive data of the client
     client_data: bytes = b''
@@ -108,17 +107,26 @@ def head_handler(request: Request, connection, file_descriptor):
     return TestErrorCode.TEST_ERROR_NONE
 
 def post_handler(request: Request, connection, file_descriptor):
-    resource = filename_handler(filename=request.HttpURI)
+    
+    logger.debug(f"[!] Post request: {request}")
+
     responses = []
+    body = request.HttpBody.encode()
 
-    if resource == None:
-        logger.error(f"[!!] Wrong resource provided for {file_descriptor}: {resource}")
-        return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND
+G    serialize_http_response(
+        msgLst=responses,
+        prepopulatedHeaders=OK,
+        contentType=OCTET_MIME,
+        contentLength=request.headers['Content-Length'],
+        lastModified=None,
+        body=body
+    )
 
-    if not file_handler(resource=resource):
-        logger.error(f"[!!] File does not exist for {file_descriptor}: {resource}")
-        return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND    
+    connection.add_response(responses)
 
+    return TestErrorCode.TEST_ERROR_NONE
+
+    
 def error_404_handler(connection):
     responses = []
 

@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument(dest="server_ip",action='store', help='server ip address')
 parser.add_argument(dest="uri",action='store', help='Resource to request')
 parser.add_argument(dest="method",action='store',  choices=['GET', 'HEAD', 'POST'], default="GET", help='Method to use')
-
+parser.add_argument("--data", dest="body", action='store', default="", help='Data to send in the body of HTTP request')
 args = parser.parse_args()
 
 
@@ -44,10 +44,16 @@ def main():
 
     if args.method == "GET":
         request.HttpMethod = GET
+        request.headers['Content-Type'] = HTML_MIME
     elif args.method == "POST":
         request.HttpMethod = POST
+        request.HttpBody = args.body
+        request.headers['Content-Type'] = OCTET_MIME
+        request.headers['Content-Length'] = str(len(args.body))
+        
     elif args.method == "HEAD":
         request.HttpMethod = HEAD
+        request.headers['Content-Type'] = HTML_MIME
 
     request.HttpURI = args.uri
     request.Host = str(args.server_ip)

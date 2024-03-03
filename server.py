@@ -9,7 +9,7 @@ from utils.http_header import *
 from utils.logger import logger
 from backend.connection import Connection
 from backend.parse_http import parse_http_request
-from utils.handlers import get_handler, head_handler, data_handler, error_404_handler, error_400_handler
+from utils.handlers import get_handler, head_handler, post_handler, data_handler, error_404_handler, error_400_handler
 
 BUF_SIZE = 4096
 HTTP_PORT = 20080
@@ -125,10 +125,16 @@ def main():
                         
                         elif request.HttpMethod == POST:
                             logger.info(f"[+] POST request from {file_descriptor}")
-                            
+                      
                             error = post_handler(request=request, connection=connections[file_descriptor], file_descriptor=file_descriptor)
 
-                            pass
+                            if error == TestErrorCode.TEST_ERROR_FILE_NOT_FOUND:
+                                logger.warning(f"[-] Error 404 Not Found for {file_descriptor}")
+                                error = error_404_handler(connection=connections[file_descriptor])
+                                
+                            if error == TestErrorCode.TEST_ERROR_NONE:
+                                epoll.modify(file_descriptor, select.EPOLLOUT)
+                        
                 else:
                     epoll.modify(file_descriptor, select.EPOLLHUP) 
             

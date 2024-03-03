@@ -25,6 +25,7 @@ def parse_http_request(inbuf, size, request):
         :type: Reqeust
 	'''
     
+
     i = 0
     buf = ''
     ret = [-1]
@@ -55,6 +56,9 @@ def parse_http_request(inbuf, size, request):
 
         else:
             state = State.STATE_START
+    
+    if i < size:
+        buf += inbuf[i:]
 
     if (state == State.STATE_CRLFCRLF):
         Parser.set_parsing_options(request, ret) 
@@ -82,7 +86,14 @@ def serialize_http_request(msgLst, request):
 
     msg += request.HttpMethod.encode() + ' '.encode() + request.HttpURI.encode() + ' '.encode() + HTTP_VER.encode() + CRLF.encode()
     msg += HOST.encode() + request.Host.encode() + CRLF.encode()
-    msg += CONNECTION.encode() + CONNECTION_VAL.encode() + CRLF.encode() + CRLF.encode()
+    msg += CONNECTION.encode() + CONNECTION_VAL.encode() + CRLF.encode()
+    msg += CONTENT_TYPE.encode() + request.headers['Content-Type'].encode()  + CRLF.encode()
+    if 'Content-Length' in request.headers.keys():
+        msg += CONTENT_LENGTH.encode() + request.headers['Content-Length'].encode() 
+    msg += CRLF.encode() + CRLF.encode()
+
+    if len(request.HttpBody) != 0:
+        msg += request.HttpBody.encode()
 
     msgLst.append(msg)
 

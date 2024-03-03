@@ -70,6 +70,6 @@ class Request(object):
         pass
 
     def __repr__(self) -> str:
-        data = f"HTTP Version: {self.HttpVersion}; HTTP Method: {self.HttpMethod}; HTTP Uri: {self.HttpURI}; HTTP Host: {self.Host}; HTTP Body: {self.HttpBody};"
+        data = f"HTTP Version: {self.HttpVersion}; HTTP Method: {self.HttpMethod}; HTTP Uri: {self.HttpURI}; HTTP Host: {self.Host}; Headers: {self.headers}, HTTP Body: {self.HttpBody};"
 
         return data

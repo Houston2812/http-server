@@ -1,0 +1,3470 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> request
+Rule 1     upalpha -> UPALPHA
+Rule 2     upalpha -> UPHEX
+Rule 3     loalpha -> LOALPHA
+Rule 4     loalpha -> LOHEX
+Rule 5     alpha -> upalpha
+Rule 6     alpha -> loalpha
+Rule 7     alphanum -> alpha
+Rule 8     alphanum -> DIGIT
+Rule 9     ctl -> CTL
+Rule 10    ctl -> CR
+Rule 11    ctl -> LF
+Rule 12    ctl -> HT
+Rule 13    spht -> SP
+Rule 14    spht -> HT
+Rule 15    revsep -> COLON
+Rule 16    revsep -> QUESTION
+Rule 17    revsep -> AT
+Rule 18    revsep -> SEMICOLON
+Rule 19    revsep -> EQUAL
+Rule 20    revsep -> COMMA
+Rule 21    revsep -> SLASH
+Rule 22    separators -> SEPARATORS
+Rule 23    separators -> SLASH
+Rule 24    separators -> spht
+Rule 25    separators -> revsep
+Rule 26    separators -> MARKSEP
+Rule 27    revtoken -> PLUS
+Rule 28    revtoken -> AMPERSAND
+Rule 29    revtoken -> DOLLAR
+Rule 30    marktoken -> MARKTOKEN
+Rule 31    marktoken -> DOT
+Rule 32    marktoken -> ASTERISK
+Rule 33    marktoken -> MINUS
+Rule 34    tokenchar -> TOKEN
+Rule 35    tokenchar -> alphanum
+Rule 36    tokenchar -> revtoken
+Rule 37    tokenchar -> marktoken
+Rule 38    tokenchar -> PERCENT
+Rule 39    textchar -> TEXT
+Rule 40    textchar -> tokenchar
+Rule 41    textchar -> CR
+Rule 42    textchar -> LF
+Rule 43    textchar -> separators
+Rule 44    octet -> textchar
+Rule 45    octet -> ctl
+Rule 46    crlf -> CR LF
+Rule 47    token -> tokenchar
+Rule 48    token -> token tokenchar
+Rule 49    text -> textchar
+Rule 50    text -> text textchar
+Rule 51    fieldvaluepart -> octet
+Rule 52    fieldvaluepart -> spht
+Rule 53    fieldvalue -> fieldvaluepart
+Rule 54    fieldvalue -> fieldvalue fieldvaluepart
+Rule 55    requestheaderpart -> token COLON fieldvalue crlf
+Rule 56    requestheaderpart -> token COLON crlf
+Rule 57    requestheader -> requestheaderpart
+Rule 58    requestheader -> requestheader requestheaderpart
+Rule 59    httpversion -> token SLASH DIGIT DOT DIGIT
+Rule 60    requestline -> token SP text SP httpversion crlf
+Rule 61    request -> requestline requestheader crlf
+Rule 62    request -> requestline crlf
+Rule 63    request -> requestline requestheader body
+Rule 64    body -> crlf text
+
+Terminals, with rules where they appear
+
+AMPERSAND            : 28
+ASTERISK             : 32
+AT                   : 17
+COLON                : 15 55 56
+COMMA                : 20
+CR                   : 10 41 46
+CTL                  : 9
+DIGIT                : 8 59 59
+DOLLAR               : 29
+DOT                  : 31 59
+EQUAL                : 19
+HT                   : 12 14
+LF                   : 11 42 46
+LOALPHA              : 3
+LOHEX                : 4
+MARKSEP              : 26
+MARKTOKEN            : 30
+MINUS                : 33
+PERCENT              : 38
+PLUS                 : 27
+QUESTION             : 16
+SEMICOLON            : 18
+SEPARATORS           : 22
+SLASH                : 21 23 59
+SP                   : 13 60 60
+TEXT                 : 39
+TOKEN                : 34
+UPALPHA              : 1
+UPHEX                : 2
+error                : 
+
+Nonterminals, with rules where they appear
+
+alpha                : 7
+alphanum             : 35
+body                 : 63
+crlf                 : 55 56 60 61 62 64
+ctl                  : 45
+fieldvalue           : 54 55
+fieldvaluepart       : 53 54
+httpversion          : 60
+loalpha              : 6
+marktoken            : 37
+octet                : 51
+request              : 0
+requestheader        : 58 61 63
+requestheaderpart    : 57 58
+requestline          : 61 62 63
+revsep               : 25
+revtoken             : 36
+separators           : 43
+spht                 : 24 52
+text                 : 50 60 64
+textchar             : 44 49 50
+token                : 48 55 56 59 60
+tokenchar            : 40 47 48
+upalpha              : 5
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . request
+    (61) request -> . requestline requestheader crlf
+    (62) request -> . requestline crlf
+    (63) request -> . requestline requestheader body
+    (60) requestline -> . token SP text SP httpversion crlf
+    (47) token -> . tokenchar
+    (48) token -> . token tokenchar
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    request                        shift and go to state 1
+    requestline                    shift and go to state 2
+    token                          shift and go to state 3
+    tokenchar                      shift and go to state 4
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 1
+
+    (0) S' -> request .
+
+
+
+state 2
+
+    (61) request -> requestline . requestheader crlf
+    (62) request -> requestline . crlf
+    (63) request -> requestline . requestheader body
+    (57) requestheader -> . requestheaderpart
+    (58) requestheader -> . requestheader requestheaderpart
+    (46) crlf -> . CR LF
+    (55) requestheaderpart -> . token COLON fieldvalue crlf
+    (56) requestheaderpart -> . token COLON crlf
+    (47) token -> . tokenchar
+    (48) token -> . token tokenchar
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    CR              shift and go to state 28
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    requestheader                  shift and go to state 25
+    crlf                           shift and go to state 26
+    requestheaderpart              shift and go to state 27
+    token                          shift and go to state 29
+    tokenchar                      shift and go to state 4
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 3
+
+    (60) requestline -> token . SP text SP httpversion crlf
+    (48) token -> token . tokenchar
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    SP              shift and go to state 30
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    tokenchar                      shift and go to state 31
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 4
+
+    (47) token -> tokenchar .
+
+    SP              reduce using rule 47 (token -> tokenchar .)
+    TOKEN           reduce using rule 47 (token -> tokenchar .)
+    PERCENT         reduce using rule 47 (token -> tokenchar .)
+    DIGIT           reduce using rule 47 (token -> tokenchar .)
+    PLUS            reduce using rule 47 (token -> tokenchar .)
+    AMPERSAND       reduce using rule 47 (token -> tokenchar .)
+    DOLLAR          reduce using rule 47 (token -> tokenchar .)
+    MARKTOKEN       reduce using rule 47 (token -> tokenchar .)
+    DOT             reduce using rule 47 (token -> tokenchar .)
+    ASTERISK        reduce using rule 47 (token -> tokenchar .)
+    MINUS           reduce using rule 47 (token -> tokenchar .)
+    UPALPHA         reduce using rule 47 (token -> tokenchar .)
+    UPHEX           reduce using rule 47 (token -> tokenchar .)
+    LOALPHA         reduce using rule 47 (token -> tokenchar .)
+    LOHEX           reduce using rule 47 (token -> tokenchar .)
+    COLON           reduce using rule 47 (token -> tokenchar .)
+    SLASH           reduce using rule 47 (token -> tokenchar .)
+
+
+state 5
+
+    (34) tokenchar -> TOKEN .
+
+    SP              reduce using rule 34 (tokenchar -> TOKEN .)
+    TOKEN           reduce using rule 34 (tokenchar -> TOKEN .)
+    PERCENT         reduce using rule 34 (tokenchar -> TOKEN .)
+    DIGIT           reduce using rule 34 (tokenchar -> TOKEN .)
+    PLUS            reduce using rule 34 (tokenchar -> TOKEN .)
+    AMPERSAND       reduce using rule 34 (tokenchar -> TOKEN .)
+    DOLLAR          reduce using rule 34 (tokenchar -> TOKEN .)
+    MARKTOKEN       reduce using rule 34 (tokenchar -> TOKEN .)
+    DOT             reduce using rule 34 (tokenchar -> TOKEN .)
+    ASTERISK        reduce using rule 34 (tokenchar -> TOKEN .)
+    MINUS           reduce using rule 34 (tokenchar -> TOKEN .)
+    UPALPHA         reduce using rule 34 (tokenchar -> TOKEN .)
+    UPHEX           reduce using rule 34 (tokenchar -> TOKEN .)
+    LOALPHA         reduce using rule 34 (tokenchar -> TOKEN .)
+    LOHEX           reduce using rule 34 (tokenchar -> TOKEN .)
+    COLON           reduce using rule 34 (tokenchar -> TOKEN .)
+    TEXT            reduce using rule 34 (tokenchar -> TOKEN .)
+    CR              reduce using rule 34 (tokenchar -> TOKEN .)
+    LF              reduce using rule 34 (tokenchar -> TOKEN .)
+    SEPARATORS      reduce using rule 34 (tokenchar -> TOKEN .)
+    SLASH           reduce using rule 34 (tokenchar -> TOKEN .)
+    MARKSEP         reduce using rule 34 (tokenchar -> TOKEN .)
+    HT              reduce using rule 34 (tokenchar -> TOKEN .)
+    QUESTION        reduce using rule 34 (tokenchar -> TOKEN .)
+    AT              reduce using rule 34 (tokenchar -> TOKEN .)
+    SEMICOLON       reduce using rule 34 (tokenchar -> TOKEN .)
+    EQUAL           reduce using rule 34 (tokenchar -> TOKEN .)
+    COMMA           reduce using rule 34 (tokenchar -> TOKEN .)
+    $end            reduce using rule 34 (tokenchar -> TOKEN .)
+    CTL             reduce using rule 34 (tokenchar -> TOKEN .)
+
+
+state 6
+
+    (35) tokenchar -> alphanum .
+
+    SP              reduce using rule 35 (tokenchar -> alphanum .)
+    TOKEN           reduce using rule 35 (tokenchar -> alphanum .)
+    PERCENT         reduce using rule 35 (tokenchar -> alphanum .)
+    DIGIT           reduce using rule 35 (tokenchar -> alphanum .)
+    PLUS            reduce using rule 35 (tokenchar -> alphanum .)
+    AMPERSAND       reduce using rule 35 (tokenchar -> alphanum .)
+    DOLLAR          reduce using rule 35 (tokenchar -> alphanum .)
+    MARKTOKEN       reduce using rule 35 (tokenchar -> alphanum .)
+    DOT             reduce using rule 35 (tokenchar -> alphanum .)
+    ASTERISK        reduce using rule 35 (tokenchar -> alphanum .)
+    MINUS           reduce using rule 35 (tokenchar -> alphanum .)
+    UPALPHA         reduce using rule 35 (tokenchar -> alphanum .)
+    UPHEX           reduce using rule 35 (tokenchar -> alphanum .)
+    LOALPHA         reduce using rule 35 (tokenchar -> alphanum .)
+    LOHEX           reduce using rule 35 (tokenchar -> alphanum .)
+    COLON           reduce using rule 35 (tokenchar -> alphanum .)
+    TEXT            reduce using rule 35 (tokenchar -> alphanum .)
+    CR              reduce using rule 35 (tokenchar -> alphanum .)
+    LF              reduce using rule 35 (tokenchar -> alphanum .)
+    SEPARATORS      reduce using rule 35 (tokenchar -> alphanum .)
+    SLASH           reduce using rule 35 (tokenchar -> alphanum .)
+    MARKSEP         reduce using rule 35 (tokenchar -> alphanum .)
+    HT              reduce using rule 35 (tokenchar -> alphanum .)
+    QUESTION        reduce using rule 35 (tokenchar -> alphanum .)
+    AT              reduce using rule 35 (tokenchar -> alphanum .)
+    SEMICOLON       reduce using rule 35 (tokenchar -> alphanum .)
+    EQUAL           reduce using rule 35 (tokenchar -> alphanum .)
+    COMMA           reduce using rule 35 (tokenchar -> alphanum .)
+    $end            reduce using rule 35 (tokenchar -> alphanum .)
+    CTL             reduce using rule 35 (tokenchar -> alphanum .)
+
+
+state 7
+
+    (36) tokenchar -> revtoken .
+
+    SP              reduce using rule 36 (tokenchar -> revtoken .)
+    TOKEN           reduce using rule 36 (tokenchar -> revtoken .)
+    PERCENT         reduce using rule 36 (tokenchar -> revtoken .)
+    DIGIT           reduce using rule 36 (tokenchar -> revtoken .)
+    PLUS            reduce using rule 36 (tokenchar -> revtoken .)
+    AMPERSAND       reduce using rule 36 (tokenchar -> revtoken .)
+    DOLLAR          reduce using rule 36 (tokenchar -> revtoken .)
+    MARKTOKEN       reduce using rule 36 (tokenchar -> revtoken .)
+    DOT             reduce using rule 36 (tokenchar -> revtoken .)
+    ASTERISK        reduce using rule 36 (tokenchar -> revtoken .)
+    MINUS           reduce using rule 36 (tokenchar -> revtoken .)
+    UPALPHA         reduce using rule 36 (tokenchar -> revtoken .)
+    UPHEX           reduce using rule 36 (tokenchar -> revtoken .)
+    LOALPHA         reduce using rule 36 (tokenchar -> revtoken .)
+    LOHEX           reduce using rule 36 (tokenchar -> revtoken .)
+    COLON           reduce using rule 36 (tokenchar -> revtoken .)
+    TEXT            reduce using rule 36 (tokenchar -> revtoken .)
+    CR              reduce using rule 36 (tokenchar -> revtoken .)
+    LF              reduce using rule 36 (tokenchar -> revtoken .)
+    SEPARATORS      reduce using rule 36 (tokenchar -> revtoken .)
+    SLASH           reduce using rule 36 (tokenchar -> revtoken .)
+    MARKSEP         reduce using rule 36 (tokenchar -> revtoken .)
+    HT              reduce using rule 36 (tokenchar -> revtoken .)
+    QUESTION        reduce using rule 36 (tokenchar -> revtoken .)
+    AT              reduce using rule 36 (tokenchar -> revtoken .)
+    SEMICOLON       reduce using rule 36 (tokenchar -> revtoken .)
+    EQUAL           reduce using rule 36 (tokenchar -> revtoken .)
+    COMMA           reduce using rule 36 (tokenchar -> revtoken .)
+    $end            reduce using rule 36 (tokenchar -> revtoken .)
+    CTL             reduce using rule 36 (tokenchar -> revtoken .)
+
+
+state 8
+
+    (37) tokenchar -> marktoken .
+
+    SP              reduce using rule 37 (tokenchar -> marktoken .)
+    TOKEN           reduce using rule 37 (tokenchar -> marktoken .)
+    PERCENT         reduce using rule 37 (tokenchar -> marktoken .)
+    DIGIT           reduce using rule 37 (tokenchar -> marktoken .)
+    PLUS            reduce using rule 37 (tokenchar -> marktoken .)
+    AMPERSAND       reduce using rule 37 (tokenchar -> marktoken .)
+    DOLLAR          reduce using rule 37 (tokenchar -> marktoken .)
+    MARKTOKEN       reduce using rule 37 (tokenchar -> marktoken .)
+    DOT             reduce using rule 37 (tokenchar -> marktoken .)
+    ASTERISK        reduce using rule 37 (tokenchar -> marktoken .)
+    MINUS           reduce using rule 37 (tokenchar -> marktoken .)
+    UPALPHA         reduce using rule 37 (tokenchar -> marktoken .)
+    UPHEX           reduce using rule 37 (tokenchar -> marktoken .)
+    LOALPHA         reduce using rule 37 (tokenchar -> marktoken .)
+    LOHEX           reduce using rule 37 (tokenchar -> marktoken .)
+    COLON           reduce using rule 37 (tokenchar -> marktoken .)
+    TEXT            reduce using rule 37 (tokenchar -> marktoken .)
+    CR              reduce using rule 37 (tokenchar -> marktoken .)
+    LF              reduce using rule 37 (tokenchar -> marktoken .)
+    SEPARATORS      reduce using rule 37 (tokenchar -> marktoken .)
+    SLASH           reduce using rule 37 (tokenchar -> marktoken .)
+    MARKSEP         reduce using rule 37 (tokenchar -> marktoken .)
+    HT              reduce using rule 37 (tokenchar -> marktoken .)
+    QUESTION        reduce using rule 37 (tokenchar -> marktoken .)
+    AT              reduce using rule 37 (tokenchar -> marktoken .)
+    SEMICOLON       reduce using rule 37 (tokenchar -> marktoken .)
+    EQUAL           reduce using rule 37 (tokenchar -> marktoken .)
+    COMMA           reduce using rule 37 (tokenchar -> marktoken .)
+    $end            reduce using rule 37 (tokenchar -> marktoken .)
+    CTL             reduce using rule 37 (tokenchar -> marktoken .)
+
+
+state 9
+
+    (38) tokenchar -> PERCENT .
+
+    SP              reduce using rule 38 (tokenchar -> PERCENT .)
+    TOKEN           reduce using rule 38 (tokenchar -> PERCENT .)
+    PERCENT         reduce using rule 38 (tokenchar -> PERCENT .)
+    DIGIT           reduce using rule 38 (tokenchar -> PERCENT .)
+    PLUS            reduce using rule 38 (tokenchar -> PERCENT .)
+    AMPERSAND       reduce using rule 38 (tokenchar -> PERCENT .)
+    DOLLAR          reduce using rule 38 (tokenchar -> PERCENT .)
+    MARKTOKEN       reduce using rule 38 (tokenchar -> PERCENT .)
+    DOT             reduce using rule 38 (tokenchar -> PERCENT .)
+    ASTERISK        reduce using rule 38 (tokenchar -> PERCENT .)
+    MINUS           reduce using rule 38 (tokenchar -> PERCENT .)
+    UPALPHA         reduce using rule 38 (tokenchar -> PERCENT .)
+    UPHEX           reduce using rule 38 (tokenchar -> PERCENT .)
+    LOALPHA         reduce using rule 38 (tokenchar -> PERCENT .)
+    LOHEX           reduce using rule 38 (tokenchar -> PERCENT .)
+    COLON           reduce using rule 38 (tokenchar -> PERCENT .)
+    TEXT            reduce using rule 38 (tokenchar -> PERCENT .)
+    CR              reduce using rule 38 (tokenchar -> PERCENT .)
+    LF              reduce using rule 38 (tokenchar -> PERCENT .)
+    SEPARATORS      reduce using rule 38 (tokenchar -> PERCENT .)
+    SLASH           reduce using rule 38 (tokenchar -> PERCENT .)
+    MARKSEP         reduce using rule 38 (tokenchar -> PERCENT .)
+    HT              reduce using rule 38 (tokenchar -> PERCENT .)
+    QUESTION        reduce using rule 38 (tokenchar -> PERCENT .)
+    AT              reduce using rule 38 (tokenchar -> PERCENT .)
+    SEMICOLON       reduce using rule 38 (tokenchar -> PERCENT .)
+    EQUAL           reduce using rule 38 (tokenchar -> PERCENT .)
+    COMMA           reduce using rule 38 (tokenchar -> PERCENT .)
+    $end            reduce using rule 38 (tokenchar -> PERCENT .)
+    CTL             reduce using rule 38 (tokenchar -> PERCENT .)
+
+
+state 10
+
+    (7) alphanum -> alpha .
+
+    SP              reduce using rule 7 (alphanum -> alpha .)
+    TOKEN           reduce using rule 7 (alphanum -> alpha .)
+    PERCENT         reduce using rule 7 (alphanum -> alpha .)
+    DIGIT           reduce using rule 7 (alphanum -> alpha .)
+    PLUS            reduce using rule 7 (alphanum -> alpha .)
+    AMPERSAND       reduce using rule 7 (alphanum -> alpha .)
+    DOLLAR          reduce using rule 7 (alphanum -> alpha .)
+    MARKTOKEN       reduce using rule 7 (alphanum -> alpha .)
+    DOT             reduce using rule 7 (alphanum -> alpha .)
+    ASTERISK        reduce using rule 7 (alphanum -> alpha .)
+    MINUS           reduce using rule 7 (alphanum -> alpha .)
+    UPALPHA         reduce using rule 7 (alphanum -> alpha .)
+    UPHEX           reduce using rule 7 (alphanum -> alpha .)
+    LOALPHA         reduce using rule 7 (alphanum -> alpha .)
+    LOHEX           reduce using rule 7 (alphanum -> alpha .)
+    COLON           reduce using rule 7 (alphanum -> alpha .)
+    TEXT            reduce using rule 7 (alphanum -> alpha .)
+    CR              reduce using rule 7 (alphanum -> alpha .)
+    LF              reduce using rule 7 (alphanum -> alpha .)
+    SEPARATORS      reduce using rule 7 (alphanum -> alpha .)
+    SLASH           reduce using rule 7 (alphanum -> alpha .)
+    MARKSEP         reduce using rule 7 (alphanum -> alpha .)
+    HT              reduce using rule 7 (alphanum -> alpha .)
+    QUESTION        reduce using rule 7 (alphanum -> alpha .)
+    AT              reduce using rule 7 (alphanum -> alpha .)
+    SEMICOLON       reduce using rule 7 (alphanum -> alpha .)
+    EQUAL           reduce using rule 7 (alphanum -> alpha .)
+    COMMA           reduce using rule 7 (alphanum -> alpha .)
+    $end            reduce using rule 7 (alphanum -> alpha .)
+    CTL             reduce using rule 7 (alphanum -> alpha .)
+
+
+state 11
+
+    (8) alphanum -> DIGIT .
+
+    SP              reduce using rule 8 (alphanum -> DIGIT .)
+    TOKEN           reduce using rule 8 (alphanum -> DIGIT .)
+    PERCENT         reduce using rule 8 (alphanum -> DIGIT .)
+    DIGIT           reduce using rule 8 (alphanum -> DIGIT .)
+    PLUS            reduce using rule 8 (alphanum -> DIGIT .)
+    AMPERSAND       reduce using rule 8 (alphanum -> DIGIT .)
+    DOLLAR          reduce using rule 8 (alphanum -> DIGIT .)
+    MARKTOKEN       reduce using rule 8 (alphanum -> DIGIT .)
+    DOT             reduce using rule 8 (alphanum -> DIGIT .)
+    ASTERISK        reduce using rule 8 (alphanum -> DIGIT .)
+    MINUS           reduce using rule 8 (alphanum -> DIGIT .)
+    UPALPHA         reduce using rule 8 (alphanum -> DIGIT .)
+    UPHEX           reduce using rule 8 (alphanum -> DIGIT .)
+    LOALPHA         reduce using rule 8 (alphanum -> DIGIT .)
+    LOHEX           reduce using rule 8 (alphanum -> DIGIT .)
+    COLON           reduce using rule 8 (alphanum -> DIGIT .)
+    TEXT            reduce using rule 8 (alphanum -> DIGIT .)
+    CR              reduce using rule 8 (alphanum -> DIGIT .)
+    LF              reduce using rule 8 (alphanum -> DIGIT .)
+    SEPARATORS      reduce using rule 8 (alphanum -> DIGIT .)
+    SLASH           reduce using rule 8 (alphanum -> DIGIT .)
+    MARKSEP         reduce using rule 8 (alphanum -> DIGIT .)
+    HT              reduce using rule 8 (alphanum -> DIGIT .)
+    QUESTION        reduce using rule 8 (alphanum -> DIGIT .)
+    AT              reduce using rule 8 (alphanum -> DIGIT .)
+    SEMICOLON       reduce using rule 8 (alphanum -> DIGIT .)
+    EQUAL           reduce using rule 8 (alphanum -> DIGIT .)
+    COMMA           reduce using rule 8 (alphanum -> DIGIT .)
+    $end            reduce using rule 8 (alphanum -> DIGIT .)
+    CTL             reduce using rule 8 (alphanum -> DIGIT .)
+
+
+state 12
+
+    (27) revtoken -> PLUS .
+
+    SP              reduce using rule 27 (revtoken -> PLUS .)
+    TOKEN           reduce using rule 27 (revtoken -> PLUS .)
+    PERCENT         reduce using rule 27 (revtoken -> PLUS .)
+    DIGIT           reduce using rule 27 (revtoken -> PLUS .)
+    PLUS            reduce using rule 27 (revtoken -> PLUS .)
+    AMPERSAND       reduce using rule 27 (revtoken -> PLUS .)
+    DOLLAR          reduce using rule 27 (revtoken -> PLUS .)
+    MARKTOKEN       reduce using rule 27 (revtoken -> PLUS .)
+    DOT             reduce using rule 27 (revtoken -> PLUS .)
+    ASTERISK        reduce using rule 27 (revtoken -> PLUS .)
+    MINUS           reduce using rule 27 (revtoken -> PLUS .)
+    UPALPHA         reduce using rule 27 (revtoken -> PLUS .)
+    UPHEX           reduce using rule 27 (revtoken -> PLUS .)
+    LOALPHA         reduce using rule 27 (revtoken -> PLUS .)
+    LOHEX           reduce using rule 27 (revtoken -> PLUS .)
+    COLON           reduce using rule 27 (revtoken -> PLUS .)
+    TEXT            reduce using rule 27 (revtoken -> PLUS .)
+    CR              reduce using rule 27 (revtoken -> PLUS .)
+    LF              reduce using rule 27 (revtoken -> PLUS .)
+    SEPARATORS      reduce using rule 27 (revtoken -> PLUS .)
+    SLASH           reduce using rule 27 (revtoken -> PLUS .)
+    MARKSEP         reduce using rule 27 (revtoken -> PLUS .)
+    HT              reduce using rule 27 (revtoken -> PLUS .)
+    QUESTION        reduce using rule 27 (revtoken -> PLUS .)
+    AT              reduce using rule 27 (revtoken -> PLUS .)
+    SEMICOLON       reduce using rule 27 (revtoken -> PLUS .)
+    EQUAL           reduce using rule 27 (revtoken -> PLUS .)
+    COMMA           reduce using rule 27 (revtoken -> PLUS .)
+    $end            reduce using rule 27 (revtoken -> PLUS .)
+    CTL             reduce using rule 27 (revtoken -> PLUS .)
+
+
+state 13
+
+    (28) revtoken -> AMPERSAND .
+
+    SP              reduce using rule 28 (revtoken -> AMPERSAND .)
+    TOKEN           reduce using rule 28 (revtoken -> AMPERSAND .)
+    PERCENT         reduce using rule 28 (revtoken -> AMPERSAND .)
+    DIGIT           reduce using rule 28 (revtoken -> AMPERSAND .)
+    PLUS            reduce using rule 28 (revtoken -> AMPERSAND .)
+    AMPERSAND       reduce using rule 28 (revtoken -> AMPERSAND .)
+    DOLLAR          reduce using rule 28 (revtoken -> AMPERSAND .)
+    MARKTOKEN       reduce using rule 28 (revtoken -> AMPERSAND .)
+    DOT             reduce using rule 28 (revtoken -> AMPERSAND .)
+    ASTERISK        reduce using rule 28 (revtoken -> AMPERSAND .)
+    MINUS           reduce using rule 28 (revtoken -> AMPERSAND .)
+    UPALPHA         reduce using rule 28 (revtoken -> AMPERSAND .)
+    UPHEX           reduce using rule 28 (revtoken -> AMPERSAND .)
+    LOALPHA         reduce using rule 28 (revtoken -> AMPERSAND .)
+    LOHEX           reduce using rule 28 (revtoken -> AMPERSAND .)
+    COLON           reduce using rule 28 (revtoken -> AMPERSAND .)
+    TEXT            reduce using rule 28 (revtoken -> AMPERSAND .)
+    CR              reduce using rule 28 (revtoken -> AMPERSAND .)
+    LF              reduce using rule 28 (revtoken -> AMPERSAND .)
+    SEPARATORS      reduce using rule 28 (revtoken -> AMPERSAND .)
+    SLASH           reduce using rule 28 (revtoken -> AMPERSAND .)
+    MARKSEP         reduce using rule 28 (revtoken -> AMPERSAND .)
+    HT              reduce using rule 28 (revtoken -> AMPERSAND .)
+    QUESTION        reduce using rule 28 (revtoken -> AMPERSAND .)
+    AT              reduce using rule 28 (revtoken -> AMPERSAND .)
+    SEMICOLON       reduce using rule 28 (revtoken -> AMPERSAND .)
+    EQUAL           reduce using rule 28 (revtoken -> AMPERSAND .)
+    COMMA           reduce using rule 28 (revtoken -> AMPERSAND .)
+    $end            reduce using rule 28 (revtoken -> AMPERSAND .)
+    CTL             reduce using rule 28 (revtoken -> AMPERSAND .)
+
+
+state 14
+
+    (29) revtoken -> DOLLAR .
+
+    SP              reduce using rule 29 (revtoken -> DOLLAR .)
+    TOKEN           reduce using rule 29 (revtoken -> DOLLAR .)
+    PERCENT         reduce using rule 29 (revtoken -> DOLLAR .)
+    DIGIT           reduce using rule 29 (revtoken -> DOLLAR .)
+    PLUS            reduce using rule 29 (revtoken -> DOLLAR .)
+    AMPERSAND       reduce using rule 29 (revtoken -> DOLLAR .)
+    DOLLAR          reduce using rule 29 (revtoken -> DOLLAR .)
+    MARKTOKEN       reduce using rule 29 (revtoken -> DOLLAR .)
+    DOT             reduce using rule 29 (revtoken -> DOLLAR .)
+    ASTERISK        reduce using rule 29 (revtoken -> DOLLAR .)
+    MINUS           reduce using rule 29 (revtoken -> DOLLAR .)
+    UPALPHA         reduce using rule 29 (revtoken -> DOLLAR .)
+    UPHEX           reduce using rule 29 (revtoken -> DOLLAR .)
+    LOALPHA         reduce using rule 29 (revtoken -> DOLLAR .)
+    LOHEX           reduce using rule 29 (revtoken -> DOLLAR .)
+    COLON           reduce using rule 29 (revtoken -> DOLLAR .)
+    TEXT            reduce using rule 29 (revtoken -> DOLLAR .)
+    CR              reduce using rule 29 (revtoken -> DOLLAR .)
+    LF              reduce using rule 29 (revtoken -> DOLLAR .)
+    SEPARATORS      reduce using rule 29 (revtoken -> DOLLAR .)
+    SLASH           reduce using rule 29 (revtoken -> DOLLAR .)
+    MARKSEP         reduce using rule 29 (revtoken -> DOLLAR .)
+    HT              reduce using rule 29 (revtoken -> DOLLAR .)
+    QUESTION        reduce using rule 29 (revtoken -> DOLLAR .)
+    AT              reduce using rule 29 (revtoken -> DOLLAR .)
+    SEMICOLON       reduce using rule 29 (revtoken -> DOLLAR .)
+    EQUAL           reduce using rule 29 (revtoken -> DOLLAR .)
+    COMMA           reduce using rule 29 (revtoken -> DOLLAR .)
+    $end            reduce using rule 29 (revtoken -> DOLLAR .)
+    CTL             reduce using rule 29 (revtoken -> DOLLAR .)
+
+
+state 15
+
+    (30) marktoken -> MARKTOKEN .
+
+    SP              reduce using rule 30 (marktoken -> MARKTOKEN .)
+    TOKEN           reduce using rule 30 (marktoken -> MARKTOKEN .)
+    PERCENT         reduce using rule 30 (marktoken -> MARKTOKEN .)
+    DIGIT           reduce using rule 30 (marktoken -> MARKTOKEN .)
+    PLUS            reduce using rule 30 (marktoken -> MARKTOKEN .)
+    AMPERSAND       reduce using rule 30 (marktoken -> MARKTOKEN .)
+    DOLLAR          reduce using rule 30 (marktoken -> MARKTOKEN .)
+    MARKTOKEN       reduce using rule 30 (marktoken -> MARKTOKEN .)
+    DOT             reduce using rule 30 (marktoken -> MARKTOKEN .)
+    ASTERISK        reduce using rule 30 (marktoken -> MARKTOKEN .)
+    MINUS           reduce using rule 30 (marktoken -> MARKTOKEN .)
+    UPALPHA         reduce using rule 30 (marktoken -> MARKTOKEN .)
+    UPHEX           reduce using rule 30 (marktoken -> MARKTOKEN .)
+    LOALPHA         reduce using rule 30 (marktoken -> MARKTOKEN .)
+    LOHEX           reduce using rule 30 (marktoken -> MARKTOKEN .)
+    COLON           reduce using rule 30 (marktoken -> MARKTOKEN .)
+    TEXT            reduce using rule 30 (marktoken -> MARKTOKEN .)
+    CR              reduce using rule 30 (marktoken -> MARKTOKEN .)
+    LF              reduce using rule 30 (marktoken -> MARKTOKEN .)
+    SEPARATORS      reduce using rule 30 (marktoken -> MARKTOKEN .)
+    SLASH           reduce using rule 30 (marktoken -> MARKTOKEN .)
+    MARKSEP         reduce using rule 30 (marktoken -> MARKTOKEN .)
+    HT              reduce using rule 30 (marktoken -> MARKTOKEN .)
+    QUESTION        reduce using rule 30 (marktoken -> MARKTOKEN .)
+    AT              reduce using rule 30 (marktoken -> MARKTOKEN .)
+    SEMICOLON       reduce using rule 30 (marktoken -> MARKTOKEN .)
+    EQUAL           reduce using rule 30 (marktoken -> MARKTOKEN .)
+    COMMA           reduce using rule 30 (marktoken -> MARKTOKEN .)
+    $end            reduce using rule 30 (marktoken -> MARKTOKEN .)
+    CTL             reduce using rule 30 (marktoken -> MARKTOKEN .)
+
+
+state 16
+
+    (31) marktoken -> DOT .
+
+    SP              reduce using rule 31 (marktoken -> DOT .)
+    TOKEN           reduce using rule 31 (marktoken -> DOT .)
+    PERCENT         reduce using rule 31 (marktoken -> DOT .)
+    DIGIT           reduce using rule 31 (marktoken -> DOT .)
+    PLUS            reduce using rule 31 (marktoken -> DOT .)
+    AMPERSAND       reduce using rule 31 (marktoken -> DOT .)
+    DOLLAR          reduce using rule 31 (marktoken -> DOT .)
+    MARKTOKEN       reduce using rule 31 (marktoken -> DOT .)
+    DOT             reduce using rule 31 (marktoken -> DOT .)
+    ASTERISK        reduce using rule 31 (marktoken -> DOT .)
+    MINUS           reduce using rule 31 (marktoken -> DOT .)
+    UPALPHA         reduce using rule 31 (marktoken -> DOT .)
+    UPHEX           reduce using rule 31 (marktoken -> DOT .)
+    LOALPHA         reduce using rule 31 (marktoken -> DOT .)
+    LOHEX           reduce using rule 31 (marktoken -> DOT .)
+    COLON           reduce using rule 31 (marktoken -> DOT .)
+    TEXT            reduce using rule 31 (marktoken -> DOT .)
+    CR              reduce using rule 31 (marktoken -> DOT .)
+    LF              reduce using rule 31 (marktoken -> DOT .)
+    SEPARATORS      reduce using rule 31 (marktoken -> DOT .)
+    SLASH           reduce using rule 31 (marktoken -> DOT .)
+    MARKSEP         reduce using rule 31 (marktoken -> DOT .)
+    HT              reduce using rule 31 (marktoken -> DOT .)
+    QUESTION        reduce using rule 31 (marktoken -> DOT .)
+    AT              reduce using rule 31 (marktoken -> DOT .)
+    SEMICOLON       reduce using rule 31 (marktoken -> DOT .)
+    EQUAL           reduce using rule 31 (marktoken -> DOT .)
+    COMMA           reduce using rule 31 (marktoken -> DOT .)
+    $end            reduce using rule 31 (marktoken -> DOT .)
+    CTL             reduce using rule 31 (marktoken -> DOT .)
+
+
+state 17
+
+    (32) marktoken -> ASTERISK .
+
+    SP              reduce using rule 32 (marktoken -> ASTERISK .)
+    TOKEN           reduce using rule 32 (marktoken -> ASTERISK .)
+    PERCENT         reduce using rule 32 (marktoken -> ASTERISK .)
+    DIGIT           reduce using rule 32 (marktoken -> ASTERISK .)
+    PLUS            reduce using rule 32 (marktoken -> ASTERISK .)
+    AMPERSAND       reduce using rule 32 (marktoken -> ASTERISK .)
+    DOLLAR          reduce using rule 32 (marktoken -> ASTERISK .)
+    MARKTOKEN       reduce using rule 32 (marktoken -> ASTERISK .)
+    DOT             reduce using rule 32 (marktoken -> ASTERISK .)
+    ASTERISK        reduce using rule 32 (marktoken -> ASTERISK .)
+    MINUS           reduce using rule 32 (marktoken -> ASTERISK .)
+    UPALPHA         reduce using rule 32 (marktoken -> ASTERISK .)
+    UPHEX           reduce using rule 32 (marktoken -> ASTERISK .)
+    LOALPHA         reduce using rule 32 (marktoken -> ASTERISK .)
+    LOHEX           reduce using rule 32 (marktoken -> ASTERISK .)
+    COLON           reduce using rule 32 (marktoken -> ASTERISK .)
+    TEXT            reduce using rule 32 (marktoken -> ASTERISK .)
+    CR              reduce using rule 32 (marktoken -> ASTERISK .)
+    LF              reduce using rule 32 (marktoken -> ASTERISK .)
+    SEPARATORS      reduce using rule 32 (marktoken -> ASTERISK .)
+    SLASH           reduce using rule 32 (marktoken -> ASTERISK .)
+    MARKSEP         reduce using rule 32 (marktoken -> ASTERISK .)
+    HT              reduce using rule 32 (marktoken -> ASTERISK .)
+    QUESTION        reduce using rule 32 (marktoken -> ASTERISK .)
+    AT              reduce using rule 32 (marktoken -> ASTERISK .)
+    SEMICOLON       reduce using rule 32 (marktoken -> ASTERISK .)
+    EQUAL           reduce using rule 32 (marktoken -> ASTERISK .)
+    COMMA           reduce using rule 32 (marktoken -> ASTERISK .)
+    $end            reduce using rule 32 (marktoken -> ASTERISK .)
+    CTL             reduce using rule 32 (marktoken -> ASTERISK .)
+
+
+state 18
+
+    (33) marktoken -> MINUS .
+
+    SP              reduce using rule 33 (marktoken -> MINUS .)
+    TOKEN           reduce using rule 33 (marktoken -> MINUS .)
+    PERCENT         reduce using rule 33 (marktoken -> MINUS .)
+    DIGIT           reduce using rule 33 (marktoken -> MINUS .)
+    PLUS            reduce using rule 33 (marktoken -> MINUS .)
+    AMPERSAND       reduce using rule 33 (marktoken -> MINUS .)
+    DOLLAR          reduce using rule 33 (marktoken -> MINUS .)
+    MARKTOKEN       reduce using rule 33 (marktoken -> MINUS .)
+    DOT             reduce using rule 33 (marktoken -> MINUS .)
+    ASTERISK        reduce using rule 33 (marktoken -> MINUS .)
+    MINUS           reduce using rule 33 (marktoken -> MINUS .)
+    UPALPHA         reduce using rule 33 (marktoken -> MINUS .)
+    UPHEX           reduce using rule 33 (marktoken -> MINUS .)
+    LOALPHA         reduce using rule 33 (marktoken -> MINUS .)
+    LOHEX           reduce using rule 33 (marktoken -> MINUS .)
+    COLON           reduce using rule 33 (marktoken -> MINUS .)
+    TEXT            reduce using rule 33 (marktoken -> MINUS .)
+    CR              reduce using rule 33 (marktoken -> MINUS .)
+    LF              reduce using rule 33 (marktoken -> MINUS .)
+    SEPARATORS      reduce using rule 33 (marktoken -> MINUS .)
+    SLASH           reduce using rule 33 (marktoken -> MINUS .)
+    MARKSEP         reduce using rule 33 (marktoken -> MINUS .)
+    HT              reduce using rule 33 (marktoken -> MINUS .)
+    QUESTION        reduce using rule 33 (marktoken -> MINUS .)
+    AT              reduce using rule 33 (marktoken -> MINUS .)
+    SEMICOLON       reduce using rule 33 (marktoken -> MINUS .)
+    EQUAL           reduce using rule 33 (marktoken -> MINUS .)
+    COMMA           reduce using rule 33 (marktoken -> MINUS .)
+    $end            reduce using rule 33 (marktoken -> MINUS .)
+    CTL             reduce using rule 33 (marktoken -> MINUS .)
+
+
+state 19
+
+    (5) alpha -> upalpha .
+
+    SP              reduce using rule 5 (alpha -> upalpha .)
+    TOKEN           reduce using rule 5 (alpha -> upalpha .)
+    PERCENT         reduce using rule 5 (alpha -> upalpha .)
+    DIGIT           reduce using rule 5 (alpha -> upalpha .)
+    PLUS            reduce using rule 5 (alpha -> upalpha .)
+    AMPERSAND       reduce using rule 5 (alpha -> upalpha .)
+    DOLLAR          reduce using rule 5 (alpha -> upalpha .)
+    MARKTOKEN       reduce using rule 5 (alpha -> upalpha .)
+    DOT             reduce using rule 5 (alpha -> upalpha .)
+    ASTERISK        reduce using rule 5 (alpha -> upalpha .)
+    MINUS           reduce using rule 5 (alpha -> upalpha .)
+    UPALPHA         reduce using rule 5 (alpha -> upalpha .)
+    UPHEX           reduce using rule 5 (alpha -> upalpha .)
+    LOALPHA         reduce using rule 5 (alpha -> upalpha .)
+    LOHEX           reduce using rule 5 (alpha -> upalpha .)
+    COLON           reduce using rule 5 (alpha -> upalpha .)
+    TEXT            reduce using rule 5 (alpha -> upalpha .)
+    CR              reduce using rule 5 (alpha -> upalpha .)
+    LF              reduce using rule 5 (alpha -> upalpha .)
+    SEPARATORS      reduce using rule 5 (alpha -> upalpha .)
+    SLASH           reduce using rule 5 (alpha -> upalpha .)
+    MARKSEP         reduce using rule 5 (alpha -> upalpha .)
+    HT              reduce using rule 5 (alpha -> upalpha .)
+    QUESTION        reduce using rule 5 (alpha -> upalpha .)
+    AT              reduce using rule 5 (alpha -> upalpha .)
+    SEMICOLON       reduce using rule 5 (alpha -> upalpha .)
+    EQUAL           reduce using rule 5 (alpha -> upalpha .)
+    COMMA           reduce using rule 5 (alpha -> upalpha .)
+    $end            reduce using rule 5 (alpha -> upalpha .)
+    CTL             reduce using rule 5 (alpha -> upalpha .)
+
+
+state 20
+
+    (6) alpha -> loalpha .
+
+    SP              reduce using rule 6 (alpha -> loalpha .)
+    TOKEN           reduce using rule 6 (alpha -> loalpha .)
+    PERCENT         reduce using rule 6 (alpha -> loalpha .)
+    DIGIT           reduce using rule 6 (alpha -> loalpha .)
+    PLUS            reduce using rule 6 (alpha -> loalpha .)
+    AMPERSAND       reduce using rule 6 (alpha -> loalpha .)
+    DOLLAR          reduce using rule 6 (alpha -> loalpha .)
+    MARKTOKEN       reduce using rule 6 (alpha -> loalpha .)
+    DOT             reduce using rule 6 (alpha -> loalpha .)
+    ASTERISK        reduce using rule 6 (alpha -> loalpha .)
+    MINUS           reduce using rule 6 (alpha -> loalpha .)
+    UPALPHA         reduce using rule 6 (alpha -> loalpha .)
+    UPHEX           reduce using rule 6 (alpha -> loalpha .)
+    LOALPHA         reduce using rule 6 (alpha -> loalpha .)
+    LOHEX           reduce using rule 6 (alpha -> loalpha .)
+    COLON           reduce using rule 6 (alpha -> loalpha .)
+    TEXT            reduce using rule 6 (alpha -> loalpha .)
+    CR              reduce using rule 6 (alpha -> loalpha .)
+    LF              reduce using rule 6 (alpha -> loalpha .)
+    SEPARATORS      reduce using rule 6 (alpha -> loalpha .)
+    SLASH           reduce using rule 6 (alpha -> loalpha .)
+    MARKSEP         reduce using rule 6 (alpha -> loalpha .)
+    HT              reduce using rule 6 (alpha -> loalpha .)
+    QUESTION        reduce using rule 6 (alpha -> loalpha .)
+    AT              reduce using rule 6 (alpha -> loalpha .)
+    SEMICOLON       reduce using rule 6 (alpha -> loalpha .)
+    EQUAL           reduce using rule 6 (alpha -> loalpha .)
+    COMMA           reduce using rule 6 (alpha -> loalpha .)
+    $end            reduce using rule 6 (alpha -> loalpha .)
+    CTL             reduce using rule 6 (alpha -> loalpha .)
+
+
+state 21
+
+    (1) upalpha -> UPALPHA .
+
+    SP              reduce using rule 1 (upalpha -> UPALPHA .)
+    TOKEN           reduce using rule 1 (upalpha -> UPALPHA .)
+    PERCENT         reduce using rule 1 (upalpha -> UPALPHA .)
+    DIGIT           reduce using rule 1 (upalpha -> UPALPHA .)
+    PLUS            reduce using rule 1 (upalpha -> UPALPHA .)
+    AMPERSAND       reduce using rule 1 (upalpha -> UPALPHA .)
+    DOLLAR          reduce using rule 1 (upalpha -> UPALPHA .)
+    MARKTOKEN       reduce using rule 1 (upalpha -> UPALPHA .)
+    DOT             reduce using rule 1 (upalpha -> UPALPHA .)
+    ASTERISK        reduce using rule 1 (upalpha -> UPALPHA .)
+    MINUS           reduce using rule 1 (upalpha -> UPALPHA .)
+    UPALPHA         reduce using rule 1 (upalpha -> UPALPHA .)
+    UPHEX           reduce using rule 1 (upalpha -> UPALPHA .)
+    LOALPHA         reduce using rule 1 (upalpha -> UPALPHA .)
+    LOHEX           reduce using rule 1 (upalpha -> UPALPHA .)
+    COLON           reduce using rule 1 (upalpha -> UPALPHA .)
+    TEXT            reduce using rule 1 (upalpha -> UPALPHA .)
+    CR              reduce using rule 1 (upalpha -> UPALPHA .)
+    LF              reduce using rule 1 (upalpha -> UPALPHA .)
+    SEPARATORS      reduce using rule 1 (upalpha -> UPALPHA .)
+    SLASH           reduce using rule 1 (upalpha -> UPALPHA .)
+    MARKSEP         reduce using rule 1 (upalpha -> UPALPHA .)
+    HT              reduce using rule 1 (upalpha -> UPALPHA .)
+    QUESTION        reduce using rule 1 (upalpha -> UPALPHA .)
+    AT              reduce using rule 1 (upalpha -> UPALPHA .)
+    SEMICOLON       reduce using rule 1 (upalpha -> UPALPHA .)
+    EQUAL           reduce using rule 1 (upalpha -> UPALPHA .)
+    COMMA           reduce using rule 1 (upalpha -> UPALPHA .)
+    $end            reduce using rule 1 (upalpha -> UPALPHA .)
+    CTL             reduce using rule 1 (upalpha -> UPALPHA .)
+
+
+state 22
+
+    (2) upalpha -> UPHEX .
+
+    SP              reduce using rule 2 (upalpha -> UPHEX .)
+    TOKEN           reduce using rule 2 (upalpha -> UPHEX .)
+    PERCENT         reduce using rule 2 (upalpha -> UPHEX .)
+    DIGIT           reduce using rule 2 (upalpha -> UPHEX .)
+    PLUS            reduce using rule 2 (upalpha -> UPHEX .)
+    AMPERSAND       reduce using rule 2 (upalpha -> UPHEX .)
+    DOLLAR          reduce using rule 2 (upalpha -> UPHEX .)
+    MARKTOKEN       reduce using rule 2 (upalpha -> UPHEX .)
+    DOT             reduce using rule 2 (upalpha -> UPHEX .)
+    ASTERISK        reduce using rule 2 (upalpha -> UPHEX .)
+    MINUS           reduce using rule 2 (upalpha -> UPHEX .)
+    UPALPHA         reduce using rule 2 (upalpha -> UPHEX .)
+    UPHEX           reduce using rule 2 (upalpha -> UPHEX .)
+    LOALPHA         reduce using rule 2 (upalpha -> UPHEX .)
+    LOHEX           reduce using rule 2 (upalpha -> UPHEX .)
+    COLON           reduce using rule 2 (upalpha -> UPHEX .)
+    TEXT            reduce using rule 2 (upalpha -> UPHEX .)
+    CR              reduce using rule 2 (upalpha -> UPHEX .)
+    LF              reduce using rule 2 (upalpha -> UPHEX .)
+    SEPARATORS      reduce using rule 2 (upalpha -> UPHEX .)
+    SLASH           reduce using rule 2 (upalpha -> UPHEX .)
+    MARKSEP         reduce using rule 2 (upalpha -> UPHEX .)
+    HT              reduce using rule 2 (upalpha -> UPHEX .)
+    QUESTION        reduce using rule 2 (upalpha -> UPHEX .)
+    AT              reduce using rule 2 (upalpha -> UPHEX .)
+    SEMICOLON       reduce using rule 2 (upalpha -> UPHEX .)
+    EQUAL           reduce using rule 2 (upalpha -> UPHEX .)
+    COMMA           reduce using rule 2 (upalpha -> UPHEX .)
+    $end            reduce using rule 2 (upalpha -> UPHEX .)
+    CTL             reduce using rule 2 (upalpha -> UPHEX .)
+
+
+state 23
+
+    (3) loalpha -> LOALPHA .
+
+    SP              reduce using rule 3 (loalpha -> LOALPHA .)
+    TOKEN           reduce using rule 3 (loalpha -> LOALPHA .)
+    PERCENT         reduce using rule 3 (loalpha -> LOALPHA .)
+    DIGIT           reduce using rule 3 (loalpha -> LOALPHA .)
+    PLUS            reduce using rule 3 (loalpha -> LOALPHA .)
+    AMPERSAND       reduce using rule 3 (loalpha -> LOALPHA .)
+    DOLLAR          reduce using rule 3 (loalpha -> LOALPHA .)
+    MARKTOKEN       reduce using rule 3 (loalpha -> LOALPHA .)
+    DOT             reduce using rule 3 (loalpha -> LOALPHA .)
+    ASTERISK        reduce using rule 3 (loalpha -> LOALPHA .)
+    MINUS           reduce using rule 3 (loalpha -> LOALPHA .)
+    UPALPHA         reduce using rule 3 (loalpha -> LOALPHA .)
+    UPHEX           reduce using rule 3 (loalpha -> LOALPHA .)
+    LOALPHA         reduce using rule 3 (loalpha -> LOALPHA .)
+    LOHEX           reduce using rule 3 (loalpha -> LOALPHA .)
+    COLON           reduce using rule 3 (loalpha -> LOALPHA .)
+    TEXT            reduce using rule 3 (loalpha -> LOALPHA .)
+    CR              reduce using rule 3 (loalpha -> LOALPHA .)
+    LF              reduce using rule 3 (loalpha -> LOALPHA .)
+    SEPARATORS      reduce using rule 3 (loalpha -> LOALPHA .)
+    SLASH           reduce using rule 3 (loalpha -> LOALPHA .)
+    MARKSEP         reduce using rule 3 (loalpha -> LOALPHA .)
+    HT              reduce using rule 3 (loalpha -> LOALPHA .)
+    QUESTION        reduce using rule 3 (loalpha -> LOALPHA .)
+    AT              reduce using rule 3 (loalpha -> LOALPHA .)
+    SEMICOLON       reduce using rule 3 (loalpha -> LOALPHA .)
+    EQUAL           reduce using rule 3 (loalpha -> LOALPHA .)
+    COMMA           reduce using rule 3 (loalpha -> LOALPHA .)
+    $end            reduce using rule 3 (loalpha -> LOALPHA .)
+    CTL             reduce using rule 3 (loalpha -> LOALPHA .)
+
+
+state 24
+
+    (4) loalpha -> LOHEX .
+
+    SP              reduce using rule 4 (loalpha -> LOHEX .)
+    TOKEN           reduce using rule 4 (loalpha -> LOHEX .)
+    PERCENT         reduce using rule 4 (loalpha -> LOHEX .)
+    DIGIT           reduce using rule 4 (loalpha -> LOHEX .)
+    PLUS            reduce using rule 4 (loalpha -> LOHEX .)
+    AMPERSAND       reduce using rule 4 (loalpha -> LOHEX .)
+    DOLLAR          reduce using rule 4 (loalpha -> LOHEX .)
+    MARKTOKEN       reduce using rule 4 (loalpha -> LOHEX .)
+    DOT             reduce using rule 4 (loalpha -> LOHEX .)
+    ASTERISK        reduce using rule 4 (loalpha -> LOHEX .)
+    MINUS           reduce using rule 4 (loalpha -> LOHEX .)
+    UPALPHA         reduce using rule 4 (loalpha -> LOHEX .)
+    UPHEX           reduce using rule 4 (loalpha -> LOHEX .)
+    LOALPHA         reduce using rule 4 (loalpha -> LOHEX .)
+    LOHEX           reduce using rule 4 (loalpha -> LOHEX .)
+    COLON           reduce using rule 4 (loalpha -> LOHEX .)
+    TEXT            reduce using rule 4 (loalpha -> LOHEX .)
+    CR              reduce using rule 4 (loalpha -> LOHEX .)
+    LF              reduce using rule 4 (loalpha -> LOHEX .)
+    SEPARATORS      reduce using rule 4 (loalpha -> LOHEX .)
+    SLASH           reduce using rule 4 (loalpha -> LOHEX .)
+    MARKSEP         reduce using rule 4 (loalpha -> LOHEX .)
+    HT              reduce using rule 4 (loalpha -> LOHEX .)
+    QUESTION        reduce using rule 4 (loalpha -> LOHEX .)
+    AT              reduce using rule 4 (loalpha -> LOHEX .)
+    SEMICOLON       reduce using rule 4 (loalpha -> LOHEX .)
+    EQUAL           reduce using rule 4 (loalpha -> LOHEX .)
+    COMMA           reduce using rule 4 (loalpha -> LOHEX .)
+    $end            reduce using rule 4 (loalpha -> LOHEX .)
+    CTL             reduce using rule 4 (loalpha -> LOHEX .)
+
+
+state 25
+
+    (61) request -> requestline requestheader . crlf
+    (63) request -> requestline requestheader . body
+    (58) requestheader -> requestheader . requestheaderpart
+    (46) crlf -> . CR LF
+    (64) body -> . crlf text
+    (55) requestheaderpart -> . token COLON fieldvalue crlf
+    (56) requestheaderpart -> . token COLON crlf
+    (47) token -> . tokenchar
+    (48) token -> . token tokenchar
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    CR              shift and go to state 28
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    crlf                           shift and go to state 32
+    body                           shift and go to state 33
+    requestheaderpart              shift and go to state 34
+    token                          shift and go to state 29
+    tokenchar                      shift and go to state 4
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 26
+
+    (62) request -> requestline crlf .
+
+    $end            reduce using rule 62 (request -> requestline crlf .)
+
+
+state 27
+
+    (57) requestheader -> requestheaderpart .
+
+    CR              reduce using rule 57 (requestheader -> requestheaderpart .)
+    TOKEN           reduce using rule 57 (requestheader -> requestheaderpart .)
+    PERCENT         reduce using rule 57 (requestheader -> requestheaderpart .)
+    DIGIT           reduce using rule 57 (requestheader -> requestheaderpart .)
+    PLUS            reduce using rule 57 (requestheader -> requestheaderpart .)
+    AMPERSAND       reduce using rule 57 (requestheader -> requestheaderpart .)
+    DOLLAR          reduce using rule 57 (requestheader -> requestheaderpart .)
+    MARKTOKEN       reduce using rule 57 (requestheader -> requestheaderpart .)
+    DOT             reduce using rule 57 (requestheader -> requestheaderpart .)
+    ASTERISK        reduce using rule 57 (requestheader -> requestheaderpart .)
+    MINUS           reduce using rule 57 (requestheader -> requestheaderpart .)
+    UPALPHA         reduce using rule 57 (requestheader -> requestheaderpart .)
+    UPHEX           reduce using rule 57 (requestheader -> requestheaderpart .)
+    LOALPHA         reduce using rule 57 (requestheader -> requestheaderpart .)
+    LOHEX           reduce using rule 57 (requestheader -> requestheaderpart .)
+
+
+state 28
+
+    (46) crlf -> CR . LF
+
+    LF              shift and go to state 35
+
+
+state 29
+
+    (55) requestheaderpart -> token . COLON fieldvalue crlf
+    (56) requestheaderpart -> token . COLON crlf
+    (48) token -> token . tokenchar
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    COLON           shift and go to state 36
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    tokenchar                      shift and go to state 31
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 30
+
+    (60) requestline -> token SP . text SP httpversion crlf
+    (49) text -> . textchar
+    (50) text -> . text textchar
+    (39) textchar -> . TEXT
+    (40) textchar -> . tokenchar
+    (41) textchar -> . CR
+    (42) textchar -> . LF
+    (43) textchar -> . separators
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (22) separators -> . SEPARATORS
+    (23) separators -> . SLASH
+    (24) separators -> . spht
+    (25) separators -> . revsep
+    (26) separators -> . MARKSEP
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (13) spht -> . SP
+    (14) spht -> . HT
+    (15) revsep -> . COLON
+    (16) revsep -> . QUESTION
+    (17) revsep -> . AT
+    (18) revsep -> . SEMICOLON
+    (19) revsep -> . EQUAL
+    (20) revsep -> . COMMA
+    (21) revsep -> . SLASH
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    TEXT            shift and go to state 40
+    CR              shift and go to state 42
+    LF              shift and go to state 43
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    SEPARATORS      shift and go to state 45
+    SLASH           shift and go to state 46
+    MARKSEP         shift and go to state 49
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    SP              shift and go to state 37
+    HT              shift and go to state 50
+    COLON           shift and go to state 51
+    QUESTION        shift and go to state 52
+    AT              shift and go to state 53
+    SEMICOLON       shift and go to state 54
+    EQUAL           shift and go to state 55
+    COMMA           shift and go to state 56
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    text                           shift and go to state 38
+    textchar                       shift and go to state 39
+    tokenchar                      shift and go to state 41
+    separators                     shift and go to state 44
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    spht                           shift and go to state 47
+    revsep                         shift and go to state 48
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 31
+
+    (48) token -> token tokenchar .
+
+    SP              reduce using rule 48 (token -> token tokenchar .)
+    TOKEN           reduce using rule 48 (token -> token tokenchar .)
+    PERCENT         reduce using rule 48 (token -> token tokenchar .)
+    DIGIT           reduce using rule 48 (token -> token tokenchar .)
+    PLUS            reduce using rule 48 (token -> token tokenchar .)
+    AMPERSAND       reduce using rule 48 (token -> token tokenchar .)
+    DOLLAR          reduce using rule 48 (token -> token tokenchar .)
+    MARKTOKEN       reduce using rule 48 (token -> token tokenchar .)
+    DOT             reduce using rule 48 (token -> token tokenchar .)
+    ASTERISK        reduce using rule 48 (token -> token tokenchar .)
+    MINUS           reduce using rule 48 (token -> token tokenchar .)
+    UPALPHA         reduce using rule 48 (token -> token tokenchar .)
+    UPHEX           reduce using rule 48 (token -> token tokenchar .)
+    LOALPHA         reduce using rule 48 (token -> token tokenchar .)
+    LOHEX           reduce using rule 48 (token -> token tokenchar .)
+    COLON           reduce using rule 48 (token -> token tokenchar .)
+    SLASH           reduce using rule 48 (token -> token tokenchar .)
+
+
+state 32
+
+    (61) request -> requestline requestheader crlf .
+    (64) body -> crlf . text
+    (49) text -> . textchar
+    (50) text -> . text textchar
+    (39) textchar -> . TEXT
+    (40) textchar -> . tokenchar
+    (41) textchar -> . CR
+    (42) textchar -> . LF
+    (43) textchar -> . separators
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (22) separators -> . SEPARATORS
+    (23) separators -> . SLASH
+    (24) separators -> . spht
+    (25) separators -> . revsep
+    (26) separators -> . MARKSEP
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (13) spht -> . SP
+    (14) spht -> . HT
+    (15) revsep -> . COLON
+    (16) revsep -> . QUESTION
+    (17) revsep -> . AT
+    (18) revsep -> . SEMICOLON
+    (19) revsep -> . EQUAL
+    (20) revsep -> . COMMA
+    (21) revsep -> . SLASH
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    $end            reduce using rule 61 (request -> requestline requestheader crlf .)
+    TEXT            shift and go to state 40
+    CR              shift and go to state 42
+    LF              shift and go to state 43
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    SEPARATORS      shift and go to state 45
+    SLASH           shift and go to state 46
+    MARKSEP         shift and go to state 49
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    SP              shift and go to state 37
+    HT              shift and go to state 50
+    COLON           shift and go to state 51
+    QUESTION        shift and go to state 52
+    AT              shift and go to state 53
+    SEMICOLON       shift and go to state 54
+    EQUAL           shift and go to state 55
+    COMMA           shift and go to state 56
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    text                           shift and go to state 57
+    textchar                       shift and go to state 39
+    tokenchar                      shift and go to state 41
+    separators                     shift and go to state 44
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    spht                           shift and go to state 47
+    revsep                         shift and go to state 48
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 33
+
+    (63) request -> requestline requestheader body .
+
+    $end            reduce using rule 63 (request -> requestline requestheader body .)
+
+
+state 34
+
+    (58) requestheader -> requestheader requestheaderpart .
+
+    CR              reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    TOKEN           reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    PERCENT         reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    DIGIT           reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    PLUS            reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    AMPERSAND       reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    DOLLAR          reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    MARKTOKEN       reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    DOT             reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    ASTERISK        reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    MINUS           reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    UPALPHA         reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    UPHEX           reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    LOALPHA         reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+    LOHEX           reduce using rule 58 (requestheader -> requestheader requestheaderpart .)
+
+
+state 35
+
+    (46) crlf -> CR LF .
+
+    $end            reduce using rule 46 (crlf -> CR LF .)
+    TEXT            reduce using rule 46 (crlf -> CR LF .)
+    CR              reduce using rule 46 (crlf -> CR LF .)
+    LF              reduce using rule 46 (crlf -> CR LF .)
+    TOKEN           reduce using rule 46 (crlf -> CR LF .)
+    PERCENT         reduce using rule 46 (crlf -> CR LF .)
+    SEPARATORS      reduce using rule 46 (crlf -> CR LF .)
+    SLASH           reduce using rule 46 (crlf -> CR LF .)
+    MARKSEP         reduce using rule 46 (crlf -> CR LF .)
+    DIGIT           reduce using rule 46 (crlf -> CR LF .)
+    PLUS            reduce using rule 46 (crlf -> CR LF .)
+    AMPERSAND       reduce using rule 46 (crlf -> CR LF .)
+    DOLLAR          reduce using rule 46 (crlf -> CR LF .)
+    MARKTOKEN       reduce using rule 46 (crlf -> CR LF .)
+    DOT             reduce using rule 46 (crlf -> CR LF .)
+    ASTERISK        reduce using rule 46 (crlf -> CR LF .)
+    MINUS           reduce using rule 46 (crlf -> CR LF .)
+    SP              reduce using rule 46 (crlf -> CR LF .)
+    HT              reduce using rule 46 (crlf -> CR LF .)
+    COLON           reduce using rule 46 (crlf -> CR LF .)
+    QUESTION        reduce using rule 46 (crlf -> CR LF .)
+    AT              reduce using rule 46 (crlf -> CR LF .)
+    SEMICOLON       reduce using rule 46 (crlf -> CR LF .)
+    EQUAL           reduce using rule 46 (crlf -> CR LF .)
+    COMMA           reduce using rule 46 (crlf -> CR LF .)
+    UPALPHA         reduce using rule 46 (crlf -> CR LF .)
+    UPHEX           reduce using rule 46 (crlf -> CR LF .)
+    LOALPHA         reduce using rule 46 (crlf -> CR LF .)
+    LOHEX           reduce using rule 46 (crlf -> CR LF .)
+
+
+state 36
+
+    (55) requestheaderpart -> token COLON . fieldvalue crlf
+    (56) requestheaderpart -> token COLON . crlf
+    (53) fieldvalue -> . fieldvaluepart
+    (54) fieldvalue -> . fieldvalue fieldvaluepart
+    (46) crlf -> . CR LF
+    (51) fieldvaluepart -> . octet
+    (52) fieldvaluepart -> . spht
+    (44) octet -> . textchar
+    (45) octet -> . ctl
+    (13) spht -> . SP
+    (14) spht -> . HT
+    (39) textchar -> . TEXT
+    (40) textchar -> . tokenchar
+    (41) textchar -> . CR
+    (42) textchar -> . LF
+    (43) textchar -> . separators
+    (9) ctl -> . CTL
+    (10) ctl -> . CR
+    (11) ctl -> . LF
+    (12) ctl -> . HT
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (22) separators -> . SEPARATORS
+    (23) separators -> . SLASH
+    (24) separators -> . spht
+    (25) separators -> . revsep
+    (26) separators -> . MARKSEP
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (15) revsep -> . COLON
+    (16) revsep -> . QUESTION
+    (17) revsep -> . AT
+    (18) revsep -> . SEMICOLON
+    (19) revsep -> . EQUAL
+    (20) revsep -> . COMMA
+    (21) revsep -> . SLASH
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    CR              shift and go to state 61
+    SP              shift and go to state 37
+    HT              shift and go to state 67
+    TEXT            shift and go to state 40
+    LF              shift and go to state 62
+    CTL             shift and go to state 68
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    SEPARATORS      shift and go to state 45
+    SLASH           shift and go to state 46
+    MARKSEP         shift and go to state 49
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    COLON           shift and go to state 51
+    QUESTION        shift and go to state 52
+    AT              shift and go to state 53
+    SEMICOLON       shift and go to state 54
+    EQUAL           shift and go to state 55
+    COMMA           shift and go to state 56
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    fieldvalue                     shift and go to state 58
+    crlf                           shift and go to state 59
+    fieldvaluepart                 shift and go to state 60
+    octet                          shift and go to state 63
+    spht                           shift and go to state 64
+    textchar                       shift and go to state 65
+    ctl                            shift and go to state 66
+    tokenchar                      shift and go to state 41
+    separators                     shift and go to state 44
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    revsep                         shift and go to state 48
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 37
+
+    (13) spht -> SP .
+
+    SP              reduce using rule 13 (spht -> SP .)
+    TEXT            reduce using rule 13 (spht -> SP .)
+    CR              reduce using rule 13 (spht -> SP .)
+    LF              reduce using rule 13 (spht -> SP .)
+    TOKEN           reduce using rule 13 (spht -> SP .)
+    PERCENT         reduce using rule 13 (spht -> SP .)
+    SEPARATORS      reduce using rule 13 (spht -> SP .)
+    SLASH           reduce using rule 13 (spht -> SP .)
+    MARKSEP         reduce using rule 13 (spht -> SP .)
+    DIGIT           reduce using rule 13 (spht -> SP .)
+    PLUS            reduce using rule 13 (spht -> SP .)
+    AMPERSAND       reduce using rule 13 (spht -> SP .)
+    DOLLAR          reduce using rule 13 (spht -> SP .)
+    MARKTOKEN       reduce using rule 13 (spht -> SP .)
+    DOT             reduce using rule 13 (spht -> SP .)
+    ASTERISK        reduce using rule 13 (spht -> SP .)
+    MINUS           reduce using rule 13 (spht -> SP .)
+    HT              reduce using rule 13 (spht -> SP .)
+    COLON           reduce using rule 13 (spht -> SP .)
+    QUESTION        reduce using rule 13 (spht -> SP .)
+    AT              reduce using rule 13 (spht -> SP .)
+    SEMICOLON       reduce using rule 13 (spht -> SP .)
+    EQUAL           reduce using rule 13 (spht -> SP .)
+    COMMA           reduce using rule 13 (spht -> SP .)
+    UPALPHA         reduce using rule 13 (spht -> SP .)
+    UPHEX           reduce using rule 13 (spht -> SP .)
+    LOALPHA         reduce using rule 13 (spht -> SP .)
+    LOHEX           reduce using rule 13 (spht -> SP .)
+    $end            reduce using rule 13 (spht -> SP .)
+    CTL             reduce using rule 13 (spht -> SP .)
+
+
+state 38
+
+    (60) requestline -> token SP text . SP httpversion crlf
+    (50) text -> text . textchar
+    (39) textchar -> . TEXT
+    (40) textchar -> . tokenchar
+    (41) textchar -> . CR
+    (42) textchar -> . LF
+    (43) textchar -> . separators
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (22) separators -> . SEPARATORS
+    (23) separators -> . SLASH
+    (24) separators -> . spht
+    (25) separators -> . revsep
+    (26) separators -> . MARKSEP
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (13) spht -> . SP
+    (14) spht -> . HT
+    (15) revsep -> . COLON
+    (16) revsep -> . QUESTION
+    (17) revsep -> . AT
+    (18) revsep -> . SEMICOLON
+    (19) revsep -> . EQUAL
+    (20) revsep -> . COMMA
+    (21) revsep -> . SLASH
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    SP              shift and go to state 69
+    TEXT            shift and go to state 40
+    CR              shift and go to state 42
+    LF              shift and go to state 43
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    SEPARATORS      shift and go to state 45
+    SLASH           shift and go to state 46
+    MARKSEP         shift and go to state 49
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    HT              shift and go to state 50
+    COLON           shift and go to state 51
+    QUESTION        shift and go to state 52
+    AT              shift and go to state 53
+    SEMICOLON       shift and go to state 54
+    EQUAL           shift and go to state 55
+    COMMA           shift and go to state 56
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    textchar                       shift and go to state 70
+    tokenchar                      shift and go to state 41
+    separators                     shift and go to state 44
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    spht                           shift and go to state 47
+    revsep                         shift and go to state 48
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 39
+
+    (49) text -> textchar .
+
+    SP              reduce using rule 49 (text -> textchar .)
+    TEXT            reduce using rule 49 (text -> textchar .)
+    CR              reduce using rule 49 (text -> textchar .)
+    LF              reduce using rule 49 (text -> textchar .)
+    TOKEN           reduce using rule 49 (text -> textchar .)
+    PERCENT         reduce using rule 49 (text -> textchar .)
+    SEPARATORS      reduce using rule 49 (text -> textchar .)
+    SLASH           reduce using rule 49 (text -> textchar .)
+    MARKSEP         reduce using rule 49 (text -> textchar .)
+    DIGIT           reduce using rule 49 (text -> textchar .)
+    PLUS            reduce using rule 49 (text -> textchar .)
+    AMPERSAND       reduce using rule 49 (text -> textchar .)
+    DOLLAR          reduce using rule 49 (text -> textchar .)
+    MARKTOKEN       reduce using rule 49 (text -> textchar .)
+    DOT             reduce using rule 49 (text -> textchar .)
+    ASTERISK        reduce using rule 49 (text -> textchar .)
+    MINUS           reduce using rule 49 (text -> textchar .)
+    HT              reduce using rule 49 (text -> textchar .)
+    COLON           reduce using rule 49 (text -> textchar .)
+    QUESTION        reduce using rule 49 (text -> textchar .)
+    AT              reduce using rule 49 (text -> textchar .)
+    SEMICOLON       reduce using rule 49 (text -> textchar .)
+    EQUAL           reduce using rule 49 (text -> textchar .)
+    COMMA           reduce using rule 49 (text -> textchar .)
+    UPALPHA         reduce using rule 49 (text -> textchar .)
+    UPHEX           reduce using rule 49 (text -> textchar .)
+    LOALPHA         reduce using rule 49 (text -> textchar .)
+    LOHEX           reduce using rule 49 (text -> textchar .)
+    $end            reduce using rule 49 (text -> textchar .)
+
+
+state 40
+
+    (39) textchar -> TEXT .
+
+    SP              reduce using rule 39 (textchar -> TEXT .)
+    TEXT            reduce using rule 39 (textchar -> TEXT .)
+    CR              reduce using rule 39 (textchar -> TEXT .)
+    LF              reduce using rule 39 (textchar -> TEXT .)
+    TOKEN           reduce using rule 39 (textchar -> TEXT .)
+    PERCENT         reduce using rule 39 (textchar -> TEXT .)
+    SEPARATORS      reduce using rule 39 (textchar -> TEXT .)
+    SLASH           reduce using rule 39 (textchar -> TEXT .)
+    MARKSEP         reduce using rule 39 (textchar -> TEXT .)
+    DIGIT           reduce using rule 39 (textchar -> TEXT .)
+    PLUS            reduce using rule 39 (textchar -> TEXT .)
+    AMPERSAND       reduce using rule 39 (textchar -> TEXT .)
+    DOLLAR          reduce using rule 39 (textchar -> TEXT .)
+    MARKTOKEN       reduce using rule 39 (textchar -> TEXT .)
+    DOT             reduce using rule 39 (textchar -> TEXT .)
+    ASTERISK        reduce using rule 39 (textchar -> TEXT .)
+    MINUS           reduce using rule 39 (textchar -> TEXT .)
+    HT              reduce using rule 39 (textchar -> TEXT .)
+    COLON           reduce using rule 39 (textchar -> TEXT .)
+    QUESTION        reduce using rule 39 (textchar -> TEXT .)
+    AT              reduce using rule 39 (textchar -> TEXT .)
+    SEMICOLON       reduce using rule 39 (textchar -> TEXT .)
+    EQUAL           reduce using rule 39 (textchar -> TEXT .)
+    COMMA           reduce using rule 39 (textchar -> TEXT .)
+    UPALPHA         reduce using rule 39 (textchar -> TEXT .)
+    UPHEX           reduce using rule 39 (textchar -> TEXT .)
+    LOALPHA         reduce using rule 39 (textchar -> TEXT .)
+    LOHEX           reduce using rule 39 (textchar -> TEXT .)
+    $end            reduce using rule 39 (textchar -> TEXT .)
+    CTL             reduce using rule 39 (textchar -> TEXT .)
+
+
+state 41
+
+    (40) textchar -> tokenchar .
+
+    SP              reduce using rule 40 (textchar -> tokenchar .)
+    TEXT            reduce using rule 40 (textchar -> tokenchar .)
+    CR              reduce using rule 40 (textchar -> tokenchar .)
+    LF              reduce using rule 40 (textchar -> tokenchar .)
+    TOKEN           reduce using rule 40 (textchar -> tokenchar .)
+    PERCENT         reduce using rule 40 (textchar -> tokenchar .)
+    SEPARATORS      reduce using rule 40 (textchar -> tokenchar .)
+    SLASH           reduce using rule 40 (textchar -> tokenchar .)
+    MARKSEP         reduce using rule 40 (textchar -> tokenchar .)
+    DIGIT           reduce using rule 40 (textchar -> tokenchar .)
+    PLUS            reduce using rule 40 (textchar -> tokenchar .)
+    AMPERSAND       reduce using rule 40 (textchar -> tokenchar .)
+    DOLLAR          reduce using rule 40 (textchar -> tokenchar .)
+    MARKTOKEN       reduce using rule 40 (textchar -> tokenchar .)
+    DOT             reduce using rule 40 (textchar -> tokenchar .)
+    ASTERISK        reduce using rule 40 (textchar -> tokenchar .)
+    MINUS           reduce using rule 40 (textchar -> tokenchar .)
+    HT              reduce using rule 40 (textchar -> tokenchar .)
+    COLON           reduce using rule 40 (textchar -> tokenchar .)
+    QUESTION        reduce using rule 40 (textchar -> tokenchar .)
+    AT              reduce using rule 40 (textchar -> tokenchar .)
+    SEMICOLON       reduce using rule 40 (textchar -> tokenchar .)
+    EQUAL           reduce using rule 40 (textchar -> tokenchar .)
+    COMMA           reduce using rule 40 (textchar -> tokenchar .)
+    UPALPHA         reduce using rule 40 (textchar -> tokenchar .)
+    UPHEX           reduce using rule 40 (textchar -> tokenchar .)
+    LOALPHA         reduce using rule 40 (textchar -> tokenchar .)
+    LOHEX           reduce using rule 40 (textchar -> tokenchar .)
+    $end            reduce using rule 40 (textchar -> tokenchar .)
+    CTL             reduce using rule 40 (textchar -> tokenchar .)
+
+
+state 42
+
+    (41) textchar -> CR .
+
+    SP              reduce using rule 41 (textchar -> CR .)
+    TEXT            reduce using rule 41 (textchar -> CR .)
+    CR              reduce using rule 41 (textchar -> CR .)
+    LF              reduce using rule 41 (textchar -> CR .)
+    TOKEN           reduce using rule 41 (textchar -> CR .)
+    PERCENT         reduce using rule 41 (textchar -> CR .)
+    SEPARATORS      reduce using rule 41 (textchar -> CR .)
+    SLASH           reduce using rule 41 (textchar -> CR .)
+    MARKSEP         reduce using rule 41 (textchar -> CR .)
+    DIGIT           reduce using rule 41 (textchar -> CR .)
+    PLUS            reduce using rule 41 (textchar -> CR .)
+    AMPERSAND       reduce using rule 41 (textchar -> CR .)
+    DOLLAR          reduce using rule 41 (textchar -> CR .)
+    MARKTOKEN       reduce using rule 41 (textchar -> CR .)
+    DOT             reduce using rule 41 (textchar -> CR .)
+    ASTERISK        reduce using rule 41 (textchar -> CR .)
+    MINUS           reduce using rule 41 (textchar -> CR .)
+    HT              reduce using rule 41 (textchar -> CR .)
+    COLON           reduce using rule 41 (textchar -> CR .)
+    QUESTION        reduce using rule 41 (textchar -> CR .)
+    AT              reduce using rule 41 (textchar -> CR .)
+    SEMICOLON       reduce using rule 41 (textchar -> CR .)
+    EQUAL           reduce using rule 41 (textchar -> CR .)
+    COMMA           reduce using rule 41 (textchar -> CR .)
+    UPALPHA         reduce using rule 41 (textchar -> CR .)
+    UPHEX           reduce using rule 41 (textchar -> CR .)
+    LOALPHA         reduce using rule 41 (textchar -> CR .)
+    LOHEX           reduce using rule 41 (textchar -> CR .)
+    $end            reduce using rule 41 (textchar -> CR .)
+
+
+state 43
+
+    (42) textchar -> LF .
+
+    SP              reduce using rule 42 (textchar -> LF .)
+    TEXT            reduce using rule 42 (textchar -> LF .)
+    CR              reduce using rule 42 (textchar -> LF .)
+    LF              reduce using rule 42 (textchar -> LF .)
+    TOKEN           reduce using rule 42 (textchar -> LF .)
+    PERCENT         reduce using rule 42 (textchar -> LF .)
+    SEPARATORS      reduce using rule 42 (textchar -> LF .)
+    SLASH           reduce using rule 42 (textchar -> LF .)
+    MARKSEP         reduce using rule 42 (textchar -> LF .)
+    DIGIT           reduce using rule 42 (textchar -> LF .)
+    PLUS            reduce using rule 42 (textchar -> LF .)
+    AMPERSAND       reduce using rule 42 (textchar -> LF .)
+    DOLLAR          reduce using rule 42 (textchar -> LF .)
+    MARKTOKEN       reduce using rule 42 (textchar -> LF .)
+    DOT             reduce using rule 42 (textchar -> LF .)
+    ASTERISK        reduce using rule 42 (textchar -> LF .)
+    MINUS           reduce using rule 42 (textchar -> LF .)
+    HT              reduce using rule 42 (textchar -> LF .)
+    COLON           reduce using rule 42 (textchar -> LF .)
+    QUESTION        reduce using rule 42 (textchar -> LF .)
+    AT              reduce using rule 42 (textchar -> LF .)
+    SEMICOLON       reduce using rule 42 (textchar -> LF .)
+    EQUAL           reduce using rule 42 (textchar -> LF .)
+    COMMA           reduce using rule 42 (textchar -> LF .)
+    UPALPHA         reduce using rule 42 (textchar -> LF .)
+    UPHEX           reduce using rule 42 (textchar -> LF .)
+    LOALPHA         reduce using rule 42 (textchar -> LF .)
+    LOHEX           reduce using rule 42 (textchar -> LF .)
+    $end            reduce using rule 42 (textchar -> LF .)
+
+
+state 44
+
+    (43) textchar -> separators .
+
+    SP              reduce using rule 43 (textchar -> separators .)
+    TEXT            reduce using rule 43 (textchar -> separators .)
+    CR              reduce using rule 43 (textchar -> separators .)
+    LF              reduce using rule 43 (textchar -> separators .)
+    TOKEN           reduce using rule 43 (textchar -> separators .)
+    PERCENT         reduce using rule 43 (textchar -> separators .)
+    SEPARATORS      reduce using rule 43 (textchar -> separators .)
+    SLASH           reduce using rule 43 (textchar -> separators .)
+    MARKSEP         reduce using rule 43 (textchar -> separators .)
+    DIGIT           reduce using rule 43 (textchar -> separators .)
+    PLUS            reduce using rule 43 (textchar -> separators .)
+    AMPERSAND       reduce using rule 43 (textchar -> separators .)
+    DOLLAR          reduce using rule 43 (textchar -> separators .)
+    MARKTOKEN       reduce using rule 43 (textchar -> separators .)
+    DOT             reduce using rule 43 (textchar -> separators .)
+    ASTERISK        reduce using rule 43 (textchar -> separators .)
+    MINUS           reduce using rule 43 (textchar -> separators .)
+    HT              reduce using rule 43 (textchar -> separators .)
+    COLON           reduce using rule 43 (textchar -> separators .)
+    QUESTION        reduce using rule 43 (textchar -> separators .)
+    AT              reduce using rule 43 (textchar -> separators .)
+    SEMICOLON       reduce using rule 43 (textchar -> separators .)
+    EQUAL           reduce using rule 43 (textchar -> separators .)
+    COMMA           reduce using rule 43 (textchar -> separators .)
+    UPALPHA         reduce using rule 43 (textchar -> separators .)
+    UPHEX           reduce using rule 43 (textchar -> separators .)
+    LOALPHA         reduce using rule 43 (textchar -> separators .)
+    LOHEX           reduce using rule 43 (textchar -> separators .)
+    $end            reduce using rule 43 (textchar -> separators .)
+    CTL             reduce using rule 43 (textchar -> separators .)
+
+
+state 45
+
+    (22) separators -> SEPARATORS .
+
+    SP              reduce using rule 22 (separators -> SEPARATORS .)
+    TEXT            reduce using rule 22 (separators -> SEPARATORS .)
+    CR              reduce using rule 22 (separators -> SEPARATORS .)
+    LF              reduce using rule 22 (separators -> SEPARATORS .)
+    TOKEN           reduce using rule 22 (separators -> SEPARATORS .)
+    PERCENT         reduce using rule 22 (separators -> SEPARATORS .)
+    SEPARATORS      reduce using rule 22 (separators -> SEPARATORS .)
+    SLASH           reduce using rule 22 (separators -> SEPARATORS .)
+    MARKSEP         reduce using rule 22 (separators -> SEPARATORS .)
+    DIGIT           reduce using rule 22 (separators -> SEPARATORS .)
+    PLUS            reduce using rule 22 (separators -> SEPARATORS .)
+    AMPERSAND       reduce using rule 22 (separators -> SEPARATORS .)
+    DOLLAR          reduce using rule 22 (separators -> SEPARATORS .)
+    MARKTOKEN       reduce using rule 22 (separators -> SEPARATORS .)
+    DOT             reduce using rule 22 (separators -> SEPARATORS .)
+    ASTERISK        reduce using rule 22 (separators -> SEPARATORS .)
+    MINUS           reduce using rule 22 (separators -> SEPARATORS .)
+    HT              reduce using rule 22 (separators -> SEPARATORS .)
+    COLON           reduce using rule 22 (separators -> SEPARATORS .)
+    QUESTION        reduce using rule 22 (separators -> SEPARATORS .)
+    AT              reduce using rule 22 (separators -> SEPARATORS .)
+    SEMICOLON       reduce using rule 22 (separators -> SEPARATORS .)
+    EQUAL           reduce using rule 22 (separators -> SEPARATORS .)
+    COMMA           reduce using rule 22 (separators -> SEPARATORS .)
+    UPALPHA         reduce using rule 22 (separators -> SEPARATORS .)
+    UPHEX           reduce using rule 22 (separators -> SEPARATORS .)
+    LOALPHA         reduce using rule 22 (separators -> SEPARATORS .)
+    LOHEX           reduce using rule 22 (separators -> SEPARATORS .)
+    $end            reduce using rule 22 (separators -> SEPARATORS .)
+    CTL             reduce using rule 22 (separators -> SEPARATORS .)
+
+
+state 46
+
+    (23) separators -> SLASH .
+    (21) revsep -> SLASH .
+
+  ! reduce/reduce conflict for SP resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for TEXT resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for CR resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for LF resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for TOKEN resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for PERCENT resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for SEPARATORS resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for SLASH resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for MARKSEP resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for DIGIT resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for PLUS resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for AMPERSAND resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for DOLLAR resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for MARKTOKEN resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for DOT resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for ASTERISK resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for MINUS resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for HT resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for COLON resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for QUESTION resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for AT resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for EQUAL resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for COMMA resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for UPALPHA resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for UPHEX resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for LOALPHA resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for LOHEX resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for $end resolved using rule 21 (revsep -> SLASH .)
+  ! reduce/reduce conflict for CTL resolved using rule 21 (revsep -> SLASH .)
+    SP              reduce using rule 21 (revsep -> SLASH .)
+    TEXT            reduce using rule 21 (revsep -> SLASH .)
+    CR              reduce using rule 21 (revsep -> SLASH .)
+    LF              reduce using rule 21 (revsep -> SLASH .)
+    TOKEN           reduce using rule 21 (revsep -> SLASH .)
+    PERCENT         reduce using rule 21 (revsep -> SLASH .)
+    SEPARATORS      reduce using rule 21 (revsep -> SLASH .)
+    SLASH           reduce using rule 21 (revsep -> SLASH .)
+    MARKSEP         reduce using rule 21 (revsep -> SLASH .)
+    DIGIT           reduce using rule 21 (revsep -> SLASH .)
+    PLUS            reduce using rule 21 (revsep -> SLASH .)
+    AMPERSAND       reduce using rule 21 (revsep -> SLASH .)
+    DOLLAR          reduce using rule 21 (revsep -> SLASH .)
+    MARKTOKEN       reduce using rule 21 (revsep -> SLASH .)
+    DOT             reduce using rule 21 (revsep -> SLASH .)
+    ASTERISK        reduce using rule 21 (revsep -> SLASH .)
+    MINUS           reduce using rule 21 (revsep -> SLASH .)
+    HT              reduce using rule 21 (revsep -> SLASH .)
+    COLON           reduce using rule 21 (revsep -> SLASH .)
+    QUESTION        reduce using rule 21 (revsep -> SLASH .)
+    AT              reduce using rule 21 (revsep -> SLASH .)
+    SEMICOLON       reduce using rule 21 (revsep -> SLASH .)
+    EQUAL           reduce using rule 21 (revsep -> SLASH .)
+    COMMA           reduce using rule 21 (revsep -> SLASH .)
+    UPALPHA         reduce using rule 21 (revsep -> SLASH .)
+    UPHEX           reduce using rule 21 (revsep -> SLASH .)
+    LOALPHA         reduce using rule 21 (revsep -> SLASH .)
+    LOHEX           reduce using rule 21 (revsep -> SLASH .)
+    $end            reduce using rule 21 (revsep -> SLASH .)
+    CTL             reduce using rule 21 (revsep -> SLASH .)
+
+  ! SP              [ reduce using rule 23 (separators -> SLASH .) ]
+  ! TEXT            [ reduce using rule 23 (separators -> SLASH .) ]
+  ! CR              [ reduce using rule 23 (separators -> SLASH .) ]
+  ! LF              [ reduce using rule 23 (separators -> SLASH .) ]
+  ! TOKEN           [ reduce using rule 23 (separators -> SLASH .) ]
+  ! PERCENT         [ reduce using rule 23 (separators -> SLASH .) ]
+  ! SEPARATORS      [ reduce using rule 23 (separators -> SLASH .) ]
+  ! SLASH           [ reduce using rule 23 (separators -> SLASH .) ]
+  ! MARKSEP         [ reduce using rule 23 (separators -> SLASH .) ]
+  ! DIGIT           [ reduce using rule 23 (separators -> SLASH .) ]
+  ! PLUS            [ reduce using rule 23 (separators -> SLASH .) ]
+  ! AMPERSAND       [ reduce using rule 23 (separators -> SLASH .) ]
+  ! DOLLAR          [ reduce using rule 23 (separators -> SLASH .) ]
+  ! MARKTOKEN       [ reduce using rule 23 (separators -> SLASH .) ]
+  ! DOT             [ reduce using rule 23 (separators -> SLASH .) ]
+  ! ASTERISK        [ reduce using rule 23 (separators -> SLASH .) ]
+  ! MINUS           [ reduce using rule 23 (separators -> SLASH .) ]
+  ! HT              [ reduce using rule 23 (separators -> SLASH .) ]
+  ! COLON           [ reduce using rule 23 (separators -> SLASH .) ]
+  ! QUESTION        [ reduce using rule 23 (separators -> SLASH .) ]
+  ! AT              [ reduce using rule 23 (separators -> SLASH .) ]
+  ! SEMICOLON       [ reduce using rule 23 (separators -> SLASH .) ]
+  ! EQUAL           [ reduce using rule 23 (separators -> SLASH .) ]
+  ! COMMA           [ reduce using rule 23 (separators -> SLASH .) ]
+  ! UPALPHA         [ reduce using rule 23 (separators -> SLASH .) ]
+  ! UPHEX           [ reduce using rule 23 (separators -> SLASH .) ]
+  ! LOALPHA         [ reduce using rule 23 (separators -> SLASH .) ]
+  ! LOHEX           [ reduce using rule 23 (separators -> SLASH .) ]
+  ! $end            [ reduce using rule 23 (separators -> SLASH .) ]
+  ! CTL             [ reduce using rule 23 (separators -> SLASH .) ]
+
+
+state 47
+
+    (24) separators -> spht .
+
+    SP              reduce using rule 24 (separators -> spht .)
+    TEXT            reduce using rule 24 (separators -> spht .)
+    CR              reduce using rule 24 (separators -> spht .)
+    LF              reduce using rule 24 (separators -> spht .)
+    TOKEN           reduce using rule 24 (separators -> spht .)
+    PERCENT         reduce using rule 24 (separators -> spht .)
+    SEPARATORS      reduce using rule 24 (separators -> spht .)
+    SLASH           reduce using rule 24 (separators -> spht .)
+    MARKSEP         reduce using rule 24 (separators -> spht .)
+    DIGIT           reduce using rule 24 (separators -> spht .)
+    PLUS            reduce using rule 24 (separators -> spht .)
+    AMPERSAND       reduce using rule 24 (separators -> spht .)
+    DOLLAR          reduce using rule 24 (separators -> spht .)
+    MARKTOKEN       reduce using rule 24 (separators -> spht .)
+    DOT             reduce using rule 24 (separators -> spht .)
+    ASTERISK        reduce using rule 24 (separators -> spht .)
+    MINUS           reduce using rule 24 (separators -> spht .)
+    HT              reduce using rule 24 (separators -> spht .)
+    COLON           reduce using rule 24 (separators -> spht .)
+    QUESTION        reduce using rule 24 (separators -> spht .)
+    AT              reduce using rule 24 (separators -> spht .)
+    SEMICOLON       reduce using rule 24 (separators -> spht .)
+    EQUAL           reduce using rule 24 (separators -> spht .)
+    COMMA           reduce using rule 24 (separators -> spht .)
+    UPALPHA         reduce using rule 24 (separators -> spht .)
+    UPHEX           reduce using rule 24 (separators -> spht .)
+    LOALPHA         reduce using rule 24 (separators -> spht .)
+    LOHEX           reduce using rule 24 (separators -> spht .)
+    $end            reduce using rule 24 (separators -> spht .)
+
+
+state 48
+
+    (25) separators -> revsep .
+
+    SP              reduce using rule 25 (separators -> revsep .)
+    TEXT            reduce using rule 25 (separators -> revsep .)
+    CR              reduce using rule 25 (separators -> revsep .)
+    LF              reduce using rule 25 (separators -> revsep .)
+    TOKEN           reduce using rule 25 (separators -> revsep .)
+    PERCENT         reduce using rule 25 (separators -> revsep .)
+    SEPARATORS      reduce using rule 25 (separators -> revsep .)
+    SLASH           reduce using rule 25 (separators -> revsep .)
+    MARKSEP         reduce using rule 25 (separators -> revsep .)
+    DIGIT           reduce using rule 25 (separators -> revsep .)
+    PLUS            reduce using rule 25 (separators -> revsep .)
+    AMPERSAND       reduce using rule 25 (separators -> revsep .)
+    DOLLAR          reduce using rule 25 (separators -> revsep .)
+    MARKTOKEN       reduce using rule 25 (separators -> revsep .)
+    DOT             reduce using rule 25 (separators -> revsep .)
+    ASTERISK        reduce using rule 25 (separators -> revsep .)
+    MINUS           reduce using rule 25 (separators -> revsep .)
+    HT              reduce using rule 25 (separators -> revsep .)
+    COLON           reduce using rule 25 (separators -> revsep .)
+    QUESTION        reduce using rule 25 (separators -> revsep .)
+    AT              reduce using rule 25 (separators -> revsep .)
+    SEMICOLON       reduce using rule 25 (separators -> revsep .)
+    EQUAL           reduce using rule 25 (separators -> revsep .)
+    COMMA           reduce using rule 25 (separators -> revsep .)
+    UPALPHA         reduce using rule 25 (separators -> revsep .)
+    UPHEX           reduce using rule 25 (separators -> revsep .)
+    LOALPHA         reduce using rule 25 (separators -> revsep .)
+    LOHEX           reduce using rule 25 (separators -> revsep .)
+    $end            reduce using rule 25 (separators -> revsep .)
+    CTL             reduce using rule 25 (separators -> revsep .)
+
+
+state 49
+
+    (26) separators -> MARKSEP .
+
+    SP              reduce using rule 26 (separators -> MARKSEP .)
+    TEXT            reduce using rule 26 (separators -> MARKSEP .)
+    CR              reduce using rule 26 (separators -> MARKSEP .)
+    LF              reduce using rule 26 (separators -> MARKSEP .)
+    TOKEN           reduce using rule 26 (separators -> MARKSEP .)
+    PERCENT         reduce using rule 26 (separators -> MARKSEP .)
+    SEPARATORS      reduce using rule 26 (separators -> MARKSEP .)
+    SLASH           reduce using rule 26 (separators -> MARKSEP .)
+    MARKSEP         reduce using rule 26 (separators -> MARKSEP .)
+    DIGIT           reduce using rule 26 (separators -> MARKSEP .)
+    PLUS            reduce using rule 26 (separators -> MARKSEP .)
+    AMPERSAND       reduce using rule 26 (separators -> MARKSEP .)
+    DOLLAR          reduce using rule 26 (separators -> MARKSEP .)
+    MARKTOKEN       reduce using rule 26 (separators -> MARKSEP .)
+    DOT             reduce using rule 26 (separators -> MARKSEP .)
+    ASTERISK        reduce using rule 26 (separators -> MARKSEP .)
+    MINUS           reduce using rule 26 (separators -> MARKSEP .)
+    HT              reduce using rule 26 (separators -> MARKSEP .)
+    COLON           reduce using rule 26 (separators -> MARKSEP .)
+    QUESTION        reduce using rule 26 (separators -> MARKSEP .)
+    AT              reduce using rule 26 (separators -> MARKSEP .)
+    SEMICOLON       reduce using rule 26 (separators -> MARKSEP .)
+    EQUAL           reduce using rule 26 (separators -> MARKSEP .)
+    COMMA           reduce using rule 26 (separators -> MARKSEP .)
+    UPALPHA         reduce using rule 26 (separators -> MARKSEP .)
+    UPHEX           reduce using rule 26 (separators -> MARKSEP .)
+    LOALPHA         reduce using rule 26 (separators -> MARKSEP .)
+    LOHEX           reduce using rule 26 (separators -> MARKSEP .)
+    $end            reduce using rule 26 (separators -> MARKSEP .)
+    CTL             reduce using rule 26 (separators -> MARKSEP .)
+
+
+state 50
+
+    (14) spht -> HT .
+
+    SP              reduce using rule 14 (spht -> HT .)
+    TEXT            reduce using rule 14 (spht -> HT .)
+    CR              reduce using rule 14 (spht -> HT .)
+    LF              reduce using rule 14 (spht -> HT .)
+    TOKEN           reduce using rule 14 (spht -> HT .)
+    PERCENT         reduce using rule 14 (spht -> HT .)
+    SEPARATORS      reduce using rule 14 (spht -> HT .)
+    SLASH           reduce using rule 14 (spht -> HT .)
+    MARKSEP         reduce using rule 14 (spht -> HT .)
+    DIGIT           reduce using rule 14 (spht -> HT .)
+    PLUS            reduce using rule 14 (spht -> HT .)
+    AMPERSAND       reduce using rule 14 (spht -> HT .)
+    DOLLAR          reduce using rule 14 (spht -> HT .)
+    MARKTOKEN       reduce using rule 14 (spht -> HT .)
+    DOT             reduce using rule 14 (spht -> HT .)
+    ASTERISK        reduce using rule 14 (spht -> HT .)
+    MINUS           reduce using rule 14 (spht -> HT .)
+    HT              reduce using rule 14 (spht -> HT .)
+    COLON           reduce using rule 14 (spht -> HT .)
+    QUESTION        reduce using rule 14 (spht -> HT .)
+    AT              reduce using rule 14 (spht -> HT .)
+    SEMICOLON       reduce using rule 14 (spht -> HT .)
+    EQUAL           reduce using rule 14 (spht -> HT .)
+    COMMA           reduce using rule 14 (spht -> HT .)
+    UPALPHA         reduce using rule 14 (spht -> HT .)
+    UPHEX           reduce using rule 14 (spht -> HT .)
+    LOALPHA         reduce using rule 14 (spht -> HT .)
+    LOHEX           reduce using rule 14 (spht -> HT .)
+    $end            reduce using rule 14 (spht -> HT .)
+
+
+state 51
+
+    (15) revsep -> COLON .
+
+    SP              reduce using rule 15 (revsep -> COLON .)
+    TEXT            reduce using rule 15 (revsep -> COLON .)
+    CR              reduce using rule 15 (revsep -> COLON .)
+    LF              reduce using rule 15 (revsep -> COLON .)
+    TOKEN           reduce using rule 15 (revsep -> COLON .)
+    PERCENT         reduce using rule 15 (revsep -> COLON .)
+    SEPARATORS      reduce using rule 15 (revsep -> COLON .)
+    SLASH           reduce using rule 15 (revsep -> COLON .)
+    MARKSEP         reduce using rule 15 (revsep -> COLON .)
+    DIGIT           reduce using rule 15 (revsep -> COLON .)
+    PLUS            reduce using rule 15 (revsep -> COLON .)
+    AMPERSAND       reduce using rule 15 (revsep -> COLON .)
+    DOLLAR          reduce using rule 15 (revsep -> COLON .)
+    MARKTOKEN       reduce using rule 15 (revsep -> COLON .)
+    DOT             reduce using rule 15 (revsep -> COLON .)
+    ASTERISK        reduce using rule 15 (revsep -> COLON .)
+    MINUS           reduce using rule 15 (revsep -> COLON .)
+    HT              reduce using rule 15 (revsep -> COLON .)
+    COLON           reduce using rule 15 (revsep -> COLON .)
+    QUESTION        reduce using rule 15 (revsep -> COLON .)
+    AT              reduce using rule 15 (revsep -> COLON .)
+    SEMICOLON       reduce using rule 15 (revsep -> COLON .)
+    EQUAL           reduce using rule 15 (revsep -> COLON .)
+    COMMA           reduce using rule 15 (revsep -> COLON .)
+    UPALPHA         reduce using rule 15 (revsep -> COLON .)
+    UPHEX           reduce using rule 15 (revsep -> COLON .)
+    LOALPHA         reduce using rule 15 (revsep -> COLON .)
+    LOHEX           reduce using rule 15 (revsep -> COLON .)
+    $end            reduce using rule 15 (revsep -> COLON .)
+    CTL             reduce using rule 15 (revsep -> COLON .)
+
+
+state 52
+
+    (16) revsep -> QUESTION .
+
+    SP              reduce using rule 16 (revsep -> QUESTION .)
+    TEXT            reduce using rule 16 (revsep -> QUESTION .)
+    CR              reduce using rule 16 (revsep -> QUESTION .)
+    LF              reduce using rule 16 (revsep -> QUESTION .)
+    TOKEN           reduce using rule 16 (revsep -> QUESTION .)
+    PERCENT         reduce using rule 16 (revsep -> QUESTION .)
+    SEPARATORS      reduce using rule 16 (revsep -> QUESTION .)
+    SLASH           reduce using rule 16 (revsep -> QUESTION .)
+    MARKSEP         reduce using rule 16 (revsep -> QUESTION .)
+    DIGIT           reduce using rule 16 (revsep -> QUESTION .)
+    PLUS            reduce using rule 16 (revsep -> QUESTION .)
+    AMPERSAND       reduce using rule 16 (revsep -> QUESTION .)
+    DOLLAR          reduce using rule 16 (revsep -> QUESTION .)
+    MARKTOKEN       reduce using rule 16 (revsep -> QUESTION .)
+    DOT             reduce using rule 16 (revsep -> QUESTION .)
+    ASTERISK        reduce using rule 16 (revsep -> QUESTION .)
+    MINUS           reduce using rule 16 (revsep -> QUESTION .)
+    HT              reduce using rule 16 (revsep -> QUESTION .)
+    COLON           reduce using rule 16 (revsep -> QUESTION .)
+    QUESTION        reduce using rule 16 (revsep -> QUESTION .)
+    AT              reduce using rule 16 (revsep -> QUESTION .)
+    SEMICOLON       reduce using rule 16 (revsep -> QUESTION .)
+    EQUAL           reduce using rule 16 (revsep -> QUESTION .)
+    COMMA           reduce using rule 16 (revsep -> QUESTION .)
+    UPALPHA         reduce using rule 16 (revsep -> QUESTION .)
+    UPHEX           reduce using rule 16 (revsep -> QUESTION .)
+    LOALPHA         reduce using rule 16 (revsep -> QUESTION .)
+    LOHEX           reduce using rule 16 (revsep -> QUESTION .)
+    $end            reduce using rule 16 (revsep -> QUESTION .)
+    CTL             reduce using rule 16 (revsep -> QUESTION .)
+
+
+state 53
+
+    (17) revsep -> AT .
+
+    SP              reduce using rule 17 (revsep -> AT .)
+    TEXT            reduce using rule 17 (revsep -> AT .)
+    CR              reduce using rule 17 (revsep -> AT .)
+    LF              reduce using rule 17 (revsep -> AT .)
+    TOKEN           reduce using rule 17 (revsep -> AT .)
+    PERCENT         reduce using rule 17 (revsep -> AT .)
+    SEPARATORS      reduce using rule 17 (revsep -> AT .)
+    SLASH           reduce using rule 17 (revsep -> AT .)
+    MARKSEP         reduce using rule 17 (revsep -> AT .)
+    DIGIT           reduce using rule 17 (revsep -> AT .)
+    PLUS            reduce using rule 17 (revsep -> AT .)
+    AMPERSAND       reduce using rule 17 (revsep -> AT .)
+    DOLLAR          reduce using rule 17 (revsep -> AT .)
+    MARKTOKEN       reduce using rule 17 (revsep -> AT .)
+    DOT             reduce using rule 17 (revsep -> AT .)
+    ASTERISK        reduce using rule 17 (revsep -> AT .)
+    MINUS           reduce using rule 17 (revsep -> AT .)
+    HT              reduce using rule 17 (revsep -> AT .)
+    COLON           reduce using rule 17 (revsep -> AT .)
+    QUESTION        reduce using rule 17 (revsep -> AT .)
+    AT              reduce using rule 17 (revsep -> AT .)
+    SEMICOLON       reduce using rule 17 (revsep -> AT .)
+    EQUAL           reduce using rule 17 (revsep -> AT .)
+    COMMA           reduce using rule 17 (revsep -> AT .)
+    UPALPHA         reduce using rule 17 (revsep -> AT .)
+    UPHEX           reduce using rule 17 (revsep -> AT .)
+    LOALPHA         reduce using rule 17 (revsep -> AT .)
+    LOHEX           reduce using rule 17 (revsep -> AT .)
+    $end            reduce using rule 17 (revsep -> AT .)
+    CTL             reduce using rule 17 (revsep -> AT .)
+
+
+state 54
+
+    (18) revsep -> SEMICOLON .
+
+    SP              reduce using rule 18 (revsep -> SEMICOLON .)
+    TEXT            reduce using rule 18 (revsep -> SEMICOLON .)
+    CR              reduce using rule 18 (revsep -> SEMICOLON .)
+    LF              reduce using rule 18 (revsep -> SEMICOLON .)
+    TOKEN           reduce using rule 18 (revsep -> SEMICOLON .)
+    PERCENT         reduce using rule 18 (revsep -> SEMICOLON .)
+    SEPARATORS      reduce using rule 18 (revsep -> SEMICOLON .)
+    SLASH           reduce using rule 18 (revsep -> SEMICOLON .)
+    MARKSEP         reduce using rule 18 (revsep -> SEMICOLON .)
+    DIGIT           reduce using rule 18 (revsep -> SEMICOLON .)
+    PLUS            reduce using rule 18 (revsep -> SEMICOLON .)
+    AMPERSAND       reduce using rule 18 (revsep -> SEMICOLON .)
+    DOLLAR          reduce using rule 18 (revsep -> SEMICOLON .)
+    MARKTOKEN       reduce using rule 18 (revsep -> SEMICOLON .)
+    DOT             reduce using rule 18 (revsep -> SEMICOLON .)
+    ASTERISK        reduce using rule 18 (revsep -> SEMICOLON .)
+    MINUS           reduce using rule 18 (revsep -> SEMICOLON .)
+    HT              reduce using rule 18 (revsep -> SEMICOLON .)
+    COLON           reduce using rule 18 (revsep -> SEMICOLON .)
+    QUESTION        reduce using rule 18 (revsep -> SEMICOLON .)
+    AT              reduce using rule 18 (revsep -> SEMICOLON .)
+    SEMICOLON       reduce using rule 18 (revsep -> SEMICOLON .)
+    EQUAL           reduce using rule 18 (revsep -> SEMICOLON .)
+    COMMA           reduce using rule 18 (revsep -> SEMICOLON .)
+    UPALPHA         reduce using rule 18 (revsep -> SEMICOLON .)
+    UPHEX           reduce using rule 18 (revsep -> SEMICOLON .)
+    LOALPHA         reduce using rule 18 (revsep -> SEMICOLON .)
+    LOHEX           reduce using rule 18 (revsep -> SEMICOLON .)
+    $end            reduce using rule 18 (revsep -> SEMICOLON .)
+    CTL             reduce using rule 18 (revsep -> SEMICOLON .)
+
+
+state 55
+
+    (19) revsep -> EQUAL .
+
+    SP              reduce using rule 19 (revsep -> EQUAL .)
+    TEXT            reduce using rule 19 (revsep -> EQUAL .)
+    CR              reduce using rule 19 (revsep -> EQUAL .)
+    LF              reduce using rule 19 (revsep -> EQUAL .)
+    TOKEN           reduce using rule 19 (revsep -> EQUAL .)
+    PERCENT         reduce using rule 19 (revsep -> EQUAL .)
+    SEPARATORS      reduce using rule 19 (revsep -> EQUAL .)
+    SLASH           reduce using rule 19 (revsep -> EQUAL .)
+    MARKSEP         reduce using rule 19 (revsep -> EQUAL .)
+    DIGIT           reduce using rule 19 (revsep -> EQUAL .)
+    PLUS            reduce using rule 19 (revsep -> EQUAL .)
+    AMPERSAND       reduce using rule 19 (revsep -> EQUAL .)
+    DOLLAR          reduce using rule 19 (revsep -> EQUAL .)
+    MARKTOKEN       reduce using rule 19 (revsep -> EQUAL .)
+    DOT             reduce using rule 19 (revsep -> EQUAL .)
+    ASTERISK        reduce using rule 19 (revsep -> EQUAL .)
+    MINUS           reduce using rule 19 (revsep -> EQUAL .)
+    HT              reduce using rule 19 (revsep -> EQUAL .)
+    COLON           reduce using rule 19 (revsep -> EQUAL .)
+    QUESTION        reduce using rule 19 (revsep -> EQUAL .)
+    AT              reduce using rule 19 (revsep -> EQUAL .)
+    SEMICOLON       reduce using rule 19 (revsep -> EQUAL .)
+    EQUAL           reduce using rule 19 (revsep -> EQUAL .)
+    COMMA           reduce using rule 19 (revsep -> EQUAL .)
+    UPALPHA         reduce using rule 19 (revsep -> EQUAL .)
+    UPHEX           reduce using rule 19 (revsep -> EQUAL .)
+    LOALPHA         reduce using rule 19 (revsep -> EQUAL .)
+    LOHEX           reduce using rule 19 (revsep -> EQUAL .)
+    $end            reduce using rule 19 (revsep -> EQUAL .)
+    CTL             reduce using rule 19 (revsep -> EQUAL .)
+
+
+state 56
+
+    (20) revsep -> COMMA .
+
+    SP              reduce using rule 20 (revsep -> COMMA .)
+    TEXT            reduce using rule 20 (revsep -> COMMA .)
+    CR              reduce using rule 20 (revsep -> COMMA .)
+    LF              reduce using rule 20 (revsep -> COMMA .)
+    TOKEN           reduce using rule 20 (revsep -> COMMA .)
+    PERCENT         reduce using rule 20 (revsep -> COMMA .)
+    SEPARATORS      reduce using rule 20 (revsep -> COMMA .)
+    SLASH           reduce using rule 20 (revsep -> COMMA .)
+    MARKSEP         reduce using rule 20 (revsep -> COMMA .)
+    DIGIT           reduce using rule 20 (revsep -> COMMA .)
+    PLUS            reduce using rule 20 (revsep -> COMMA .)
+    AMPERSAND       reduce using rule 20 (revsep -> COMMA .)
+    DOLLAR          reduce using rule 20 (revsep -> COMMA .)
+    MARKTOKEN       reduce using rule 20 (revsep -> COMMA .)
+    DOT             reduce using rule 20 (revsep -> COMMA .)
+    ASTERISK        reduce using rule 20 (revsep -> COMMA .)
+    MINUS           reduce using rule 20 (revsep -> COMMA .)
+    HT              reduce using rule 20 (revsep -> COMMA .)
+    COLON           reduce using rule 20 (revsep -> COMMA .)
+    QUESTION        reduce using rule 20 (revsep -> COMMA .)
+    AT              reduce using rule 20 (revsep -> COMMA .)
+    SEMICOLON       reduce using rule 20 (revsep -> COMMA .)
+    EQUAL           reduce using rule 20 (revsep -> COMMA .)
+    COMMA           reduce using rule 20 (revsep -> COMMA .)
+    UPALPHA         reduce using rule 20 (revsep -> COMMA .)
+    UPHEX           reduce using rule 20 (revsep -> COMMA .)
+    LOALPHA         reduce using rule 20 (revsep -> COMMA .)
+    LOHEX           reduce using rule 20 (revsep -> COMMA .)
+    $end            reduce using rule 20 (revsep -> COMMA .)
+    CTL             reduce using rule 20 (revsep -> COMMA .)
+
+
+state 57
+
+    (64) body -> crlf text .
+    (50) text -> text . textchar
+    (39) textchar -> . TEXT
+    (40) textchar -> . tokenchar
+    (41) textchar -> . CR
+    (42) textchar -> . LF
+    (43) textchar -> . separators
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (22) separators -> . SEPARATORS
+    (23) separators -> . SLASH
+    (24) separators -> . spht
+    (25) separators -> . revsep
+    (26) separators -> . MARKSEP
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (13) spht -> . SP
+    (14) spht -> . HT
+    (15) revsep -> . COLON
+    (16) revsep -> . QUESTION
+    (17) revsep -> . AT
+    (18) revsep -> . SEMICOLON
+    (19) revsep -> . EQUAL
+    (20) revsep -> . COMMA
+    (21) revsep -> . SLASH
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    $end            reduce using rule 64 (body -> crlf text .)
+    TEXT            shift and go to state 40
+    CR              shift and go to state 42
+    LF              shift and go to state 43
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    SEPARATORS      shift and go to state 45
+    SLASH           shift and go to state 46
+    MARKSEP         shift and go to state 49
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    SP              shift and go to state 37
+    HT              shift and go to state 50
+    COLON           shift and go to state 51
+    QUESTION        shift and go to state 52
+    AT              shift and go to state 53
+    SEMICOLON       shift and go to state 54
+    EQUAL           shift and go to state 55
+    COMMA           shift and go to state 56
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    textchar                       shift and go to state 70
+    tokenchar                      shift and go to state 41
+    separators                     shift and go to state 44
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    spht                           shift and go to state 47
+    revsep                         shift and go to state 48
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 58
+
+    (55) requestheaderpart -> token COLON fieldvalue . crlf
+    (54) fieldvalue -> fieldvalue . fieldvaluepart
+    (46) crlf -> . CR LF
+    (51) fieldvaluepart -> . octet
+    (52) fieldvaluepart -> . spht
+    (44) octet -> . textchar
+    (45) octet -> . ctl
+    (13) spht -> . SP
+    (14) spht -> . HT
+    (39) textchar -> . TEXT
+    (40) textchar -> . tokenchar
+    (41) textchar -> . CR
+    (42) textchar -> . LF
+    (43) textchar -> . separators
+    (9) ctl -> . CTL
+    (10) ctl -> . CR
+    (11) ctl -> . LF
+    (12) ctl -> . HT
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (22) separators -> . SEPARATORS
+    (23) separators -> . SLASH
+    (24) separators -> . spht
+    (25) separators -> . revsep
+    (26) separators -> . MARKSEP
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (15) revsep -> . COLON
+    (16) revsep -> . QUESTION
+    (17) revsep -> . AT
+    (18) revsep -> . SEMICOLON
+    (19) revsep -> . EQUAL
+    (20) revsep -> . COMMA
+    (21) revsep -> . SLASH
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    CR              shift and go to state 61
+    SP              shift and go to state 37
+    HT              shift and go to state 67
+    TEXT            shift and go to state 40
+    LF              shift and go to state 62
+    CTL             shift and go to state 68
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    SEPARATORS      shift and go to state 45
+    SLASH           shift and go to state 46
+    MARKSEP         shift and go to state 49
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    COLON           shift and go to state 51
+    QUESTION        shift and go to state 52
+    AT              shift and go to state 53
+    SEMICOLON       shift and go to state 54
+    EQUAL           shift and go to state 55
+    COMMA           shift and go to state 56
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    crlf                           shift and go to state 71
+    fieldvaluepart                 shift and go to state 72
+    octet                          shift and go to state 63
+    spht                           shift and go to state 64
+    textchar                       shift and go to state 65
+    ctl                            shift and go to state 66
+    tokenchar                      shift and go to state 41
+    separators                     shift and go to state 44
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    revsep                         shift and go to state 48
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 59
+
+    (56) requestheaderpart -> token COLON crlf .
+
+    CR              reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    TOKEN           reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    PERCENT         reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    DIGIT           reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    PLUS            reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    AMPERSAND       reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    DOLLAR          reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    MARKTOKEN       reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    DOT             reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    ASTERISK        reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    MINUS           reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    UPALPHA         reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    UPHEX           reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    LOALPHA         reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+    LOHEX           reduce using rule 56 (requestheaderpart -> token COLON crlf .)
+
+
+state 60
+
+    (53) fieldvalue -> fieldvaluepart .
+
+    CR              reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    SP              reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    HT              reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    TEXT            reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    LF              reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    CTL             reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    TOKEN           reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    PERCENT         reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    SEPARATORS      reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    SLASH           reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    MARKSEP         reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    DIGIT           reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    PLUS            reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    AMPERSAND       reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    DOLLAR          reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    MARKTOKEN       reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    DOT             reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    ASTERISK        reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    MINUS           reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    COLON           reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    QUESTION        reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    AT              reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    SEMICOLON       reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    EQUAL           reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    COMMA           reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    UPALPHA         reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    UPHEX           reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    LOALPHA         reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+    LOHEX           reduce using rule 53 (fieldvalue -> fieldvaluepart .)
+
+
+state 61
+
+    (46) crlf -> CR . LF
+    (41) textchar -> CR .
+    (10) ctl -> CR .
+
+  ! shift/reduce conflict for LF resolved as shift
+  ! reduce/reduce conflict for CR resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for SP resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for HT resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for TEXT resolved using rule 10 (ctl -> CR .)
+  ! shift/reduce conflict for LF resolved as shift
+  ! reduce/reduce conflict for CTL resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for TOKEN resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for PERCENT resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for SEPARATORS resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for SLASH resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for MARKSEP resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for DIGIT resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for PLUS resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for AMPERSAND resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for DOLLAR resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for MARKTOKEN resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for DOT resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for ASTERISK resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for MINUS resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for COLON resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for QUESTION resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for AT resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for EQUAL resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for COMMA resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for UPALPHA resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for UPHEX resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for LOALPHA resolved using rule 10 (ctl -> CR .)
+  ! reduce/reduce conflict for LOHEX resolved using rule 10 (ctl -> CR .)
+    LF              shift and go to state 35
+    CR              reduce using rule 10 (ctl -> CR .)
+    SP              reduce using rule 10 (ctl -> CR .)
+    HT              reduce using rule 10 (ctl -> CR .)
+    TEXT            reduce using rule 10 (ctl -> CR .)
+    CTL             reduce using rule 10 (ctl -> CR .)
+    TOKEN           reduce using rule 10 (ctl -> CR .)
+    PERCENT         reduce using rule 10 (ctl -> CR .)
+    SEPARATORS      reduce using rule 10 (ctl -> CR .)
+    SLASH           reduce using rule 10 (ctl -> CR .)
+    MARKSEP         reduce using rule 10 (ctl -> CR .)
+    DIGIT           reduce using rule 10 (ctl -> CR .)
+    PLUS            reduce using rule 10 (ctl -> CR .)
+    AMPERSAND       reduce using rule 10 (ctl -> CR .)
+    DOLLAR          reduce using rule 10 (ctl -> CR .)
+    MARKTOKEN       reduce using rule 10 (ctl -> CR .)
+    DOT             reduce using rule 10 (ctl -> CR .)
+    ASTERISK        reduce using rule 10 (ctl -> CR .)
+    MINUS           reduce using rule 10 (ctl -> CR .)
+    COLON           reduce using rule 10 (ctl -> CR .)
+    QUESTION        reduce using rule 10 (ctl -> CR .)
+    AT              reduce using rule 10 (ctl -> CR .)
+    SEMICOLON       reduce using rule 10 (ctl -> CR .)
+    EQUAL           reduce using rule 10 (ctl -> CR .)
+    COMMA           reduce using rule 10 (ctl -> CR .)
+    UPALPHA         reduce using rule 10 (ctl -> CR .)
+    UPHEX           reduce using rule 10 (ctl -> CR .)
+    LOALPHA         reduce using rule 10 (ctl -> CR .)
+    LOHEX           reduce using rule 10 (ctl -> CR .)
+
+  ! CR              [ reduce using rule 41 (textchar -> CR .) ]
+  ! SP              [ reduce using rule 41 (textchar -> CR .) ]
+  ! HT              [ reduce using rule 41 (textchar -> CR .) ]
+  ! TEXT            [ reduce using rule 41 (textchar -> CR .) ]
+  ! LF              [ reduce using rule 41 (textchar -> CR .) ]
+  ! CTL             [ reduce using rule 41 (textchar -> CR .) ]
+  ! TOKEN           [ reduce using rule 41 (textchar -> CR .) ]
+  ! PERCENT         [ reduce using rule 41 (textchar -> CR .) ]
+  ! SEPARATORS      [ reduce using rule 41 (textchar -> CR .) ]
+  ! SLASH           [ reduce using rule 41 (textchar -> CR .) ]
+  ! MARKSEP         [ reduce using rule 41 (textchar -> CR .) ]
+  ! DIGIT           [ reduce using rule 41 (textchar -> CR .) ]
+  ! PLUS            [ reduce using rule 41 (textchar -> CR .) ]
+  ! AMPERSAND       [ reduce using rule 41 (textchar -> CR .) ]
+  ! DOLLAR          [ reduce using rule 41 (textchar -> CR .) ]
+  ! MARKTOKEN       [ reduce using rule 41 (textchar -> CR .) ]
+  ! DOT             [ reduce using rule 41 (textchar -> CR .) ]
+  ! ASTERISK        [ reduce using rule 41 (textchar -> CR .) ]
+  ! MINUS           [ reduce using rule 41 (textchar -> CR .) ]
+  ! COLON           [ reduce using rule 41 (textchar -> CR .) ]
+  ! QUESTION        [ reduce using rule 41 (textchar -> CR .) ]
+  ! AT              [ reduce using rule 41 (textchar -> CR .) ]
+  ! SEMICOLON       [ reduce using rule 41 (textchar -> CR .) ]
+  ! EQUAL           [ reduce using rule 41 (textchar -> CR .) ]
+  ! COMMA           [ reduce using rule 41 (textchar -> CR .) ]
+  ! UPALPHA         [ reduce using rule 41 (textchar -> CR .) ]
+  ! UPHEX           [ reduce using rule 41 (textchar -> CR .) ]
+  ! LOALPHA         [ reduce using rule 41 (textchar -> CR .) ]
+  ! LOHEX           [ reduce using rule 41 (textchar -> CR .) ]
+  ! LF              [ reduce using rule 10 (ctl -> CR .) ]
+
+
+state 62
+
+    (42) textchar -> LF .
+    (11) ctl -> LF .
+
+  ! reduce/reduce conflict for CR resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for SP resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for HT resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for TEXT resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for LF resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for CTL resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for TOKEN resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for PERCENT resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for SEPARATORS resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for SLASH resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for MARKSEP resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for DIGIT resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for PLUS resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for AMPERSAND resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for DOLLAR resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for MARKTOKEN resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for DOT resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for ASTERISK resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for MINUS resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for COLON resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for QUESTION resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for AT resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for EQUAL resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for COMMA resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for UPALPHA resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for UPHEX resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for LOALPHA resolved using rule 11 (ctl -> LF .)
+  ! reduce/reduce conflict for LOHEX resolved using rule 11 (ctl -> LF .)
+    CR              reduce using rule 11 (ctl -> LF .)
+    SP              reduce using rule 11 (ctl -> LF .)
+    HT              reduce using rule 11 (ctl -> LF .)
+    TEXT            reduce using rule 11 (ctl -> LF .)
+    LF              reduce using rule 11 (ctl -> LF .)
+    CTL             reduce using rule 11 (ctl -> LF .)
+    TOKEN           reduce using rule 11 (ctl -> LF .)
+    PERCENT         reduce using rule 11 (ctl -> LF .)
+    SEPARATORS      reduce using rule 11 (ctl -> LF .)
+    SLASH           reduce using rule 11 (ctl -> LF .)
+    MARKSEP         reduce using rule 11 (ctl -> LF .)
+    DIGIT           reduce using rule 11 (ctl -> LF .)
+    PLUS            reduce using rule 11 (ctl -> LF .)
+    AMPERSAND       reduce using rule 11 (ctl -> LF .)
+    DOLLAR          reduce using rule 11 (ctl -> LF .)
+    MARKTOKEN       reduce using rule 11 (ctl -> LF .)
+    DOT             reduce using rule 11 (ctl -> LF .)
+    ASTERISK        reduce using rule 11 (ctl -> LF .)
+    MINUS           reduce using rule 11 (ctl -> LF .)
+    COLON           reduce using rule 11 (ctl -> LF .)
+    QUESTION        reduce using rule 11 (ctl -> LF .)
+    AT              reduce using rule 11 (ctl -> LF .)
+    SEMICOLON       reduce using rule 11 (ctl -> LF .)
+    EQUAL           reduce using rule 11 (ctl -> LF .)
+    COMMA           reduce using rule 11 (ctl -> LF .)
+    UPALPHA         reduce using rule 11 (ctl -> LF .)
+    UPHEX           reduce using rule 11 (ctl -> LF .)
+    LOALPHA         reduce using rule 11 (ctl -> LF .)
+    LOHEX           reduce using rule 11 (ctl -> LF .)
+
+  ! CR              [ reduce using rule 42 (textchar -> LF .) ]
+  ! SP              [ reduce using rule 42 (textchar -> LF .) ]
+  ! HT              [ reduce using rule 42 (textchar -> LF .) ]
+  ! TEXT            [ reduce using rule 42 (textchar -> LF .) ]
+  ! LF              [ reduce using rule 42 (textchar -> LF .) ]
+  ! CTL             [ reduce using rule 42 (textchar -> LF .) ]
+  ! TOKEN           [ reduce using rule 42 (textchar -> LF .) ]
+  ! PERCENT         [ reduce using rule 42 (textchar -> LF .) ]
+  ! SEPARATORS      [ reduce using rule 42 (textchar -> LF .) ]
+  ! SLASH           [ reduce using rule 42 (textchar -> LF .) ]
+  ! MARKSEP         [ reduce using rule 42 (textchar -> LF .) ]
+  ! DIGIT           [ reduce using rule 42 (textchar -> LF .) ]
+  ! PLUS            [ reduce using rule 42 (textchar -> LF .) ]
+  ! AMPERSAND       [ reduce using rule 42 (textchar -> LF .) ]
+  ! DOLLAR          [ reduce using rule 42 (textchar -> LF .) ]
+  ! MARKTOKEN       [ reduce using rule 42 (textchar -> LF .) ]
+  ! DOT             [ reduce using rule 42 (textchar -> LF .) ]
+  ! ASTERISK        [ reduce using rule 42 (textchar -> LF .) ]
+  ! MINUS           [ reduce using rule 42 (textchar -> LF .) ]
+  ! COLON           [ reduce using rule 42 (textchar -> LF .) ]
+  ! QUESTION        [ reduce using rule 42 (textchar -> LF .) ]
+  ! AT              [ reduce using rule 42 (textchar -> LF .) ]
+  ! SEMICOLON       [ reduce using rule 42 (textchar -> LF .) ]
+  ! EQUAL           [ reduce using rule 42 (textchar -> LF .) ]
+  ! COMMA           [ reduce using rule 42 (textchar -> LF .) ]
+  ! UPALPHA         [ reduce using rule 42 (textchar -> LF .) ]
+  ! UPHEX           [ reduce using rule 42 (textchar -> LF .) ]
+  ! LOALPHA         [ reduce using rule 42 (textchar -> LF .) ]
+  ! LOHEX           [ reduce using rule 42 (textchar -> LF .) ]
+
+
+state 63
+
+    (51) fieldvaluepart -> octet .
+
+    CR              reduce using rule 51 (fieldvaluepart -> octet .)
+    SP              reduce using rule 51 (fieldvaluepart -> octet .)
+    HT              reduce using rule 51 (fieldvaluepart -> octet .)
+    TEXT            reduce using rule 51 (fieldvaluepart -> octet .)
+    LF              reduce using rule 51 (fieldvaluepart -> octet .)
+    CTL             reduce using rule 51 (fieldvaluepart -> octet .)
+    TOKEN           reduce using rule 51 (fieldvaluepart -> octet .)
+    PERCENT         reduce using rule 51 (fieldvaluepart -> octet .)
+    SEPARATORS      reduce using rule 51 (fieldvaluepart -> octet .)
+    SLASH           reduce using rule 51 (fieldvaluepart -> octet .)
+    MARKSEP         reduce using rule 51 (fieldvaluepart -> octet .)
+    DIGIT           reduce using rule 51 (fieldvaluepart -> octet .)
+    PLUS            reduce using rule 51 (fieldvaluepart -> octet .)
+    AMPERSAND       reduce using rule 51 (fieldvaluepart -> octet .)
+    DOLLAR          reduce using rule 51 (fieldvaluepart -> octet .)
+    MARKTOKEN       reduce using rule 51 (fieldvaluepart -> octet .)
+    DOT             reduce using rule 51 (fieldvaluepart -> octet .)
+    ASTERISK        reduce using rule 51 (fieldvaluepart -> octet .)
+    MINUS           reduce using rule 51 (fieldvaluepart -> octet .)
+    COLON           reduce using rule 51 (fieldvaluepart -> octet .)
+    QUESTION        reduce using rule 51 (fieldvaluepart -> octet .)
+    AT              reduce using rule 51 (fieldvaluepart -> octet .)
+    SEMICOLON       reduce using rule 51 (fieldvaluepart -> octet .)
+    EQUAL           reduce using rule 51 (fieldvaluepart -> octet .)
+    COMMA           reduce using rule 51 (fieldvaluepart -> octet .)
+    UPALPHA         reduce using rule 51 (fieldvaluepart -> octet .)
+    UPHEX           reduce using rule 51 (fieldvaluepart -> octet .)
+    LOALPHA         reduce using rule 51 (fieldvaluepart -> octet .)
+    LOHEX           reduce using rule 51 (fieldvaluepart -> octet .)
+
+
+state 64
+
+    (52) fieldvaluepart -> spht .
+    (24) separators -> spht .
+
+  ! reduce/reduce conflict for CR resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for SP resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for HT resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for TEXT resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for LF resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for CTL resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for TOKEN resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for PERCENT resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for SEPARATORS resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for SLASH resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for MARKSEP resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for DIGIT resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for PLUS resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for AMPERSAND resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for DOLLAR resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for MARKTOKEN resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for DOT resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for ASTERISK resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for MINUS resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for COLON resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for QUESTION resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for AT resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for EQUAL resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for COMMA resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for UPALPHA resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for UPHEX resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for LOALPHA resolved using rule 24 (separators -> spht .)
+  ! reduce/reduce conflict for LOHEX resolved using rule 24 (separators -> spht .)
+    CR              reduce using rule 24 (separators -> spht .)
+    SP              reduce using rule 24 (separators -> spht .)
+    HT              reduce using rule 24 (separators -> spht .)
+    TEXT            reduce using rule 24 (separators -> spht .)
+    LF              reduce using rule 24 (separators -> spht .)
+    CTL             reduce using rule 24 (separators -> spht .)
+    TOKEN           reduce using rule 24 (separators -> spht .)
+    PERCENT         reduce using rule 24 (separators -> spht .)
+    SEPARATORS      reduce using rule 24 (separators -> spht .)
+    SLASH           reduce using rule 24 (separators -> spht .)
+    MARKSEP         reduce using rule 24 (separators -> spht .)
+    DIGIT           reduce using rule 24 (separators -> spht .)
+    PLUS            reduce using rule 24 (separators -> spht .)
+    AMPERSAND       reduce using rule 24 (separators -> spht .)
+    DOLLAR          reduce using rule 24 (separators -> spht .)
+    MARKTOKEN       reduce using rule 24 (separators -> spht .)
+    DOT             reduce using rule 24 (separators -> spht .)
+    ASTERISK        reduce using rule 24 (separators -> spht .)
+    MINUS           reduce using rule 24 (separators -> spht .)
+    COLON           reduce using rule 24 (separators -> spht .)
+    QUESTION        reduce using rule 24 (separators -> spht .)
+    AT              reduce using rule 24 (separators -> spht .)
+    SEMICOLON       reduce using rule 24 (separators -> spht .)
+    EQUAL           reduce using rule 24 (separators -> spht .)
+    COMMA           reduce using rule 24 (separators -> spht .)
+    UPALPHA         reduce using rule 24 (separators -> spht .)
+    UPHEX           reduce using rule 24 (separators -> spht .)
+    LOALPHA         reduce using rule 24 (separators -> spht .)
+    LOHEX           reduce using rule 24 (separators -> spht .)
+
+  ! CR              [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! SP              [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! HT              [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! TEXT            [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! LF              [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! CTL             [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! TOKEN           [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! PERCENT         [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! SEPARATORS      [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! SLASH           [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! MARKSEP         [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! DIGIT           [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! PLUS            [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! AMPERSAND       [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! DOLLAR          [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! MARKTOKEN       [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! DOT             [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! ASTERISK        [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! MINUS           [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! COLON           [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! QUESTION        [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! AT              [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! SEMICOLON       [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! EQUAL           [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! COMMA           [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! UPALPHA         [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! UPHEX           [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! LOALPHA         [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+  ! LOHEX           [ reduce using rule 52 (fieldvaluepart -> spht .) ]
+
+
+state 65
+
+    (44) octet -> textchar .
+
+    CR              reduce using rule 44 (octet -> textchar .)
+    SP              reduce using rule 44 (octet -> textchar .)
+    HT              reduce using rule 44 (octet -> textchar .)
+    TEXT            reduce using rule 44 (octet -> textchar .)
+    LF              reduce using rule 44 (octet -> textchar .)
+    CTL             reduce using rule 44 (octet -> textchar .)
+    TOKEN           reduce using rule 44 (octet -> textchar .)
+    PERCENT         reduce using rule 44 (octet -> textchar .)
+    SEPARATORS      reduce using rule 44 (octet -> textchar .)
+    SLASH           reduce using rule 44 (octet -> textchar .)
+    MARKSEP         reduce using rule 44 (octet -> textchar .)
+    DIGIT           reduce using rule 44 (octet -> textchar .)
+    PLUS            reduce using rule 44 (octet -> textchar .)
+    AMPERSAND       reduce using rule 44 (octet -> textchar .)
+    DOLLAR          reduce using rule 44 (octet -> textchar .)
+    MARKTOKEN       reduce using rule 44 (octet -> textchar .)
+    DOT             reduce using rule 44 (octet -> textchar .)
+    ASTERISK        reduce using rule 44 (octet -> textchar .)
+    MINUS           reduce using rule 44 (octet -> textchar .)
+    COLON           reduce using rule 44 (octet -> textchar .)
+    QUESTION        reduce using rule 44 (octet -> textchar .)
+    AT              reduce using rule 44 (octet -> textchar .)
+    SEMICOLON       reduce using rule 44 (octet -> textchar .)
+    EQUAL           reduce using rule 44 (octet -> textchar .)
+    COMMA           reduce using rule 44 (octet -> textchar .)
+    UPALPHA         reduce using rule 44 (octet -> textchar .)
+    UPHEX           reduce using rule 44 (octet -> textchar .)
+    LOALPHA         reduce using rule 44 (octet -> textchar .)
+    LOHEX           reduce using rule 44 (octet -> textchar .)
+
+
+state 66
+
+    (45) octet -> ctl .
+
+    CR              reduce using rule 45 (octet -> ctl .)
+    SP              reduce using rule 45 (octet -> ctl .)
+    HT              reduce using rule 45 (octet -> ctl .)
+    TEXT            reduce using rule 45 (octet -> ctl .)
+    LF              reduce using rule 45 (octet -> ctl .)
+    CTL             reduce using rule 45 (octet -> ctl .)
+    TOKEN           reduce using rule 45 (octet -> ctl .)
+    PERCENT         reduce using rule 45 (octet -> ctl .)
+    SEPARATORS      reduce using rule 45 (octet -> ctl .)
+    SLASH           reduce using rule 45 (octet -> ctl .)
+    MARKSEP         reduce using rule 45 (octet -> ctl .)
+    DIGIT           reduce using rule 45 (octet -> ctl .)
+    PLUS            reduce using rule 45 (octet -> ctl .)
+    AMPERSAND       reduce using rule 45 (octet -> ctl .)
+    DOLLAR          reduce using rule 45 (octet -> ctl .)
+    MARKTOKEN       reduce using rule 45 (octet -> ctl .)
+    DOT             reduce using rule 45 (octet -> ctl .)
+    ASTERISK        reduce using rule 45 (octet -> ctl .)
+    MINUS           reduce using rule 45 (octet -> ctl .)
+    COLON           reduce using rule 45 (octet -> ctl .)
+    QUESTION        reduce using rule 45 (octet -> ctl .)
+    AT              reduce using rule 45 (octet -> ctl .)
+    SEMICOLON       reduce using rule 45 (octet -> ctl .)
+    EQUAL           reduce using rule 45 (octet -> ctl .)
+    COMMA           reduce using rule 45 (octet -> ctl .)
+    UPALPHA         reduce using rule 45 (octet -> ctl .)
+    UPHEX           reduce using rule 45 (octet -> ctl .)
+    LOALPHA         reduce using rule 45 (octet -> ctl .)
+    LOHEX           reduce using rule 45 (octet -> ctl .)
+
+
+state 67
+
+    (14) spht -> HT .
+    (12) ctl -> HT .
+
+  ! reduce/reduce conflict for CR resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for SP resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for HT resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for TEXT resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for LF resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for CTL resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for TOKEN resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for PERCENT resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for SEPARATORS resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for SLASH resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for MARKSEP resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for DIGIT resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for PLUS resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for AMPERSAND resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for DOLLAR resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for MARKTOKEN resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for DOT resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for ASTERISK resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for MINUS resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for COLON resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for QUESTION resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for AT resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for EQUAL resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for COMMA resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for UPALPHA resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for UPHEX resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for LOALPHA resolved using rule 12 (ctl -> HT .)
+  ! reduce/reduce conflict for LOHEX resolved using rule 12 (ctl -> HT .)
+    CR              reduce using rule 12 (ctl -> HT .)
+    SP              reduce using rule 12 (ctl -> HT .)
+    HT              reduce using rule 12 (ctl -> HT .)
+    TEXT            reduce using rule 12 (ctl -> HT .)
+    LF              reduce using rule 12 (ctl -> HT .)
+    CTL             reduce using rule 12 (ctl -> HT .)
+    TOKEN           reduce using rule 12 (ctl -> HT .)
+    PERCENT         reduce using rule 12 (ctl -> HT .)
+    SEPARATORS      reduce using rule 12 (ctl -> HT .)
+    SLASH           reduce using rule 12 (ctl -> HT .)
+    MARKSEP         reduce using rule 12 (ctl -> HT .)
+    DIGIT           reduce using rule 12 (ctl -> HT .)
+    PLUS            reduce using rule 12 (ctl -> HT .)
+    AMPERSAND       reduce using rule 12 (ctl -> HT .)
+    DOLLAR          reduce using rule 12 (ctl -> HT .)
+    MARKTOKEN       reduce using rule 12 (ctl -> HT .)
+    DOT             reduce using rule 12 (ctl -> HT .)
+    ASTERISK        reduce using rule 12 (ctl -> HT .)
+    MINUS           reduce using rule 12 (ctl -> HT .)
+    COLON           reduce using rule 12 (ctl -> HT .)
+    QUESTION        reduce using rule 12 (ctl -> HT .)
+    AT              reduce using rule 12 (ctl -> HT .)
+    SEMICOLON       reduce using rule 12 (ctl -> HT .)
+    EQUAL           reduce using rule 12 (ctl -> HT .)
+    COMMA           reduce using rule 12 (ctl -> HT .)
+    UPALPHA         reduce using rule 12 (ctl -> HT .)
+    UPHEX           reduce using rule 12 (ctl -> HT .)
+    LOALPHA         reduce using rule 12 (ctl -> HT .)
+    LOHEX           reduce using rule 12 (ctl -> HT .)
+
+  ! CR              [ reduce using rule 14 (spht -> HT .) ]
+  ! SP              [ reduce using rule 14 (spht -> HT .) ]
+  ! HT              [ reduce using rule 14 (spht -> HT .) ]
+  ! TEXT            [ reduce using rule 14 (spht -> HT .) ]
+  ! LF              [ reduce using rule 14 (spht -> HT .) ]
+  ! CTL             [ reduce using rule 14 (spht -> HT .) ]
+  ! TOKEN           [ reduce using rule 14 (spht -> HT .) ]
+  ! PERCENT         [ reduce using rule 14 (spht -> HT .) ]
+  ! SEPARATORS      [ reduce using rule 14 (spht -> HT .) ]
+  ! SLASH           [ reduce using rule 14 (spht -> HT .) ]
+  ! MARKSEP         [ reduce using rule 14 (spht -> HT .) ]
+  ! DIGIT           [ reduce using rule 14 (spht -> HT .) ]
+  ! PLUS            [ reduce using rule 14 (spht -> HT .) ]
+  ! AMPERSAND       [ reduce using rule 14 (spht -> HT .) ]
+  ! DOLLAR          [ reduce using rule 14 (spht -> HT .) ]
+  ! MARKTOKEN       [ reduce using rule 14 (spht -> HT .) ]
+  ! DOT             [ reduce using rule 14 (spht -> HT .) ]
+  ! ASTERISK        [ reduce using rule 14 (spht -> HT .) ]
+  ! MINUS           [ reduce using rule 14 (spht -> HT .) ]
+  ! COLON           [ reduce using rule 14 (spht -> HT .) ]
+  ! QUESTION        [ reduce using rule 14 (spht -> HT .) ]
+  ! AT              [ reduce using rule 14 (spht -> HT .) ]
+  ! SEMICOLON       [ reduce using rule 14 (spht -> HT .) ]
+  ! EQUAL           [ reduce using rule 14 (spht -> HT .) ]
+  ! COMMA           [ reduce using rule 14 (spht -> HT .) ]
+  ! UPALPHA         [ reduce using rule 14 (spht -> HT .) ]
+  ! UPHEX           [ reduce using rule 14 (spht -> HT .) ]
+  ! LOALPHA         [ reduce using rule 14 (spht -> HT .) ]
+  ! LOHEX           [ reduce using rule 14 (spht -> HT .) ]
+
+
+state 68
+
+    (9) ctl -> CTL .
+
+    CR              reduce using rule 9 (ctl -> CTL .)
+    SP              reduce using rule 9 (ctl -> CTL .)
+    HT              reduce using rule 9 (ctl -> CTL .)
+    TEXT            reduce using rule 9 (ctl -> CTL .)
+    LF              reduce using rule 9 (ctl -> CTL .)
+    CTL             reduce using rule 9 (ctl -> CTL .)
+    TOKEN           reduce using rule 9 (ctl -> CTL .)
+    PERCENT         reduce using rule 9 (ctl -> CTL .)
+    SEPARATORS      reduce using rule 9 (ctl -> CTL .)
+    SLASH           reduce using rule 9 (ctl -> CTL .)
+    MARKSEP         reduce using rule 9 (ctl -> CTL .)
+    DIGIT           reduce using rule 9 (ctl -> CTL .)
+    PLUS            reduce using rule 9 (ctl -> CTL .)
+    AMPERSAND       reduce using rule 9 (ctl -> CTL .)
+    DOLLAR          reduce using rule 9 (ctl -> CTL .)
+    MARKTOKEN       reduce using rule 9 (ctl -> CTL .)
+    DOT             reduce using rule 9 (ctl -> CTL .)
+    ASTERISK        reduce using rule 9 (ctl -> CTL .)
+    MINUS           reduce using rule 9 (ctl -> CTL .)
+    COLON           reduce using rule 9 (ctl -> CTL .)
+    QUESTION        reduce using rule 9 (ctl -> CTL .)
+    AT              reduce using rule 9 (ctl -> CTL .)
+    SEMICOLON       reduce using rule 9 (ctl -> CTL .)
+    EQUAL           reduce using rule 9 (ctl -> CTL .)
+    COMMA           reduce using rule 9 (ctl -> CTL .)
+    UPALPHA         reduce using rule 9 (ctl -> CTL .)
+    UPHEX           reduce using rule 9 (ctl -> CTL .)
+    LOALPHA         reduce using rule 9 (ctl -> CTL .)
+    LOHEX           reduce using rule 9 (ctl -> CTL .)
+
+
+state 69
+
+    (60) requestline -> token SP text SP . httpversion crlf
+    (13) spht -> SP .
+    (59) httpversion -> . token SLASH DIGIT DOT DIGIT
+    (47) token -> . tokenchar
+    (48) token -> . token tokenchar
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+  ! shift/reduce conflict for TOKEN resolved as shift
+  ! shift/reduce conflict for PERCENT resolved as shift
+  ! shift/reduce conflict for DIGIT resolved as shift
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for AMPERSAND resolved as shift
+  ! shift/reduce conflict for DOLLAR resolved as shift
+  ! shift/reduce conflict for MARKTOKEN resolved as shift
+  ! shift/reduce conflict for DOT resolved as shift
+  ! shift/reduce conflict for ASTERISK resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for UPALPHA resolved as shift
+  ! shift/reduce conflict for UPHEX resolved as shift
+  ! shift/reduce conflict for LOALPHA resolved as shift
+  ! shift/reduce conflict for LOHEX resolved as shift
+    SP              reduce using rule 13 (spht -> SP .)
+    TEXT            reduce using rule 13 (spht -> SP .)
+    CR              reduce using rule 13 (spht -> SP .)
+    LF              reduce using rule 13 (spht -> SP .)
+    SEPARATORS      reduce using rule 13 (spht -> SP .)
+    SLASH           reduce using rule 13 (spht -> SP .)
+    MARKSEP         reduce using rule 13 (spht -> SP .)
+    HT              reduce using rule 13 (spht -> SP .)
+    COLON           reduce using rule 13 (spht -> SP .)
+    QUESTION        reduce using rule 13 (spht -> SP .)
+    AT              reduce using rule 13 (spht -> SP .)
+    SEMICOLON       reduce using rule 13 (spht -> SP .)
+    EQUAL           reduce using rule 13 (spht -> SP .)
+    COMMA           reduce using rule 13 (spht -> SP .)
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+  ! TOKEN           [ reduce using rule 13 (spht -> SP .) ]
+  ! PERCENT         [ reduce using rule 13 (spht -> SP .) ]
+  ! DIGIT           [ reduce using rule 13 (spht -> SP .) ]
+  ! PLUS            [ reduce using rule 13 (spht -> SP .) ]
+  ! AMPERSAND       [ reduce using rule 13 (spht -> SP .) ]
+  ! DOLLAR          [ reduce using rule 13 (spht -> SP .) ]
+  ! MARKTOKEN       [ reduce using rule 13 (spht -> SP .) ]
+  ! DOT             [ reduce using rule 13 (spht -> SP .) ]
+  ! ASTERISK        [ reduce using rule 13 (spht -> SP .) ]
+  ! MINUS           [ reduce using rule 13 (spht -> SP .) ]
+  ! UPALPHA         [ reduce using rule 13 (spht -> SP .) ]
+  ! UPHEX           [ reduce using rule 13 (spht -> SP .) ]
+  ! LOALPHA         [ reduce using rule 13 (spht -> SP .) ]
+  ! LOHEX           [ reduce using rule 13 (spht -> SP .) ]
+
+    token                          shift and go to state 73
+    httpversion                    shift and go to state 74
+    tokenchar                      shift and go to state 4
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 70
+
+    (50) text -> text textchar .
+
+    SP              reduce using rule 50 (text -> text textchar .)
+    TEXT            reduce using rule 50 (text -> text textchar .)
+    CR              reduce using rule 50 (text -> text textchar .)
+    LF              reduce using rule 50 (text -> text textchar .)
+    TOKEN           reduce using rule 50 (text -> text textchar .)
+    PERCENT         reduce using rule 50 (text -> text textchar .)
+    SEPARATORS      reduce using rule 50 (text -> text textchar .)
+    SLASH           reduce using rule 50 (text -> text textchar .)
+    MARKSEP         reduce using rule 50 (text -> text textchar .)
+    DIGIT           reduce using rule 50 (text -> text textchar .)
+    PLUS            reduce using rule 50 (text -> text textchar .)
+    AMPERSAND       reduce using rule 50 (text -> text textchar .)
+    DOLLAR          reduce using rule 50 (text -> text textchar .)
+    MARKTOKEN       reduce using rule 50 (text -> text textchar .)
+    DOT             reduce using rule 50 (text -> text textchar .)
+    ASTERISK        reduce using rule 50 (text -> text textchar .)
+    MINUS           reduce using rule 50 (text -> text textchar .)
+    HT              reduce using rule 50 (text -> text textchar .)
+    COLON           reduce using rule 50 (text -> text textchar .)
+    QUESTION        reduce using rule 50 (text -> text textchar .)
+    AT              reduce using rule 50 (text -> text textchar .)
+    SEMICOLON       reduce using rule 50 (text -> text textchar .)
+    EQUAL           reduce using rule 50 (text -> text textchar .)
+    COMMA           reduce using rule 50 (text -> text textchar .)
+    UPALPHA         reduce using rule 50 (text -> text textchar .)
+    UPHEX           reduce using rule 50 (text -> text textchar .)
+    LOALPHA         reduce using rule 50 (text -> text textchar .)
+    LOHEX           reduce using rule 50 (text -> text textchar .)
+    $end            reduce using rule 50 (text -> text textchar .)
+
+
+state 71
+
+    (55) requestheaderpart -> token COLON fieldvalue crlf .
+
+    CR              reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    TOKEN           reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    PERCENT         reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    DIGIT           reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    PLUS            reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    AMPERSAND       reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    DOLLAR          reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    MARKTOKEN       reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    DOT             reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    ASTERISK        reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    MINUS           reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    UPALPHA         reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    UPHEX           reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    LOALPHA         reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+    LOHEX           reduce using rule 55 (requestheaderpart -> token COLON fieldvalue crlf .)
+
+
+state 72
+
+    (54) fieldvalue -> fieldvalue fieldvaluepart .
+
+    CR              reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    SP              reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    HT              reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    TEXT            reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    LF              reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    CTL             reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    TOKEN           reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    PERCENT         reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    SEPARATORS      reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    SLASH           reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    MARKSEP         reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    DIGIT           reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    PLUS            reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    AMPERSAND       reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    DOLLAR          reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    MARKTOKEN       reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    DOT             reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    ASTERISK        reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    MINUS           reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    COLON           reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    QUESTION        reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    AT              reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    SEMICOLON       reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    EQUAL           reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    COMMA           reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    UPALPHA         reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    UPHEX           reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    LOALPHA         reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+    LOHEX           reduce using rule 54 (fieldvalue -> fieldvalue fieldvaluepart .)
+
+
+state 73
+
+    (59) httpversion -> token . SLASH DIGIT DOT DIGIT
+    (48) token -> token . tokenchar
+    (34) tokenchar -> . TOKEN
+    (35) tokenchar -> . alphanum
+    (36) tokenchar -> . revtoken
+    (37) tokenchar -> . marktoken
+    (38) tokenchar -> . PERCENT
+    (7) alphanum -> . alpha
+    (8) alphanum -> . DIGIT
+    (27) revtoken -> . PLUS
+    (28) revtoken -> . AMPERSAND
+    (29) revtoken -> . DOLLAR
+    (30) marktoken -> . MARKTOKEN
+    (31) marktoken -> . DOT
+    (32) marktoken -> . ASTERISK
+    (33) marktoken -> . MINUS
+    (5) alpha -> . upalpha
+    (6) alpha -> . loalpha
+    (1) upalpha -> . UPALPHA
+    (2) upalpha -> . UPHEX
+    (3) loalpha -> . LOALPHA
+    (4) loalpha -> . LOHEX
+
+    SLASH           shift and go to state 75
+    TOKEN           shift and go to state 5
+    PERCENT         shift and go to state 9
+    DIGIT           shift and go to state 11
+    PLUS            shift and go to state 12
+    AMPERSAND       shift and go to state 13
+    DOLLAR          shift and go to state 14
+    MARKTOKEN       shift and go to state 15
+    DOT             shift and go to state 16
+    ASTERISK        shift and go to state 17
+    MINUS           shift and go to state 18
+    UPALPHA         shift and go to state 21
+    UPHEX           shift and go to state 22
+    LOALPHA         shift and go to state 23
+    LOHEX           shift and go to state 24
+
+    tokenchar                      shift and go to state 31
+    alphanum                       shift and go to state 6
+    revtoken                       shift and go to state 7
+    marktoken                      shift and go to state 8
+    alpha                          shift and go to state 10
+    upalpha                        shift and go to state 19
+    loalpha                        shift and go to state 20
+
+state 74
+
+    (60) requestline -> token SP text SP httpversion . crlf
+    (46) crlf -> . CR LF
+
+    CR              shift and go to state 28
+
+    crlf                           shift and go to state 76
+
+state 75
+
+    (59) httpversion -> token SLASH . DIGIT DOT DIGIT
+
+    DIGIT           shift and go to state 77
+
+
+state 76
+
+    (60) requestline -> token SP text SP httpversion crlf .
+
+    CR              reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    TOKEN           reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    PERCENT         reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    DIGIT           reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    PLUS            reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    AMPERSAND       reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    DOLLAR          reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    MARKTOKEN       reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    DOT             reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    ASTERISK        reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    MINUS           reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    UPALPHA         reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    UPHEX           reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    LOALPHA         reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+    LOHEX           reduce using rule 60 (requestline -> token SP text SP httpversion crlf .)
+
+
+state 77
+
+    (59) httpversion -> token SLASH DIGIT . DOT DIGIT
+
+    DOT             shift and go to state 78
+
+
+state 78
+
+    (59) httpversion -> token SLASH DIGIT DOT . DIGIT
+
+    DIGIT           shift and go to state 79
+
+
+state 79
+
+    (59) httpversion -> token SLASH DIGIT DOT DIGIT .
+
+    CR              reduce using rule 59 (httpversion -> token SLASH DIGIT DOT DIGIT .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for LF in state 61 resolved as shift
+WARNING: shift/reduce conflict for LF in state 61 resolved as shift
+WARNING: shift/reduce conflict for TOKEN in state 69 resolved as shift
+WARNING: shift/reduce conflict for PERCENT in state 69 resolved as shift
+WARNING: shift/reduce conflict for DIGIT in state 69 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 69 resolved as shift
+WARNING: shift/reduce conflict for AMPERSAND in state 69 resolved as shift
+WARNING: shift/reduce conflict for DOLLAR in state 69 resolved as shift
+WARNING: shift/reduce conflict for MARKTOKEN in state 69 resolved as shift
+WARNING: shift/reduce conflict for DOT in state 69 resolved as shift
+WARNING: shift/reduce conflict for ASTERISK in state 69 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 69 resolved as shift
+WARNING: shift/reduce conflict for UPALPHA in state 69 resolved as shift
+WARNING: shift/reduce conflict for UPHEX in state 69 resolved as shift
+WARNING: shift/reduce conflict for LOALPHA in state 69 resolved as shift
+WARNING: shift/reduce conflict for LOHEX in state 69 resolved as shift
+WARNING: reduce/reduce conflict in state 46 resolved using rule (revsep -> SLASH)
+WARNING: rejected rule (separators -> SLASH) in state 46
+WARNING: reduce/reduce conflict in state 61 resolved using rule (ctl -> CR)
+WARNING: rejected rule (textchar -> CR) in state 61
+WARNING: reduce/reduce conflict in state 62 resolved using rule (ctl -> LF)
+WARNING: rejected rule (textchar -> LF) in state 62
+WARNING: reduce/reduce conflict in state 64 resolved using rule (separators -> spht)
+WARNING: rejected rule (fieldvaluepart -> spht) in state 64
+WARNING: reduce/reduce conflict in state 67 resolved using rule (ctl -> HT)
+WARNING: rejected rule (spht -> HT) in state 67
+WARNING: Rule (separators -> SLASH) is never reduced
+WARNING: Rule (fieldvaluepart -> spht) is never reduced

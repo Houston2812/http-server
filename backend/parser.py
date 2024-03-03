@@ -79,6 +79,7 @@ def p_term_token(p):
 def p_term_text(p):
     '''text : textchar
             | text textchar'''
+
     if (len(p) == 2):
         p[0] = p[1]
     elif (len(p) == 3):
@@ -102,6 +103,7 @@ def p_expression_requestheaderpart(p):
     '''requestheaderpart : token COLON fieldvalue crlf
                          | token COLON crlf'''
     global parsingRequest
+   
     if (len(p) == 5):
         parsingRequest.headers[p[1]] = p[3].strip()
 
@@ -128,6 +130,7 @@ def p_expression_httpversion(p):
 def p_expression_requestline(p):
     '''requestline : token SP text SP httpversion crlf'''
     global parsingRequest
+
     parsingRequest.HttpMethod = p[1]
     parsingRequest.HttpURI = p[3]
     parsingRequest.HttpVersion = p[5]
@@ -135,12 +138,22 @@ def p_expression_requestline(p):
 
 def p_expression_request(p):
     '''request : requestline requestheader crlf
-               | requestline crlf'''
+               | requestline crlf
+               | requestline requestheader body
+               '''
+    
     global parsingRequest
     global return_val
     parsingRequest.StatusHeaderSize += 2
     return_val[0] = SUCCESS
 
+def p_expression_body(p):
+    '''body : crlf text 
+    '''
+    p[0] = p[1]
+    global parsingRequest
+   
+    parsingRequest.HttpBody = p[2]
 
 # Error rule for syntax errors
 def p_error(p):
