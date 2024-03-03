@@ -113,7 +113,7 @@ def post_handler(request: Request, connection, file_descriptor):
     responses = []
     body = request.HttpBody.encode()
 
-G    serialize_http_response(
+    serialize_http_response(
         msgLst=responses,
         prepopulatedHeaders=OK,
         contentType=OCTET_MIME,
