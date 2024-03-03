@@ -19,6 +19,9 @@ class Connection(object):
     def remove_response(self):
         self.responses = self.responses[1:]
 
+    def remove_request(self):
+        self.requests = self.requests[1:]
+        
     def get_first_request(self):
         request = self.requests[0]
         self.requests = self.requests[1:]

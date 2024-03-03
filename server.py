@@ -98,7 +98,7 @@ def main():
                     elif error == TestErrorCode.TEST_ERROR_NONE:
                       
                         connections[file_descriptor].add_request(request)
-                        logger.debug(f"[!] Request from {file_descriptor}: {request}")
+                        logger.debug(f"[!] Request from {file_descriptor}")
 
                         if request.HttpMethod == GET:
                             logger.info(f"[+] GET request from {file_descriptor}")
@@ -148,11 +148,14 @@ def main():
 
                 logger.info(f"[>] Replying to: {file_descriptor}")
 
-                logger.debug(f"[!] Requests: {connections[file_descriptor].requests}")
-                logger.debug(f"[!] Responses: {connections[file_descriptor].responses}")
                 if len(response.decode()) == 0:
                     connections[file_descriptor].remove_response()    
-                    logger.info(f"[+] Removed response")
+                    connections[file_descriptor].remove_request()
+                    logger.info(f"[+] Removed rewquest/response")
+
+                print(len(connections.keys()))
+                logger.debug(f"[!] Requests: {len(connections[file_descriptor].requests)}")
+                logger.debug(f"[!] Responses: {len(connections[file_descriptor].responses)}")
                                 
                 # reset the state of client to the EPOLLIN
                 epoll.modify(file_descriptor, select.EPOLLIN) 

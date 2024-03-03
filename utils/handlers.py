@@ -108,7 +108,7 @@ def head_handler(request: Request, connection, file_descriptor):
 
 def post_handler(request: Request, connection, file_descriptor):
     
-    logger.debug(f"[!] Post request: {request}")
+    # logger.debug(f"[!] Post request: {request}")
 
     responses = []
     body = request.HttpBody.encode()
