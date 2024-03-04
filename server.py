@@ -178,6 +178,11 @@ def main():
                                     
                     logger.info(f"[+] Removed request/response")
 
+                # if len(connections[file_descriptor].requests) == 0 and len(connections[file_descriptor].responses) == 0:
+                #     epoll.unregister(file_descriptor)
+                #     connections[file_descriptor],connection.close()
+                #     del connections[file_descriptor]
+                # else:    
                 # reset the state of client to the EPOLLIN
                 epoll.modify(file_descriptor, select.EPOLLIN) 
 
