@@ -1,26 +1,44 @@
+import time 
+
+TIMEOUT = 15
+
 class Connection(object):
-    def __init__(self, connection, requests = [], responses = []) -> None:
-        self.connection = connection
+    def __init__(self, connection, file_descriptor, requests = [], responses = []) -> None:
         self.index = 0
         self.requests = requests
         self.responses = responses
+        self.connection = connection
+        self.timer = time.perf_counter()
+        self.file_descriptor = file_descriptor
 
     def add_request(self, request):
-        self.requests.insert(0, request)
-        # self.requests.append(request)
+        self.requests.append(request)
 
     def add_response(self, responses):
-        for response in responses:
-            self.responses.insert(0, response)
+        self.responses += responses
 
-    def get_first_response(self):
-        return self.responses[0]
+    def get_response(self):
+        return self.responses[-1]
 
     def remove_response(self):
-        self.responses = self.responses[1:]
+        self.responses.pop()
 
     def remove_request(self):
-        self.requests = self.requests[1:]
+        self.requests.pop()
+
+    def check_timeout(self):
+        now = time.perf_counter()
+
+        timeout_counter = abs(self.timer - now)
+        
+        # if timeout_counter > TIMEOUT / 10:
+        #     if timeout_counter <= TIMEOUT:
+        #         print(f"[!] Timeout countdown: {int(TIMEOUT - timeout_counter):2}s", end='\r')
+
+        if timeout_counter > TIMEOUT:
+            return False
+        else:
+            return True
         
     def get_first_request(self):
         request = self.requests[0]

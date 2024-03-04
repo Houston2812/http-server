@@ -8,6 +8,8 @@ from backend.parse_http import serialize_http_response, parse_http_request
 
 BUF_SIZE = 4096
 
+cache = {}
+
 def file_handler(resource: str) -> bool:
     if os.path.isfile(resource):
         return True
@@ -48,8 +50,13 @@ def data_handler(connection) -> str:
 
 def resource_handler(uri: str) -> bytes:
     msg = b''
-    with open(uri, 'rb') as response_file:
-        msg = response_file.read()
+    if uri in cache.keys():
+       msg = cache[uri] 
+    else:
+        with open(uri, 'rb') as response_file:
+            msg = response_file.read()
+        
+        cache[uri] = msg
 
     return msg
 
@@ -126,6 +133,21 @@ def post_handler(request: Request, connection, file_descriptor):
 
     return TestErrorCode.TEST_ERROR_NONE
 
+def error_400_handler(connection):
+    responses = []
+
+    serialize_http_response(
+        msgLst=responses, 
+        prepopulatedHeaders=BAD_REQUEST, 
+        contentType=HTML_MIME, 
+        contentLength=None, 
+        lastModified=None, 
+        body=b""
+        )
+
+    connection.add_response(responses)
+
+    return TestErrorCode.TEST_ERROR_NONE
     
 def error_404_handler(connection):
     responses = []
@@ -157,12 +179,12 @@ def error_404_handler(connection):
 
     return TestErrorCode.TEST_ERROR_NONE
 
-def error_400_handler(connection):
+def error_503_handler(connection):
     responses = []
 
     serialize_http_response(
         msgLst=responses, 
-        prepopulatedHeaders=BAD_REQUEST, 
+        prepopulatedHeaders=SERVICE_UNAVAILABLE, 
         contentType=HTML_MIME, 
         contentLength=None, 
         lastModified=None, 

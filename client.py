@@ -17,7 +17,7 @@ parser.add_argument(dest="server_ip",action='store', help='server ip address')
 parser.add_argument(dest="uri",action='store', help='Resource to request')
 parser.add_argument(dest="method",action='store',  choices=['GET', 'HEAD', 'POST'], default="GET", help='Method to use')
 parser.add_argument("--data", dest="body", action='store', default="", help='Data to send in the body of HTTP request')
-parser.add_argument("-t", dest="threads", action="store", default=1, help="Number of concurrent clients")
+parser.add_argument("-t", dest="threads", action="store", default=1, help="")
 args = parser.parse_args()
 
 
