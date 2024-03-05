@@ -10,6 +10,10 @@ BUF_SIZE = 4096
 
 cache = {}
 
+def cache_handler():
+    global cache
+    cache.clear()
+    
 def file_handler(resource: str) -> bool:
     if os.path.isfile(resource):
         return True
@@ -50,6 +54,7 @@ def data_handler(connection) -> str:
 
 def resource_handler(uri: str) -> bytes:
     msg = b''
+    global cache
     if uri in cache.keys():
        msg = cache[uri] 
     else:

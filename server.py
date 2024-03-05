@@ -10,7 +10,7 @@ from utils.http_header import *
 from utils.logger import logger
 from backend.connection import Connection
 from backend.parse_http import parse_http_request
-from utils.handlers import get_handler, head_handler, post_handler, data_handler, error_404_handler, error_400_handler, error_503_handler
+from utils.handlers import get_handler, head_handler, post_handler, data_handler, cache_handler, error_404_handler, error_400_handler, error_503_handler
 
 BUF_SIZE = 4096
 HTTP_PORT = 20080
@@ -54,9 +54,12 @@ def main():
             fds = []
             for key, conn in connections.items():
                 if not conn.check_timeout():                
+                    conn.connection.send(b"")
                     epoll.unregister(conn.file_descriptor) 
+                    conn.connection.close()
                     fds.append(conn.file_descriptor)
-
+                    
+            cache_handler()
             for fd in fds:
                 del connections[fd]        
                 logger.info(f"[-] Unregistered: {fd:6}")
@@ -95,6 +98,8 @@ def main():
                     request = Request()
                     error = parse_http_request(client_data, size=len(client_data), request=request)
                     
+                    logger.error(f"Request: {request}")
+
                     if len(connections.keys()) > 100:
                         logger.error(f"[-] Error 503 Service Unavailable for {file_descriptor}")
 
@@ -163,13 +168,13 @@ def main():
                 byteswritten = connections[file_descriptor].connection.send(response)
                 response = response[byteswritten:]
 
-                logger.info(f"[>] Replying to: {file_descriptor}")
 
                 if len(response.decode()) == 0:
+                    logger.info(f"[>] Replyed to: {file_descriptor}")
 
                     logger.debug(f"[!] Requests: {len(connections[file_descriptor].requests)}")
                     logger.debug(f"[!] Responses: {len(connections[file_descriptor].responses)}")
-                                   
+
                     connections[file_descriptor].remove_response()    
                     connections[file_descriptor].remove_request()
 
@@ -178,12 +183,6 @@ def main():
                                     
                     logger.info(f"[+] Removed request/response")
 
-                # if len(connections[file_descriptor].requests) == 0 and len(connections[file_descriptor].responses) == 0:
-                #     epoll.unregister(file_descriptor)
-                #     connections[file_descriptor],connection.close()
-                #     del connections[file_descriptor]
-                # else:    
-                # reset the state of client to the EPOLLIN
                 epoll.modify(file_descriptor, select.EPOLLIN) 
 
             

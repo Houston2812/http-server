@@ -1,6 +1,6 @@
 import time 
 
-TIMEOUT = 15
+TIMEOUT = 30 
 
 class Connection(object):
     def __init__(self, connection, file_descriptor, requests = [], responses = []) -> None:
@@ -12,10 +12,11 @@ class Connection(object):
         self.file_descriptor = file_descriptor
 
     def add_request(self, request):
-        self.requests.append(request)
+        self.requests.insert(0, request)
 
     def add_response(self, responses):
-        self.responses += responses
+        for response in responses:
+            self.responses.insert(0, response)
 
     def get_response(self):
         return self.responses[-1]
