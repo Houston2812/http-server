@@ -15,7 +15,7 @@ BUF_SIZE = 4096
 parser = argparse.ArgumentParser()
 parser.add_argument(dest="server_ip",action='store', help='server ip address')
 parser.add_argument(dest="uri",action='store', help='Resource to request')
-parser.add_argument(dest="method",action='store',  choices=['GET', 'HEAD', 'POST'], default="GET", help='Method to use')
+parser.add_argument(dest="method",action='store', default="GET", help='Method to use')
 
 args = parser.parse_args()
 
@@ -42,12 +42,7 @@ def main():
     request = Request()
     request.HttpVersion = HTTP_VER
 
-    if args.method == "GET":
-        request.HttpMethod = GET
-    elif args.method == "POST":
-        request.HttpMethod = POST
-    elif args.method == "HEAD":
-        request.HttpMethod = HEAD
+    request.HttpMethod = args.method
 
     request.HttpURI = args.uri
     request.Host = str(args.server_ip)
@@ -68,7 +63,7 @@ def main():
 
         logger.info(f"[+] Waiting for server to reply")
         server_response = b''
-        time.sleep(0.05)
+        time.sleep(0.5)
 
         try:
             while True:

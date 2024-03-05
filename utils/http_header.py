@@ -73,3 +73,25 @@ class Request(object):
         data = f"HTTP Version: {self.HttpVersion}; HTTP Method: {self.HttpMethod}; HTTP Uri: {self.HttpURI}; HTTP Host: {self.Host}; Headers: {self.headers}, HTTP Body: {self.HttpBody};"
 
         return data
+    
+    def check_request(self):
+        self.Valid = False
+        if self.HttpVersion != HTTP_VER:
+            return 
+        
+        methods = [GET, POST, HEAD]
+        if self.HttpMethod not in methods:
+            return 
+        
+        content_types = [HTML_EXT,HTML_MIME,CSS_EXT,CSS_MIME,PNG_EXT,PNG_MIME,JPG_EXT,JPG_MIME,GIF_EXT,GIF_MIME,OCTET_MIME]
+        for header, value in self.headers.items():
+            if header == "Content-Type":
+                if value not in content_types:
+                    return 
+                
+            if header == "Connection":
+                if not (value.lower() == "keep-alive" or value.lower() == "close"):
+                    return 
+                
+        self.Valid = True
+        return

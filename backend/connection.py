@@ -6,7 +6,7 @@ class Connection(object):
     def __init__(self, connection, file_descriptor, requests = [], responses = []) -> None:
         self.index = 0
         self.requests = requests
-        self.partial_requests = []
+        self.partial_request = ''
         self.responses = responses
         self.connection = connection
         self.timer = time.perf_counter()

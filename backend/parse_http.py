@@ -86,8 +86,9 @@ def serialize_http_request(msgLst, request):
 
     msg += request.HttpMethod.encode() + ' '.encode() + request.HttpURI.encode() + ' '.encode() + HTTP_VER.encode() + CRLF.encode()
     msg += HOST.encode() + request.Host.encode() + CRLF.encode()
-    msg += CONNECTION.encode() + CONNECTION_VAL.encode() + CRLF.encode()
-    msg += CONTENT_TYPE.encode() + request.headers['Content-Type'].encode()  + CRLF.encode()
+    msg += CONNECTION.encode() + CONNECTION_VAL.encode() 
+    if 'Content-Type' in request.headers.keys():
+        msg += CONTENT_TYPE.encode() + request.headers['Content-Type'].encode() 
     if 'Content-Length' in request.headers.keys():
         msg += CONTENT_LENGTH.encode() + request.headers['Content-Length'].encode() 
     msg += CRLF.encode() + CRLF.encode()

@@ -54,7 +54,6 @@ def main():
             fds = []
             for key, conn in connections.items():
                 if not conn.check_timeout():                
-                    conn.connection.send(b"")
                     epoll.unregister(conn.file_descriptor) 
                     conn.connection.close()
                     fds.append(conn.file_descriptor)
@@ -62,15 +61,18 @@ def main():
             cache_handler()
             for fd in fds:
                 del connections[fd]        
-                logger.info(f"[-] Unregistered: {fd:6}")
+                logger.warning(f"[-] Unregistered: {fd:6}")
 
-        print(len(connections))
+        # print(len(connections))
         for file_descriptor, event in events:
 
             if file_descriptor == server_file_descriptior:
                 
                 # accept incoming client connection
                 connection, address = serverSock.accept()
+                
+                # set socket mode to non-blocking
+                connection.setblocking(0)
 
                 connection.setsockopt( 
                     socket.SOL_SOCKET, 
@@ -80,9 +82,6 @@ def main():
                         socket.SOL_SOCKET, 
                         socket.SO_RCVBUF, 
                         BUF_SIZE)
-                
-                # set socket mode to non-blocking
-                connection.setblocking(0)
 
                 # register client in epoll 
                 client_file_descriptor = connection.fileno()
@@ -98,37 +97,47 @@ def main():
                 # receive data of the client
                 client_data = data_handler(connection=connections[file_descriptor].connection)
 
+                if connections[file_descriptor].partial_request != '':
+                    client_data = connections[file_descriptor].partial_request + client_data
+                    connections[file_descriptor].partial_request = ''
+                time.sleep(0.05)
+                
                 # modify the state of client based on whether data was received or not
                 if len(client_data) != 0:
                     logger.info(f"[<] Receiving from: {file_descriptor}")
-
                     logger.debug(f"[!] Parsing incoming HTTP request from: {file_descriptor}")
 
                     request = Request()
                     error = parse_http_request(client_data, size=len(client_data), request=request)
                     
-                    logger.debug(f"Request: {request}")
+                    logger.debug(f"[!] Request from {file_descriptor}: {request}")
+                    logger.debug(f"[!] Error: {error}")
+                    
+                    if error == TestErrorCode.TEST_ERROR_PARSE_PARTIAL:
+                        connections[file_descriptor].partial_request += client_data
+                        logger.warning(f"[...] Partial request from {file_descriptor}")
+                        continue
+                    
+                    connections[file_descriptor].add_request(request)
 
                     if len(connections.keys()) > 100:
                         logger.error(f"[-] Error 503 Service Unavailable for {file_descriptor}")
-
                         error = error_503_handler(connection=connections[file_descriptor])
+
                         if error == TestErrorCode.TEST_ERROR_NONE:
                             epoll.modify(file_descriptor, select.EPOLLOUT)
+                            continue
 
-                    if error == TestErrorCode.TEST_ERROR_PARSE_FAILED:
+                        
+                    elif error == TestErrorCode.TEST_ERROR_PARSE_FAILED or request.Valid == False:
                         logger.warning(f"[-] Error 400 Bad Request for {file_descriptor}")
                         error = error_400_handler(connection=connections[file_descriptor])
 
                         if error == TestErrorCode.TEST_ERROR_NONE:
                             epoll.modify(file_descriptor, select.EPOLLOUT)
                     
-                    elif error == TestErrorCode.TEST_ERROR_PARSE_PARTIAL:
-                        logger.warning(f"[...] Partial request from {file_descriptor}")
-
                     elif error == TestErrorCode.TEST_ERROR_NONE:
                       
-                        connections[file_descriptor].add_request(request)
                         logger.debug(f"[!] Request from {file_descriptor}")
 
                         if request.HttpMethod == GET:
@@ -144,7 +153,6 @@ def main():
                         
                         elif request.HttpMethod == HEAD:
                             logger.info(f"[+] HEAD request from {file_descriptor}")
-
                             error = head_handler(request=request, connection=connections[file_descriptor], file_descriptor=file_descriptor)
 
                             if error == TestErrorCode.TEST_ERROR_FILE_NOT_FOUND:
@@ -156,7 +164,6 @@ def main():
                         
                         elif request.HttpMethod == POST:
                             logger.info(f"[+] POST request from {file_descriptor}")
-                      
                             error = post_handler(request=request, connection=connections[file_descriptor], file_descriptor=file_descriptor)
 
                             if error == TestErrorCode.TEST_ERROR_FILE_NOT_FOUND:
@@ -174,10 +181,12 @@ def main():
                 # reply to the client
                 response = connections[file_descriptor].get_response()
                 
+                logger.debug(f"Response: {response}")
                 byteswritten = connections[file_descriptor].connection.send(response)
                 response = response[byteswritten:]
+                logger.debug(f"Response: {response}")
 
-
+                time.sleep(0.05)
                 if len(response.decode()) == 0:
                     logger.info(f"[>] Replyed to: {file_descriptor}")
 

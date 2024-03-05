@@ -17,7 +17,8 @@ parser.add_argument(dest="server_ip",action='store', help='server ip address')
 parser.add_argument(dest="uri",action='store', help='Resource to request')
 parser.add_argument(dest="method",action='store',  choices=['GET', 'HEAD', 'POST'], default="GET", help='Method to use')
 parser.add_argument("--data", dest="body", action='store', default="", help='Data to send in the body of HTTP request')
-parser.add_argument("-t", dest="threads", action="store", default=1, help="")
+parser.add_argument("-p", dest='partial', action=argparse.BooleanOptionalAction, type=bool, help="To simulate partial request. 2 parts with 2s seconds interval are send")
+
 args = parser.parse_args()
 
 
@@ -62,15 +63,25 @@ def main():
     logger.debug(f"[!] Request: {request}")
     error = serialize_http_request(msgLst=requests, request=request)
 
+    logger.error(f"{requests}")
     if error == TestErrorCode.TEST_ERROR_NONE:
         logger.info(f"[<] Requesting {request.HttpURI} from server")
         for msg in requests:
             logger.debug(f"[!] Message: {msg}")  
-            clientSock.send(msg)
+
+            if args.partial:
+                logger.debug(f"Sending partial message")
+                clientSock.send(msg[:len(msg)//2])
+                msg = msg[len(msg)//2:]
+                time.sleep(2)
+                clientSock.send(msg)
+            else:
+                clientSock.send(msg)
+
 
         logger.info(f"[+] Waiting for server to reply")
         server_response = b''
-        time.sleep(0.05)
+        time.sleep(0.5)
 
         try:
             while True:
@@ -85,7 +96,8 @@ def main():
             logger.error("[!!] Blocked")
         
         logger.info("[+] Received information from server")
+        logger.debug(f"[>] Received: \n{server_response.decode()}")
         if len(server_response) != 0:
-            logger.debug(f"[>] Received: \n{server_response.decode()}")
+            pass
 if __name__ == '__main__':
     main()
