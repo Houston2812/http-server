@@ -12,7 +12,7 @@ from backend.connection import Connection
 from backend.parse_http import parse_http_request
 from utils.handlers import get_handler, head_handler, post_handler, data_handler, cache_handler, error_404_handler, error_400_handler, error_503_handler
 
-BUF_SIZE = 4096
+BUF_SIZE = 4096 * 100
 HTTP_PORT = 20080
 
 def main():
@@ -72,6 +72,15 @@ def main():
                 # accept incoming client connection
                 connection, address = serverSock.accept()
 
+                connection.setsockopt( 
+                    socket.SOL_SOCKET, 
+                    socket.SO_SNDBUF, 
+                    BUF_SIZE) 
+                connection.setsockopt( 
+                        socket.SOL_SOCKET, 
+                        socket.SO_RCVBUF, 
+                        BUF_SIZE)
+                
                 # set socket mode to non-blocking
                 connection.setblocking(0)
 
@@ -98,7 +107,7 @@ def main():
                     request = Request()
                     error = parse_http_request(client_data, size=len(client_data), request=request)
                     
-                    logger.error(f"Request: {request}")
+                    logger.debug(f"Request: {request}")
 
                     if len(connections.keys()) > 100:
                         logger.error(f"[-] Error 503 Service Unavailable for {file_descriptor}")

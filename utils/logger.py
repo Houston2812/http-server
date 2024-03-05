@@ -46,4 +46,4 @@ f_handler.setFormatter(CustomFormatter())
 
 logger.addHandler(c_handler)
 logger.addHandler(f_handler)
-logging.basicConfig(level=logging.DEBUG, handlers=[logging.NullHandler()])
+logging.basicConfig(level=logging.INFO, handlers=[logging.NullHandler()])

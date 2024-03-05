@@ -1,11 +1,12 @@
 import time 
 
-TIMEOUT = 30 
+TIMEOUT = 60 
 
 class Connection(object):
     def __init__(self, connection, file_descriptor, requests = [], responses = []) -> None:
         self.index = 0
         self.requests = requests
+        self.partial_requests = []
         self.responses = responses
         self.connection = connection
         self.timer = time.perf_counter()
