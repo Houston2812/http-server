@@ -39,12 +39,20 @@ Run bad client to simulate Error 400:
     * uri - resource that will be requested
     * method - method that will be used in the request
 
-
-
-# Files
+# Notable files
 * /backend/connection.py - has configuration of the connection class
 * /utils/handlers.py - has all handlers that were used to handle requests and error, as well as intermediate processes
 * /utils/logger.py - logger configuration that was used 
 * client.py - python file to simulate client
 * bad_client.py - python file to simulate bad request
 * test.sh - python script to simulate multiple clients 
+
+# Used dependencies
+* colorama==0.4.6
+* ply==3.11
+
+# System versions
+* Python 3.11.6
+* Linux 6.5.0-21-generic x86_64
+* "Ubuntu 23.10"
+
