@@ -3,8 +3,17 @@ import time
 TIMEOUT = 60 
 
 class Connection(object):
+    """
+        Connection class that handles all parameters of a single connection.
+        Parameters:
+            * requests - keeps track of incoming requests
+            * partial_request - keeps track of the partial request
+            * responses - keep track of the responses for the requests
+            * connection - client socket
+            * timer - timer that handles timeouts
+            * file_descriptor - file descriptor of the socket 
+    """
     def __init__(self, connection, file_descriptor, requests = [], responses = []) -> None:
-        self.index = 0
         self.requests = requests
         self.partial_request = ''
         self.responses = responses
@@ -33,21 +42,15 @@ class Connection(object):
 
         timeout_counter = abs(self.timer - now)
         
-        # if timeout_counter > TIMEOUT / 10:
-        #     if timeout_counter <= TIMEOUT:
-        #         print(f"[!] Timeout countdown: {int(TIMEOUT - timeout_counter):2}s", end='\r')
-
         if timeout_counter > TIMEOUT:
-            return False
+            if len(self.requests) == 0 and len(self.responses) == 0:
+                return False
+            else:
+                self.connection.send(b'')
+                return True
         else:
             return True
-        
-    def get_first_request(self):
-        request = self.requests[0]
-        self.requests = self.requests[1:]
-        self.index -= 1
-        
-        return request
+
     
 
         

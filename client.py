@@ -50,6 +50,7 @@ def main():
     if args.method == "GET":
         request.HttpMethod = GET
         request.headers[CONTENT_TYPE] = HTML_MIME
+
     elif args.method == "POST":
         request.HttpMethod = POST
         request.HttpBody = args.body
@@ -88,24 +89,19 @@ def main():
                 logger.info(f'[<<] Sent {i+1}th request')
                 time.sleep(0.01)
                    
-
-
         logger.info(f"[+] Waiting for server to reply")
         server_response = b''
         time.sleep(0.5)
         try:
-
             while True:
                 try:
                     while True:
-                        
                         data = clientSock.recv(BUF_SIZE)
                         server_response += data
 
                         # if 0 bytes received, it means client stopped sending
                         if  len(data) == 0 and server_response != 0:
                             break
-
                 except BlockingIOError:
                     pass
                     
@@ -116,5 +112,6 @@ def main():
         except KeyboardInterrupt:
             logger.info(f"Finished")
             sys.exit()
+            
 if __name__ == '__main__':
     main()

@@ -147,6 +147,7 @@ def p_expression_request(p):
     parsingRequest.StatusHeaderSize += 2
     return_val[0] = SUCCESS
 
+# parser to parse body of the POST request
 def p_expression_body(p):
     '''body : crlf text 
     '''

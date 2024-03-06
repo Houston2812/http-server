@@ -74,24 +74,33 @@ class Request(object):
 
         return data
     
+    # check request and set self.Valid to False to handle ERROR 400 Bad Request
     def check_request(self):
+        # set Valid to false by making an assumption that request is malformedd
         self.Valid = False
+
+        # check HTTP Version
         if self.HttpVersion != HTTP_VER:
             return 
         
+        # check HTTP Method
         methods = [GET, POST, HEAD]
         if self.HttpMethod not in methods:
             return 
         
+        # check HTTP Headers
         content_types = [HTML_EXT,HTML_MIME,CSS_EXT,CSS_MIME,PNG_EXT,PNG_MIME,JPG_EXT,JPG_MIME,GIF_EXT,GIF_MIME,OCTET_MIME]
         for header, value in self.headers.items():
+            # check HTTP Content Types
             if header == "Content-Type":
                 if value not in content_types:
                     return 
-                
+            
+            # check HTTP Connection
             if header == "Connection":
                 if not (value.lower() == "keep-alive" or value.lower() == "close"):
                     return 
-                
+
+        # set Valid to true when all checks passed   
         self.Valid = True
         return

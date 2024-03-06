@@ -8,18 +8,22 @@ from backend.parse_http import serialize_http_response, parse_http_request
 
 BUF_SIZE = 4096
 
+# cache to store the recently read files
 cache = {}
 
+# handler to clear cache
 def cache_handler():
     global cache
     cache.clear()
     
+# handler to check if file exists
 def file_handler(resource: str) -> bool:
     if os.path.isfile(resource):
         return True
     else:
         return False
 
+# handler to clean up the request URI
 def filename_handler(filename: str) -> str:
     if filename == "/favicon.ico":
         body = ""
@@ -36,6 +40,7 @@ def filename_handler(filename: str) -> str:
     
     return filename
 
+# handler to receive incoming data
 def data_handler(connection) -> str:
     # receive data of the client
     client_data: bytes = b''
@@ -52,6 +57,7 @@ def data_handler(connection) -> str:
 
     return client_data.decode()
 
+# handler to read requested file
 def resource_handler(uri: str) -> bytes:
     msg = b''
     global cache
@@ -61,25 +67,45 @@ def resource_handler(uri: str) -> bytes:
         with open(uri, 'rb') as response_file:
             msg = response_file.read()
         
+        # save file to the cache
         cache[uri] = msg
 
     return msg
 
+# post body handler to check if it is correctly formatted
+
+def body_handler(body: str) -> bytes:
+    parts = re.split("&|=", body)
+    if len(parts) > 1:
+        return body.encode()
+    elif len(parts) == 1 and parts[0] != body:
+        return body.encode()
+    else:
+        # return empty if request body is wrongly wormatted
+        return None
+    
+# get handler
 def get_handler(request: Request, connection, file_descriptor):
+    
+    # check resource
     resource = filename_handler(filename=request.HttpURI)
     responses = []
 
+    # reply with FILE NOT FOUND exist if file does not exist
     if resource == None:
         logger.error(f"[!!] Wrong resource provided for {file_descriptor}: {resource}")
         return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND
 
+    # reply with FILE NOT FOUND exist if file does not exist
     if not file_handler(resource=resource):
         logger.error(f"[!!] File does not exist for {file_descriptor}: {resource}")
         return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND    
     
+    # read resource
     logger.debug(f"[!] Reading URI from {file_descriptor}: {resource}")
     body = resource_handler(resource)
 
+    # serialize response
     serialize_http_response(
         msgLst=responses, 
         prepopulatedHeaders=OK, 
@@ -89,22 +115,29 @@ def get_handler(request: Request, connection, file_descriptor):
         body=body
     )
 
+    # add response to the queue in the connection
     connection.add_response(responses)
 
     return TestErrorCode.TEST_ERROR_NONE
 
+# head handler
 def head_handler(request: Request, connection, file_descriptor):
+
+    # check resource
     resource = filename_handler(filename=request.HttpURI)
     responses = []
 
+    # reply with FILE NOT FOUND exist if file does not exist
     if resource == None:
         logger.error(f"[!!] Wrong resource provided for {file_descriptor}: {resource}")
         return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND
 
+    # reply with FILE NOT FOUND exist if file does not exist
     if not file_handler(resource=resource):
         logger.error(f"[!!] File does not exist for {file_descriptor}: {resource}")
         return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND    
 
+    # serialize response
     serialize_http_response(
         msgLst=responses, 
         prepopulatedHeaders=OK, 
@@ -114,17 +147,25 @@ def head_handler(request: Request, connection, file_descriptor):
         body=b''
     )
     
+    # add response to the queue in the connection
     connection.add_response(responses)
 
     return TestErrorCode.TEST_ERROR_NONE
 
+# post handler
 def post_handler(request: Request, connection, file_descriptor):
     
-    # logger.debug(f"[!] Post request: {request}")
-
     responses = []
-    body = request.HttpBody.encode()
 
+    body = request.HttpBody
+    body = body_handler(body)
+
+    # reply with FILE NOT FOUND exist if body is wrongly formatted
+    if body == None:
+        logger.error(f"[!!] Wrong body provided for {file_descriptor}: {body}")
+        return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND
+    
+    # serialize response 
     serialize_http_response(
         msgLst=responses,
         prepopulatedHeaders=OK,
@@ -134,13 +175,16 @@ def post_handler(request: Request, connection, file_descriptor):
         body=body
     )
 
+    # add response to the queue in the connection
     connection.add_response(responses)
 
     return TestErrorCode.TEST_ERROR_NONE
 
+# error 400 handler
 def error_400_handler(connection):
     responses = []
 
+    # serialize response 
     serialize_http_response(
         msgLst=responses, 
         prepopulatedHeaders=BAD_REQUEST, 
@@ -150,10 +194,12 @@ def error_400_handler(connection):
         body=b""
         )
 
+    # add response to the queue in the connection
     connection.add_response(responses)
 
     return TestErrorCode.TEST_ERROR_NONE
-    
+
+# error 404 handler
 def error_404_handler(connection):
     responses = []
 
@@ -171,6 +217,7 @@ def error_404_handler(connection):
             </html>
         """.encode()
     
+    # serialize response 
     serialize_http_response(
         msgLst=responses, 
         prepopulatedHeaders=NOT_FOUND, 
@@ -180,13 +227,16 @@ def error_404_handler(connection):
         body=body
         )
 
+    # add response to the queue in the connection
     connection.add_response(responses)
 
     return TestErrorCode.TEST_ERROR_NONE
 
+# error 503 handler
 def error_503_handler(connection):
     responses = []
 
+    # serialize response
     serialize_http_response(
         msgLst=responses, 
         prepopulatedHeaders=SERVICE_UNAVAILABLE, 
@@ -196,6 +246,7 @@ def error_503_handler(connection):
         body=b""
         )
 
+    # add response to the queue in the connection
     connection.add_response(responses)
 
     return TestErrorCode.TEST_ERROR_NONE

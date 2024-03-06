@@ -90,12 +90,7 @@ def serialize_http_request(msgLst, request):
     for key, value in request.headers.items():
         print(key, value)
         msg += str(key).encode() + str(value).encode() + CRLF.encode()
-    # if 'Content-Type' in request.headers.keys():
-    #     msg += CONTENT_TYPE.encode() + request.headers['Content-Type'].encode() 
-    # if 'Content-Length' in request.headers.keys():
-    #     msg += CONTENT_LENGTH.encode() + request.headers['Content-Length'].encode() 
-    # if 'Time' in request.headers.keys():
-    #     msg += "Time: ".encode() + request.headers['Time']
+
     msg += CRLF.encode() 
 
     if len(request.HttpBody) != 0:

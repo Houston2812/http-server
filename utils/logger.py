@@ -3,6 +3,7 @@ import logging, sys
 from pathlib import Path
 from colorama import Fore, Style
 
+# LOGGER Configuration 
 LOGS_DIR = Path(__file__).parent.parent.resolve()
 
 class CustomFormatter(logging.Formatter):
