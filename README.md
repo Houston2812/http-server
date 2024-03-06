@@ -40,3 +40,11 @@ Run bad client to simulate Error 400:
     * method - method that will be used in the request
 
 
+
+# Files
+* /backend/connection.py - has configuration of the connection class
+* /utils/handlers.py - has all handlers that were used to handle requests and error, as well as intermediate processes
+* /utils/logger.py - logger configuration that was used 
+* client.py - python file to simulate client
+* bad_client.py - python file to simulate bad request
+* test.sh - python script to simulate multiple clients 

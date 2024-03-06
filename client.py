@@ -92,6 +92,7 @@ def main():
         logger.info(f"[+] Waiting for server to reply")
         server_response = b''
         time.sleep(0.5)
+        count = 1
         try:
             while True:
                 try:
@@ -106,9 +107,16 @@ def main():
                     pass
                     
                 if len(server_response) != 0:
-                    logger.info("[+] Received information from server")
-                    logger.debug(f"[>] Received: \n{server_response.decode()}")
-                    server_response = b''
+                    delim = HTTP_VER 
+
+                    server_response = server_response.decode().split(delim)
+
+                    server_response = server_response[1:]
+                    for response in server_response:
+                        logger.info(f"[+] Received information from server for {count}")
+                        logger.debug(f"[>] Received: \n{(delim + response)}")
+                        server_response = b''
+                        count += 1
         except KeyboardInterrupt:
             logger.info(f"Finished")
             sys.exit()
