@@ -119,7 +119,9 @@ def main():
                     request = Request()
                     error = parse_http_request(client_data, size=len(client_data), request=request)
                     
-                    logger.debug(f"[!] Request from {file_descriptor}: {request}")
+                    request.HttpURI = "www" + request.HttpURI
+                    
+                    logger.info(f"[!] Request from {file_descriptor}: {request}")
                     logger.debug(f"[!] Error: {error}")
                     
                     # if the incoming request was identified as partial by parser, store the received part and wait for the next chunk
@@ -227,7 +229,8 @@ def main():
                 logger.debug(f"Response: {response}")
                 byteswritten = connections[file_descriptor].connection.send(response)
                 response = response[byteswritten:]
-                logger.debug(f"Response: {response}")
+                connections[file_descriptor].set_response(response)
+                logger.info(f"Respons byteswritten: {byteswritten}")
 
                 
                 if len(response.decode()) == 0:
@@ -245,8 +248,8 @@ def main():
                                     
                     logger.info(f"[+] Removed request/response")
 
-                # modify epoll state when response was sent
-                epoll.modify(file_descriptor, select.EPOLLIN) 
+                    # modify epoll state when response was sent
+                    epoll.modify(file_descriptor, select.EPOLLIN) 
 
             
 if __name__ == '__main__':

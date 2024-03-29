@@ -31,6 +31,9 @@ class Connection(object):
     def get_response(self):
         return self.responses[-1]
 
+    def set_response(self, response):
+        self.responses[-1] = response
+        
     def remove_response(self):
         self.responses.pop()
 

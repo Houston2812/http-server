@@ -59,18 +59,21 @@ def data_handler(connection) -> str:
 
 # handler to read requested file
 def resource_handler(uri: str) -> bytes:
-    msg = b''
+    body = b""
     global cache
     if uri in cache.keys():
-       msg = cache[uri] 
+       body = cache[uri] 
     else:
         with open(uri, 'rb') as response_file:
-            msg = response_file.read()
+            msgs = response_file.readlines()
+            for msg in msgs:
+                body += msg
         
         # save file to the cache
-        cache[uri] = msg
+        print(len(body))
+        cache[uri] = body
 
-    return msg
+    return body
 
 # post body handler to check if it is correctly formatted
 
@@ -137,12 +140,14 @@ def head_handler(request: Request, connection, file_descriptor):
         logger.error(f"[!!] File does not exist for {file_descriptor}: {resource}")
         return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND    
 
+    body = resource_handler(resource)
+
     # serialize response
     serialize_http_response(
         msgLst=responses, 
         prepopulatedHeaders=OK, 
         contentType=HTML_MIME, 
-        contentLength=None, 
+        contentLength=str(len(body)), 
         lastModified=None, 
         body=b''
     )
@@ -158,7 +163,7 @@ def post_handler(request: Request, connection, file_descriptor):
     responses = []
 
     body = request.HttpBody
-    body = body_handler(body)
+    body = body.encode()
 
     # reply with FILE NOT FOUND exist if body is wrongly formatted
     if body == None:

@@ -32,7 +32,7 @@ class CustomFormatter(logging.Formatter):
     
 logger = logging.getLogger('scanner_logger')
 c_handler = logging.StreamHandler(sys.stdout)
-c_handler.setLevel(logging.DEBUG)
+c_handler.setLevel(logging.INFO)
 
 if os.path.exists(f'{LOGS_DIR}/logs') == False:
     os.mkdir(f'{LOGS_DIR}/logs')
