@@ -58,8 +58,8 @@ def data_handler(connection) -> str:
     return client_data.decode()
 
 # handler to read requested file
-def resource_handler(uri: str) -> bytes:
-    body = b""
+def resource_handler(uri: str, get_len = False) -> bytes:
+    body = b''
     global cache
     if uri in cache.keys():
        body = cache[uri] 
@@ -67,6 +67,9 @@ def resource_handler(uri: str) -> bytes:
         with open(uri, 'rb') as response_file:
             msgs = response_file.readlines()
             for msg in msgs:
+                # if get_len:
+                #     body += len(msg)
+                # else:
                 body += msg
         
         # save file to the cache
@@ -140,14 +143,17 @@ def head_handler(request: Request, connection, file_descriptor):
         logger.error(f"[!!] File does not exist for {file_descriptor}: {resource}")
         return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND    
 
-    body = resource_handler(resource)
+    file_stats = os.stat(resource)
+    body_len = file_stats.st_size
+
+    # body = resource_handler(resource, get_len=True)
 
     # serialize response
     serialize_http_response(
         msgLst=responses, 
         prepopulatedHeaders=OK, 
         contentType=HTML_MIME, 
-        contentLength=str(len(body)), 
+        contentLength=str(body_len), 
         lastModified=None, 
         body=b''
     )
@@ -166,7 +172,7 @@ def post_handler(request: Request, connection, file_descriptor):
     body = body.encode()
 
     # reply with FILE NOT FOUND exist if body is wrongly formatted
-    if body == None:
+    if body == None or len(body) == 0:
         logger.error(f"[!!] Wrong body provided for {file_descriptor}: {body}")
         return TestErrorCode.TEST_ERROR_FILE_NOT_FOUND
     

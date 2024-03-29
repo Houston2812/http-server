@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POST Request Tester</title>
+</head>
+<body>
+    <h2>POST Request Tester</h2>
+    <form id="postForm" method="post">
+        <label for="postData">Enter Data:</label><br>
+        <textarea id="postData" name="postData" rows="4" cols="50"></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+    <hr>
+    <h3>Response:</h3>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById("postForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+            var formData = new FormData(this);
+            var postDataValue = formData.get('postData');
+            document.getElementById("response").textContent = postDataValue;
+        });
+    </script>
+</body>
+</html>
+

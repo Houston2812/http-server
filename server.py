@@ -233,7 +233,7 @@ def main():
                 logger.info(f"Respons byteswritten: {byteswritten}")
 
                 
-                if len(response.decode()) == 0:
+                if len(response) == 0:
                     logger.info(f"[>] Replied to: {file_descriptor}")
 
                     logger.debug(f"[!] Requests: {len(connections[file_descriptor].requests)}")
